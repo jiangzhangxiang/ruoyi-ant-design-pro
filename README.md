@@ -1,57 +1,46 @@
-# Ant Design Pro
+## 简介
+admin-pro 无缝对接ruoyi 服务
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
 
-## Environment Prepare
+## 特性
 
-Install `node_modules`:
+- 计划对接ruoyi 单应用版本服务
 
-```bash
-npm install
-```
 
-or
+## 使用
 
 ```bash
-yarn
+$ it clone https://github.com/jiangzhangxiang/admin-pro.git
+$ cd admin-pro
+$ yarn install # or yarn install
+$ yarn start   # visit http://localhost:8000
 ```
 
-## Provided Scripts
 
-Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
+## 如何贡献
 
-Scripts provided in `package.json`. It's safe to modify or add additional script:
+非常欢迎你的加入！[提一个 Issue](https://github.com/jiangzhangxiang/admin-pro/issues) 或者提交一个 Pull Request。
 
-### Start project
+**Pull Request:**
 
-```bash
-npm start
-```
+1. Fork 代码!
+2. 创建自己的分支: `git checkout -b feat/xxxx`
+3. 提交你的修改: `git commit -am 'feat(function): add xxxxx'`
+4. 推送您的分支: `git push origin feat/xxxx`
+5. 提交`pull request`
 
-### Build project
 
-```bash
-npm run build
-```
+## 浏览器支持
 
-### Check code style
+现代浏览器及 IE11。
 
-```bash
-npm run lint
-```
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera |
+| --- | --- | --- | --- | --- |
+| IE11, Edge | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
-You can also use script to auto fix some lint error:
 
-```bash
-npm run lint:fix
-```
+## 维护者
 
-### Test code
+[@jiang zhang xiang](https://github.com/jiangzhangxiang)
 
-```bash
-npm test
-```
 
-## More
-
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
