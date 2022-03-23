@@ -1,18 +1,19 @@
 ## 简介
-admin-pro 无缝对接ruoyi 服务
-
+admin-pro 完全免费，且可商用。
 
 ## 特性
-
-- 计划对接ruoyi 单应用版本服务
-
+- :gem: **优雅美观**：基于 Ant Design Pro 二次开发
+- :bulb: **TypeScript**: 应用程序级 JavaScript 的语言
 
 ## 使用
 
 ```bash
 $ it clone https://github.com/jiangzhangxiang/admin-pro.git
+
 $ cd admin-pro
-$ yarn install # or yarn install
+
+$ yarn install
+
 $ yarn start   # visit http://localhost:8000
 ```
 
