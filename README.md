@@ -8,7 +8,7 @@ ruoyi-antdesign-pro 完全免费，且可商用。前端基于antdesign-pro，�
 ## 使用
 
 ```bash
-$ git clone https://github.com/jiangzhangxiang/admin-pro.git
+$ git clone https://github.com/jiangzhangxiang/ruoyi-ant-design-pro.git
 
 $ cd admin-pro
 
