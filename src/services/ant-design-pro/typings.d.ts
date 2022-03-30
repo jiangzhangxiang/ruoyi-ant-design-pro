@@ -57,8 +57,11 @@ declare namespace API {
   };
 
   type FakeCaptcha = {
+    captchaOnOff?: boolean;
     code?: number;
-    status?: string;
+    img: string;
+    msg?: string;
+    uuid?: string;
   };
 
   type LoginParams = {
