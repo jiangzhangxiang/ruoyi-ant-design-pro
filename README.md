@@ -1,5 +1,5 @@
 ## 简介
-ruoyi-antdesign-pro 完全免费，且可商用。前端基于antdesign-pro，后端直接访问 ruoyi 的服务。
+ruoyi-ant-design-pro 完全免费，且可商用。前端基于ant-design-pro，后端直接对接访问 ruoyi 的服务。
 
 ## 特性
 - :gem: **优雅美观**：基于 Ant Design Pro 二次开发
@@ -10,7 +10,7 @@ ruoyi-antdesign-pro 完全免费，且可商用。前端基于antdesign-pro，�
 ```bash
 $ git clone https://github.com/jiangzhangxiang/ruoyi-ant-design-pro.git
 
-$ cd admin-pro
+$ cd ruoyi-antdesign-pro
 
 $ yarn install
 
@@ -20,7 +20,7 @@ $ yarn start   # visit http://localhost:8000
 
 ## 如何贡献
 
-非常欢迎你的加入！[提一个 Issue](https://github.com/jiangzhangxiang/admin-pro/issues) 或者提交一个 Pull Request。
+非常欢迎你的加入！[提一个 Issue](https://github.com/jiangzhangxiang/ruoyi-ant-design-pro/issues) 或者提交一个 Pull Request。
 
 **Pull Request:**
 
