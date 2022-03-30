@@ -1,5 +1,5 @@
 ## 简介
-admin-pro 完全免费，且可商用。
+ruoyi-antdesign-pro 完全免费，且可商用。前端基于antdesign-pro，后端直接访问 ruoyi 的服务。
 
 ## 特性
 - :gem: **优雅美观**：基于 Ant Design Pro 二次开发
