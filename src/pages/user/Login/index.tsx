@@ -34,6 +34,20 @@ const Login: React.FC = () => {
     }
   };
 
+  const initCaptchaImage = async () => {
+    try {
+      // 登录
+      const result = await captchaImage();
+      setCodeUrl('data:image/gif;base64,' + result.img);
+      setUid(result.uuid);
+      return true;
+    } catch (error) {
+      setCodeUrl('');
+      setUid('');
+      return false;
+    }
+  };
+
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
@@ -59,20 +73,7 @@ const Login: React.FC = () => {
     } catch (error) {
       // const defaultLoginFailureMessage = '登录失败，请重试！';
       // message.error(defaultLoginFailureMessage);
-    }
-  };
-
-  const initCaptchaImage = async () => {
-    try {
-      // 登录
-      const result = await captchaImage();
-      setCodeUrl('data:image/gif;base64,' + result.img);
-      setUid(result.uuid);
-      return true;
-    } catch (error) {
-      setCodeUrl('');
-      setUid('');
-      return false;
+      await initCaptchaImage();
     }
   };
 
