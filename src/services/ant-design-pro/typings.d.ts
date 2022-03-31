@@ -61,14 +61,14 @@ declare namespace API {
     code?: number;
     img: string;
     msg?: string;
-    uuid?: string;
+    uuid: string;
   };
 
   type LoginParams = {
-    username?: string;
-    password?: string;
-    autoLogin?: boolean;
-    type?: string;
+    code: string;
+    password: string;
+    username: string;
+    uuid: string;
   };
 
   type ErrorResponse = {

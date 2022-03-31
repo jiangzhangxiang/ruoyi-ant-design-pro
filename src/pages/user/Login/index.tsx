@@ -25,6 +25,7 @@ const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const { initialState, setInitialState } = useModel('@@initialState');
   const [codeUrl, setCodeUrl] = useState<string>('');
+  const [uuid, setUid] = useState<string>('');
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
 
@@ -36,7 +37,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      const msg = await login({ ...values });
+      const msg = await login({ ...values, uuid });
       if (msg.status === 'ok') {
         const defaultLoginSuccessMessage = '登录成功！';
         message.success(defaultLoginSuccessMessage);
@@ -56,8 +57,8 @@ const Login: React.FC = () => {
 
       setUserLoginState(msg);
     } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！';
-      message.error(defaultLoginFailureMessage);
+      // const defaultLoginFailureMessage = '登录失败，请重试！';
+      // message.error(defaultLoginFailureMessage);
     }
   };
 
@@ -66,9 +67,11 @@ const Login: React.FC = () => {
       // 登录
       const result = await captchaImage();
       setCodeUrl('data:image/gif;base64,' + result.img);
+      setUid(result.uuid);
       return true;
     } catch (error) {
       setCodeUrl('');
+      setUid('');
       return false;
     }
   };
@@ -115,7 +118,7 @@ const Login: React.FC = () => {
                 size: 'large',
                 prefix: <LockOutlined className={styles.prefixIcon} />,
               }}
-              placeholder={'密码: 123456'}
+              placeholder={'密码: admin123'}
               rules={[
                 {
                   required: true,
