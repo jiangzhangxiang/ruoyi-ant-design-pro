@@ -52,7 +52,7 @@ const Login: React.FC = () => {
     try {
       // 登录
       const msg = await login({ ...values, uuid });
-      if (msg.status === 'ok') {
+      if (msg.code === 200) {
         const defaultLoginSuccessMessage = '登录成功！';
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
@@ -80,7 +80,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     initCaptchaImage();
   }, []);
-  const { status, type: loginType } = userLoginState;
+  const { code } = userLoginState;
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -95,9 +95,7 @@ const Login: React.FC = () => {
             await handleSubmit(values as API.LoginParams);
           }}
         >
-          {status === 'error' && loginType === 'account' && (
-            <LoginMessage content={'错误的用户名和密码'} />
-          )}
+          {code && code !== 200 && <LoginMessage content={'错误的用户名和密码'} />}
           <>
             <ProFormText
               name="username"
