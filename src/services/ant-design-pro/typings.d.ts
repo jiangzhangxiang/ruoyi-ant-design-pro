@@ -19,7 +19,7 @@ declare namespace API {
     pageSize?: number;
   };
 
-  type RuleListItem = {
+  type UserListItem = {
     key?: number;
     disabled?: boolean;
     href?: string;
@@ -34,8 +34,8 @@ declare namespace API {
     progress?: number;
   };
 
-  type RuleList = {
-    data?: RuleListItem[];
+  type UserList = {
+    rows?: UserListItem[];
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;

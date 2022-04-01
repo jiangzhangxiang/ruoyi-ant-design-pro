@@ -1,9 +1,9 @@
 export default [
   {
-    path: '/user',
+    path: '/User',
     layout: false,
     routes: [
-      { path: '/user', routes: [{ name: '登录', path: '/user/login', component: './user/Login' }] },
+      { path: '/User', routes: [{ name: '登录', path: '/User/login', component: './Login' }] },
       { component: './404' },
     ],
   },
@@ -19,7 +19,21 @@ export default [
       { component: './404' },
     ],
   },
-  { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
+  {
+    path: '/system',
+    name: '系统管理',
+    icon: 'table',
+    routes: [
+      {
+        path: '/system/User',
+        name: '用户管理',
+        component: './system/User',
+      },
+      {
+        component: '404',
+      },
+    ],
+  },
   { path: '/', redirect: '/welcome' },
   { component: './404' },
 ];
