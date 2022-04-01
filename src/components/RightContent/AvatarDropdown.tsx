@@ -7,6 +7,7 @@ import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
 import { outLogin } from '@/services/ant-design-pro/api';
 import type { MenuInfo } from 'rc-menu/lib/interface';
+import { ls } from '@/utils';
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -36,6 +37,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     (event: MenuInfo) => {
       const { key } = event;
       if (key === 'logout') {
+        ls.removeItem('token');
         setInitialState((s) => ({ ...s, currentUser: undefined }));
         loginOut();
         return;
