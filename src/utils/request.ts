@@ -8,8 +8,8 @@ import errorCode from '@/utils/errorCode';
  * 请求拦截封装
  */
 
-// 新增自动添加AccessToken的请求前拦截器
-const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
+// 请求前拦截器
+const requestInterceptors = (url: string, options: RequestOptionsInit) => {
   // isToken 不是 false 的请求头添加 token
   let Authorization = '';
   if (ls.getItem('token') && options?.isToken !== false) {
@@ -50,5 +50,5 @@ const errorHandler = (error: any) => {
 export const request: RequestConfig = {
   errorHandler,
   responseInterceptors: [responseInterceptors],
-  requestInterceptors: [authHeaderInterceptor],
+  requestInterceptors: [requestInterceptors],
 };

@@ -34,7 +34,6 @@ const Login: React.FC = () => {
       await setInitialState((s) => ({ ...s, currentUser: userInfo }));
     }
   };
-
   const initCaptchaImage = async () => {
     try {
       // 登录
