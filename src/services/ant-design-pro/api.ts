@@ -6,7 +6,7 @@ import { request } from 'umi';
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/api/currentUser', {
+  }>('/api/getInfo', {
     method: 'GET',
     ...(options || {}),
   });
@@ -28,6 +28,7 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
       'Content-Type': 'application/json',
     },
     data: body,
+    isToken: false,
     ...(options || {}),
   });
 }

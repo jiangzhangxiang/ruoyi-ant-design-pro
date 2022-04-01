@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { captchaImage } from '@/services/ant-design-pro/login';
 import styles from './index.less';
+import { ls } from '@/utils';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -53,6 +54,7 @@ const Login: React.FC = () => {
       // 登录
       const msg = await login({ ...values, uuid });
       if (msg.code === 200) {
+        ls.setItem('token', msg.token);
         const defaultLoginSuccessMessage = '登录成功！';
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();

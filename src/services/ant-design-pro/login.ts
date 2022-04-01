@@ -6,6 +6,7 @@ import { request } from 'umi';
 export async function captchaImage(options?: { [key: string]: any }) {
   return request<API.FakeCaptcha>('/api/captchaImage', {
     method: 'GET',
+    isToken: false,
     ...(options || {}),
   });
 }
