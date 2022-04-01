@@ -1,7 +1,7 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message } from 'antd';
+import { PlusOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Button, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
@@ -41,14 +41,14 @@ const handleRemove = async (selectedRows: API.UserListItem[]) => {
 
   try {
     await removeRule({
-      key: selectedRows.map((row) => row.key),
+      key: selectedRows.map((row) => row.userId),
     });
     hide();
-    message.success('Deleted successfully and will refresh soon');
+    message.success('删除成功');
     return true;
   } catch (error) {
     hide();
-    message.error('Delete failed, please try again');
+    message.error('删除失败');
     return false;
   }
 };
@@ -86,7 +86,8 @@ const TableList: React.FC = () => {
     },
     {
       title: '部门',
-      dataIndex: 'deptName',
+      dataIndex: 'dept.deptName',
+      renderText: (_, record) => record.dept.deptName,
     },
     {
       title: '手机号码',
@@ -95,7 +96,6 @@ const TableList: React.FC = () => {
     {
       title: '状态',
       dataIndex: 'status',
-      hideInForm: true,
       valueEnum: {
         0: {
           text: '启用',
@@ -109,7 +109,6 @@ const TableList: React.FC = () => {
     },
     {
       title: '创建时间',
-      sorter: true,
       dataIndex: 'createTime',
       valueType: 'dateTime',
     },
@@ -117,6 +116,7 @@ const TableList: React.FC = () => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
+      width: 240,
       render: () => [
         <a key="edit">修改</a>,
         <a key="del">删除</a>,
@@ -129,7 +129,7 @@ const TableList: React.FC = () => {
     <PageContainer>
       <ProTable<API.UserListItem, API.PageParams>
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="userId"
         search={{
           labelWidth: 120,
         }}
@@ -142,6 +142,43 @@ const TableList: React.FC = () => {
             }}
           >
             <PlusOutlined /> 新建
+          </Button>,
+          <Button
+            danger
+            disabled={!selectedRowsState.length}
+            key="primary"
+            onClick={() => {
+              Modal.confirm({
+                title: '系统提示',
+                content: `是否确认删除用户编号为"${selectedRowsState.map(
+                  (m) => m.userId,
+                )}"的数据项？`,
+                onOk: async () => {
+                  const res = await handleRemove(selectedRowsState);
+                  if (res) actionRef.current?.reload();
+                },
+              });
+            }}
+          >
+            <DeleteOutlined /> 删除
+          </Button>,
+          <Button
+            type="primary"
+            key="primary"
+            onClick={() => {
+              handleModalVisible(true);
+            }}
+          >
+            <UploadOutlined /> 导入
+          </Button>,
+          <Button
+            type="primary"
+            key="primary"
+            onClick={() => {
+              handleModalVisible(true);
+            }}
+          >
+            <DownloadOutlined /> 导出
           </Button>,
         ]}
         request={async (params = {}) => {
@@ -161,37 +198,6 @@ const TableList: React.FC = () => {
           },
         }}
       />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              已选择{' '}
-              <a
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                {selectedRowsState.length}
-              </a>{' '}
-              项 &nbsp;&nbsp;
-              <span>
-                服务调用次数总计 {selectedRowsState.reduce((pre, item) => pre + item.callNo!, 0)} 万
-              </span>
-            </div>
-          }
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            批量删除
-          </Button>
-          <Button type="primary">批量审批</Button>
-        </FooterToolbar>
-      )}
       <ModalForm
         title={'新建规则'}
         width="400px"
