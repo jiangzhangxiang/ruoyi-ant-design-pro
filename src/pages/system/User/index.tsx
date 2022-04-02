@@ -4,8 +4,9 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { list, addRule, removeRule } from '@/services/ant-design-pro/system';
+import UserModal from '@/pages/system/User/components/UserModal';
+import { UserListItemDataType } from '@/pages/system/User/data';
 
 /**
  * @en-US Add node
@@ -58,7 +59,11 @@ const TableList: React.FC = () => {
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
    *  */
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
+  const [userModalVisible, setUserModalVisible] = useState<boolean>(false);
+  const [userModalCurrent, setUserModalCurrent] = useState<UserListItemDataType | undefined>(
+    undefined,
+  );
+
   /**
    * @en-US The pop-up window of the distribution update window
    * @zh-CN 分布更新窗口的弹窗
@@ -71,7 +76,7 @@ const TableList: React.FC = () => {
    * @zh-CN 国际化配置
    * */
 
-  const columns: ProColumns<API.UserListItem>[] = [
+  const columns: ProColumns<UserListItemDataType>[] = [
     {
       title: '用户编号',
       dataIndex: 'userId',
@@ -117,8 +122,16 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       width: 240,
-      render: () => [
-        <a key="edit">修改</a>,
+      render: (_, record) => [
+        <a
+          key="edit"
+          onClick={() => {
+            setUserModalVisible(true);
+            setUserModalCurrent(record);
+          }}
+        >
+          修改
+        </a>,
         <a key="del">删除</a>,
         <a key="pwd">重置密码</a>,
         <a key="role">分配角色</a>,
@@ -138,7 +151,7 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalVisible(true);
+              setUserModalVisible(true);
             }}
           >
             <PlusOutlined /> 新建
@@ -166,7 +179,7 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalVisible(true);
+              setUserModalVisible(true);
             }}
           >
             <UploadOutlined /> 导入
@@ -175,7 +188,7 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalVisible(true);
+              setUserModalVisible(true);
             }}
           >
             <DownloadOutlined /> 导出
@@ -198,35 +211,7 @@ const TableList: React.FC = () => {
           },
         }}
       />
-      <ModalForm
-        title={'新建规则'}
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.UserListItem);
-
-          if (success) {
-            handleModalVisible(false);
-
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: '规则名称为必填项',
-            },
-          ]}
-          width="md"
-          name="name"
-        />
-        <ProFormTextArea width="md" name="desc" />
-      </ModalForm>
+      <UserModal visible={userModalVisible} current={userModalCurrent} onSubmit={() => handleAdd} />
     </PageContainer>
   );
 };
