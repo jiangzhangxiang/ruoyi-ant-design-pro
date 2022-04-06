@@ -1,8 +1,9 @@
 import type { RequestConfig } from '@@/plugin-request/request';
 import type { RequestOptionsInit } from '/Users/issuser/myproject/ruoyi-ant-design-pro/node_modules/umi-request';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import { ls, tansParams } from '@/utils/index';
 import errorCode from '@/utils/errorCode';
+import { loginOut } from '@/components/RightContent/AvatarDropdown';
 
 /**
  * 请求拦截封装
@@ -34,10 +35,28 @@ const requestInterceptors = (url: string, options: RequestOptionsInit) => {
 // 响应拦截器
 const responseInterceptors = async (response: Response, options: RequestOptionsInit) => {
   const res = await response.clone().json();
-  if (res.code !== 200) {
-    return Promise.reject({ res, options });
+  const { code } = res;
+
+  if (res?.request?.responseType === 'blob' || res?.request?.responseType === 'arraybuffer') {
+    return res.data;
   }
-  return response;
+  if (code === 401) {
+    Modal.confirm({
+      title: '系统提示',
+      content: '登录状态已过期，您可以继续留在该页面，或者重新登录',
+      okText: '重新登录',
+      cancelText: '取消',
+      type: 'warning',
+      onOk: () => {
+        loginOut();
+      },
+    });
+    return Promise.reject('无效的会话，或者会话已过期，请重新登录。');
+  } else if (code !== 200) {
+    return Promise.reject({ res, options });
+  } else {
+    return res;
+  }
 };
 
 // 统一的错误处理

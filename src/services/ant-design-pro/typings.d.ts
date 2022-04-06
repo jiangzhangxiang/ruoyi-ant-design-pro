@@ -6,6 +6,7 @@ declare namespace API {
     userName?: string;
     avatar?: string;
     unreadCount?: number;
+    access?: 'admin';
   };
 
   type LoginResult = {
