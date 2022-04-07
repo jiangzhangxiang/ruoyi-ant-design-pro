@@ -1,5 +1,3 @@
-// @ts-ignore
-/* eslint-disable */
 import { request } from 'umi';
 
 /** 获取图形验证码 */

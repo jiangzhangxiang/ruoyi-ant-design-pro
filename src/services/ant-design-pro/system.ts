@@ -1,4 +1,5 @@
 import { request } from 'umi';
+import { UserList, UserListItem } from '@/pages/system/User/data';
 
 /** 获取客户管理列表 GET /system/user/list */
 export async function list(
@@ -11,7 +12,7 @@ export async function list(
   },
   options?: { [key: string]: any },
 ) {
-  return request<API.UserList>('/api/system/user/list', {
+  return request<UserList>('/api/system/user/list', {
     method: 'GET',
     params: {
       ...params,
@@ -20,26 +21,27 @@ export async function list(
   });
 }
 
-/** 新建规则 PUT /api/rule */
-export async function updateRule(options?: { [key: string]: any }) {
-  return request<API.UserListItem>('/api/rule', {
+/** 修改用户 PUT /system/user */
+export async function updateUser(data: UserListItem, options?: { [key: string]: any }) {
+  return request<UserListItem>('/api/system/user', {
     method: 'PUT',
+    data,
     ...(options || {}),
   });
 }
 
-/** 新建规则 POST /api/rule */
-export async function addRule(options?: { [key: string]: any }) {
-  return request<API.UserListItem>('/api/rule', {
+/** 新建用户 POST /system/user */
+export async function addUser(data: UserListItem, options?: { [key: string]: any }) {
+  return request<UserListItem>('/api/system/user', {
     method: 'POST',
+    data,
     ...(options || {}),
   });
 }
 
-/** 删除规则 DELETE /api/rule */
-export async function removeRule(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/rule', {
+/** 删除用户 DELETE /system/user/ */
+export async function delUser(userId?: number[] | number) {
+  return request<Record<string, any>>('/api/system/user/' + userId, {
     method: 'DELETE',
-    ...(options || {}),
   });
 }

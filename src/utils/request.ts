@@ -25,7 +25,6 @@ const requestInterceptors = (url: string, options: RequestOptionsInit) => {
     options.params = {};
     options.url = u;
   }
-
   return {
     url: `${url}`,
     options: { ...options, interceptors: true, headers: authHeader },
@@ -37,9 +36,9 @@ const responseInterceptors = async (response: Response, options: RequestOptionsI
   const res = await response.clone().json();
   const { code } = res;
 
-  if (res?.request?.responseType === 'blob' || res?.request?.responseType === 'arraybuffer') {
-    return res.data;
-  }
+  // if (res?.request?.responseType === 'blob' || res?.request?.responseType === 'arraybuffer') {
+  //   return res.data;
+  // }
   if (code === 401) {
     Modal.confirm({
       title: '系统提示',

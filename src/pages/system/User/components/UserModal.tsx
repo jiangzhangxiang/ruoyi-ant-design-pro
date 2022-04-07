@@ -7,23 +7,25 @@ import {
   ProFormRadio,
   ProFormTextArea,
 } from '@ant-design/pro-form';
-import type { UserListItemDataType } from '../data.d';
+import type { UserListItem } from '../data.d';
 
 type UserModalProps = {
   visible: boolean;
-  current: Partial<UserListItemDataType> | undefined;
-  onSubmit: (values: UserListItemDataType) => void;
+  current: Partial<UserListItem> | undefined;
+  onSubmit: (values: UserListItem) => void;
+  onCancel: () => void;
+  title: string;
 };
 
 const UserModal: FC<UserModalProps> = (props) => {
-  const { visible, current, onSubmit, children } = props;
-  if (!visible) {
-    return null;
-  }
+  const { visible, current, onSubmit, children, onCancel, title } = props;
+  // if (!visible) {
+  //   return null;
+  // }
   return (
-    <ModalForm<UserListItemDataType>
+    <ModalForm<UserListItem>
       visible={visible}
-      title={`用户${current ? '编辑' : '添加'}`}
+      title={title}
       width={540}
       trigger={<>{children}</>}
       onFinish={async (values) => {
@@ -31,6 +33,7 @@ const UserModal: FC<UserModalProps> = (props) => {
       }}
       initialValues={current}
       modalProps={{
+        onCancel: onCancel,
         destroyOnClose: true,
       }}
     >
@@ -38,16 +41,15 @@ const UserModal: FC<UserModalProps> = (props) => {
         <ProForm.Group>
           <ProFormText
             width="sm"
-            name="title"
+            name="nickName"
             label="用户昵称"
             rules={[{ required: true, message: '请输入用户昵称' }]}
             placeholder="请输入用户昵称"
           />
           <ProFormSelect
             width="sm"
-            name="owner"
+            name="deptId"
             label="归属部门"
-            rules={[{ required: true, message: '请选择任务负责人' }]}
             options={[
               {
                 label: '付晓晓',
@@ -58,75 +60,69 @@ const UserModal: FC<UserModalProps> = (props) => {
                 value: 'mao',
               },
             ]}
-            placeholder="请选择管理员"
+            placeholder="请选择归属部门"
           />
         </ProForm.Group>
         <ProForm.Group>
           <ProFormText
             width="sm"
-            name="title"
+            name="phonenumber"
             label="手机号码"
-            rules={[{ required: true, message: '请输入用户昵称' }]}
-            placeholder="请输入用户昵称"
+            placeholder="请输入手机号码"
           />
-          <ProFormText
-            width="sm"
-            name="title"
-            label="邮箱"
-            rules={[{ required: true, message: '请输入用户昵称' }]}
-            placeholder="请输入用户昵称"
-          />
+          <ProFormText width="sm" name="email" label="邮箱" placeholder="请输入邮箱" />
         </ProForm.Group>
-        <ProForm.Group>
-          <ProFormText
-            width="sm"
-            name="title"
-            label="用户名称"
-            rules={[{ required: true, message: '请输入用户昵称' }]}
-            placeholder="请输入用户昵称"
-          />
-          <ProFormText
-            width="sm"
-            name="title"
-            label="密码"
-            rules={[{ required: true, message: '请输入用户昵称' }]}
-            placeholder="请输入用户昵称"
-          />
-        </ProForm.Group>
+        {!current?.userId && (
+          <ProForm.Group>
+            <ProFormText
+              width="sm"
+              name="userName"
+              label="用户名称"
+              rules={[{ required: true, message: '请输入用户名称' }]}
+              placeholder="请输入用户名称"
+            />
+            <ProFormText
+              width="sm"
+              name="password"
+              label="用户密码"
+              rules={[{ required: true, message: '请输入用户密码' }]}
+              placeholder="请输入用户密码"
+            />
+          </ProForm.Group>
+        )}
         <ProForm.Group>
           <ProFormSelect
             width="sm"
-            name="owner"
+            name="sex"
             label="用户性别"
-            rules={[{ required: true, message: '请选择任务负责人' }]}
             options={[
               {
                 label: '男',
-                value: 'xiao',
+                value: '0',
               },
               {
                 label: '女',
-                value: 'mao',
+                value: '1',
               },
               {
                 label: '未知',
-                value: 'mao',
+                value: '2',
               },
             ]}
-            placeholder="请选择管理员"
+            placeholder="请选择用户性别"
           />
           <ProFormRadio.Group
             width="sm"
-            name="radio"
+            name="status"
             label="状态"
             options={[
               {
                 label: '停用',
-                value: 'a',
+                value: '0',
               },
               {
                 label: '正常',
-                value: 'b',
+                value: '1',
               },
             ]}
           />
@@ -134,9 +130,8 @@ const UserModal: FC<UserModalProps> = (props) => {
         <ProForm.Group>
           <ProFormSelect
             width="sm"
-            name="owner"
+            name="postIds"
             label="岗位"
-            rules={[{ required: true, message: '请选择任务负责人' }]}
             options={[
               {
                 label: '男',
@@ -151,13 +146,12 @@ const UserModal: FC<UserModalProps> = (props) => {
                 value: 'mao',
               },
             ]}
-            placeholder="请选择管理员"
+            placeholder="请选择岗位"
           />
           <ProFormSelect
             width="sm"
-            name="owner"
+            name="roleIds"
             label="角色"
-            rules={[{ required: true, message: '请选择任务负责人' }]}
             options={[
               {
                 label: '男',
@@ -172,10 +166,10 @@ const UserModal: FC<UserModalProps> = (props) => {
                 value: 'mao',
               },
             ]}
-            placeholder="请选择管理员"
+            placeholder="请选择角色"
           />
         </ProForm.Group>
-        <ProFormTextArea name="subDescription" label="备注" placeholder="请输入备注" />
+        <ProFormTextArea name="remark" label="备注" placeholder="请输入备注" />
       </>
     </ModalForm>
   );
