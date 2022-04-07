@@ -19,9 +19,6 @@ export type UserModalProps = {
 
 const UserModal: FC<UserModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
-  // if (type !== 'add' && type !== 'edit') {
-  //   return null;
-  // }
   const titleMap = {
     edit: '修改用户',
     add: '添加用户',
