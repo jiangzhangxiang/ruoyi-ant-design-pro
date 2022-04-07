@@ -249,8 +249,8 @@ const TableList: React.FC = () => {
         current={userModalCurrent}
         onSubmit={async (fields) => {
           const success = await (userModalCurrent?.userId
-            ? handleUpdate(fields)
-            : handleUserAdd(fields));
+            ? handleUpdate({ ...userModalCurrent, ...fields })
+            : handleUserAdd({ ...userModalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}
