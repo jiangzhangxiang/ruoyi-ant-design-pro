@@ -85,7 +85,7 @@ const TableList: React.FC = () => {
   const [modalType, setModalType] = useState<string>('');
   const [modalCurrent, setModalCurrent] = useState<UserListItem>({});
   const actionRef = useRef<ActionType>();
-  const [selectedRowsState, setSelectedRows] = useState<UserListItem[]>([]);
+  const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
 
   /**
    * 取消
@@ -223,7 +223,7 @@ const TableList: React.FC = () => {
             disabled={!selectedRowsState.length}
             key="primary"
             onClick={() => {
-              const userIds = selectedRowsState.map((m) => m.userId);
+              const userIds = selectedRowsState;
               handleDelModal(userIds as number[]);
             }}
           >
@@ -261,8 +261,10 @@ const TableList: React.FC = () => {
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
+            setSelectedRows(selectedRows.map((m) => m.userId) as number[]);
           },
+          preserveSelectedRowKeys: true,
+          selectedRowKeys: selectedRowsState,
         }}
       />
       <UserModal
