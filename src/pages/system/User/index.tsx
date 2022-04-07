@@ -83,7 +83,7 @@ const TableList: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<UserListItem | undefined>(undefined);
+  const [modalCurrent, setModalCurrent] = useState<UserListItem>({});
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<UserListItem[]>([]);
 
@@ -93,7 +93,7 @@ const TableList: React.FC = () => {
   const handleCancel = () => {
     setModalVisible(false);
     setModalType('');
-    setModalCurrent(undefined);
+    setModalCurrent({});
     setResetPwdVisible(false);
   };
 
@@ -179,7 +179,7 @@ const TableList: React.FC = () => {
         <a
           key="del"
           onClick={() => {
-            handleDelModal(record?.userId as number);
+            handleDelModal(record.userId as number);
           }}
         >
           删除
@@ -213,7 +213,7 @@ const TableList: React.FC = () => {
             onClick={() => {
               setModalType('add');
               setModalVisible(true);
-              setModalCurrent(undefined);
+              setModalCurrent({});
             }}
           >
             <PlusOutlined /> 新建
