@@ -62,7 +62,7 @@ const responseInterceptors = async (response: Response, options: RequestOptionsI
 const errorHandler = (error: any) => {
   const { res } = error;
   message.error(`${res.msg || res.errorMessage || errorCode[res.code] || errorCode['default']}`);
-  return res;
+  return Promise.reject(res);
 };
 
 export const request: RequestConfig = {

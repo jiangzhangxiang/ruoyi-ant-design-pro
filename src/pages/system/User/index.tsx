@@ -12,7 +12,7 @@ import { UserListItem } from '@/pages/system/User/data';
  * 添加用户
  * @param fields
  */
-const handleAdd = async (fields: UserListItem) => {
+const handleUserAdd = async (fields: UserListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addUser({ ...fields });
@@ -21,7 +21,6 @@ const handleAdd = async (fields: UserListItem) => {
     return true;
   } catch (error) {
     hide();
-    message.error('新增失败');
     return false;
   }
 };
@@ -41,7 +40,6 @@ const handleUpdate = async (fields: any) => {
     return true;
   } catch (error) {
     hide();
-    message.error('修改失败');
     return false;
   }
 };
@@ -52,46 +50,71 @@ const handleUpdate = async (fields: any) => {
  */
 
 const handleRemove = async (userId: number | number[]) => {
-  Modal.confirm({
-    title: '系统提示',
-    content: `是否确认删除用户编号为"${userId}"的数据项？`,
-    onOk: async () => {
-      const hide = message.loading('正在删除');
-      if (!userId) return true;
-      try {
-        await delUser(userId);
-        hide();
-        message.success('删除成功');
-        return true;
-      } catch (error) {
-        hide();
-        message.error('删除失败');
-        return false;
-      }
-    },
-  });
+  const hide = message.loading('正在删除');
+  if (!userId) return true;
+  try {
+    await delUser(userId);
+    hide();
+    message.success('删除成功');
+    return true;
+  } catch (error) {
+    hide();
+    return false;
+  }
 };
 
 const TableList: React.FC = () => {
-  /**
-   * @en-US Pop-up window of new window
-   * @zh-CN 新建窗口的弹窗
-   *  */
   const [userModalVisible, setUserModalVisible] = useState<boolean>(false);
   const [userModalTitle, setUserModalTitle] = useState<string>('');
   const [userModalCurrent, setUserModalCurrent] = useState<UserListItem | undefined>(undefined);
-
-  /**
-   * @en-US The pop-up window of the distribution update window
-   * @zh-CN 分布更新窗口的弹窗
-   * */
-
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<UserListItem[]>([]);
+
   /**
-   * @en-US International configuration
-   * @zh-CN 国际化配置
-   * */
+   *  新增
+   */
+  const handleAdd = () => {
+    setUserModalTitle('添加用户');
+    setUserModalVisible(true);
+    setUserModalCurrent(undefined);
+  };
+  /**
+   *  编辑
+   */
+  const handleEdit = (record: UserListItem) => {
+    setUserModalVisible(true);
+    setUserModalCurrent(record);
+    setUserModalTitle('修改用户');
+  };
+  /**
+   * 取消
+   */
+  const handleCancel = () => {
+    setUserModalVisible(false);
+    setUserModalCurrent(undefined);
+  };
+
+  /**
+   * 刷新页面
+   */
+  const handleRefresh = (success: boolean) => {
+    if (success && actionRef.current) {
+      setSelectedRows([]);
+      handleCancel();
+      actionRef.current.reload();
+    }
+  };
+
+  const handleDelModal = (userIds: number | number[]) => {
+    Modal.confirm({
+      title: '系统提示',
+      content: `是否确认删除用户编号为"${userIds}"的数据项？`,
+      onOk: async () => {
+        const success = await handleRemove(userIds);
+        if (success) handleRefresh(success);
+      },
+    });
+  };
 
   const columns: ProColumns<UserListItem>[] = [
     {
@@ -143,14 +166,17 @@ const TableList: React.FC = () => {
         <a
           key="edit"
           onClick={() => {
-            setUserModalVisible(true);
-            setUserModalCurrent(record);
-            setUserModalTitle('修改用户');
+            handleEdit(record);
           }}
         >
           修改
         </a>,
-        <a key="del" onClick={() => handleRemove(record.userId)}>
+        <a
+          key="del"
+          onClick={() => {
+            handleDelModal(record.userId);
+          }}
+        >
           删除
         </a>,
         <a key="pwd">重置密码</a>,
@@ -159,10 +185,6 @@ const TableList: React.FC = () => {
     },
   ];
 
-  const handleCancel = () => {
-    setUserModalVisible(false);
-    setUserModalCurrent(undefined);
-  };
   return (
     <PageContainer>
       <ProTable<UserListItem, API.PageParams>
@@ -172,21 +194,17 @@ const TableList: React.FC = () => {
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              setUserModalTitle('添加用户');
-              setUserModalVisible(true);
-            }}
-          >
+          <Button type="primary" key="primary" onClick={handleAdd}>
             <PlusOutlined /> 新建
           </Button>,
           <Button
             danger
             disabled={!selectedRowsState.length}
             key="primary"
-            onClick={() => handleRemove(selectedRowsState.map((m) => m.userId))}
+            onClick={() => {
+              const userIds = selectedRowsState.map((m) => m.userId);
+              handleDelModal(userIds);
+            }}
           >
             <DeleteOutlined /> 删除
           </Button>,
@@ -229,7 +247,12 @@ const TableList: React.FC = () => {
       <UserModal
         visible={userModalVisible}
         current={userModalCurrent}
-        onSubmit={(fields) => (userModalCurrent?.userId ? handleUpdate(fields) : handleAdd(fields))}
+        onSubmit={async (fields) => {
+          const success = await (userModalCurrent?.userId
+            ? handleUpdate(fields)
+            : handleUserAdd(fields));
+          handleRefresh(success);
+        }}
         onCancel={handleCancel}
         title={userModalTitle}
       />
