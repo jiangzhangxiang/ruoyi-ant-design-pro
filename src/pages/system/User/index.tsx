@@ -223,8 +223,7 @@ const TableList: React.FC = () => {
             disabled={!selectedRowsState.length}
             key="primary"
             onClick={() => {
-              const userIds = selectedRowsState;
-              handleDelModal(userIds as number[]);
+              handleDelModal(selectedRowsState);
             }}
           >
             <DeleteOutlined /> 删除
@@ -281,7 +280,7 @@ const TableList: React.FC = () => {
       />
       <ResetPwdModal
         visible={resetPwdVisible}
-        current={modalCurrent as UserListItem}
+        current={modalCurrent}
         onSubmit={async (fields) => {
           const success = await handleResetUserPwd({
             password: fields.password,

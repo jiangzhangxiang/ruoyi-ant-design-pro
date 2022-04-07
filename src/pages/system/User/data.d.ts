@@ -12,6 +12,6 @@ export type UserListItem = {
 };
 
 export type UserList = {
-  rows: UserListItem[];
-  total: number;
+  rows?: UserListItem[];
+  total?: number;
 };
