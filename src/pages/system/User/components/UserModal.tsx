@@ -9,23 +9,27 @@ import {
 } from '@ant-design/pro-form';
 import type { UserListItem } from '../data.d';
 
-type UserModalProps = {
+export type UserModalProps = {
   visible: boolean;
   current: Partial<UserListItem> | undefined;
   onSubmit: (values: UserListItem) => void;
   onCancel: () => void;
-  title: string;
+  type: string;
 };
 
 const UserModal: FC<UserModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, title } = props;
-  // if (!visible) {
+  const { visible, current, onSubmit, children, onCancel, type } = props;
+  // if (type !== 'add' && type !== 'edit') {
   //   return null;
   // }
+  const titleMap = {
+    edit: '修改用户',
+    add: '添加用户',
+  };
   return (
     <ModalForm<UserListItem>
       visible={visible}
-      title={title}
+      title={titleMap[type]}
       width={540}
       trigger={<>{children}</>}
       onFinish={async (values) => {

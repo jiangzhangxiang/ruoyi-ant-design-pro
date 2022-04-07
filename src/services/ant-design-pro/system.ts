@@ -45,3 +45,12 @@ export async function delUser(userId?: number[] | number) {
     method: 'DELETE',
   });
 }
+
+/** 重置密码 POST /system/resetUserPwd */
+export async function resetUserPwd(data: UserListItem, options?: { [key: string]: any }) {
+  return request<UserListItem>('/api/system/user/resetPwd', {
+    method: 'PUT',
+    data,
+    ...(options || {}),
+  });
+}

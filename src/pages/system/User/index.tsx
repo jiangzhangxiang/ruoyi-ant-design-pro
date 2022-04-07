@@ -4,9 +4,10 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { list, addUser, updateUser, delUser } from '@/services/ant-design-pro/system';
+import { list, addUser, updateUser, delUser, resetUserPwd } from '@/services/ant-design-pro/system';
 import UserModal from '@/pages/system/User/components/UserModal';
 import { UserListItem } from '@/pages/system/User/data';
+import ResetPwdModal from '@/pages/system/User/components/ResetPwdModal';
 
 /**
  * 添加用户
@@ -24,7 +25,22 @@ const handleUserAdd = async (fields: UserListItem) => {
     return false;
   }
 };
-
+/**
+ * 重置密码
+ * @param fields
+ */
+const handleResetUserPwd = async (fields: UserListItem) => {
+  const hide = message.loading('正在新增');
+  try {
+    await resetUserPwd({ ...fields });
+    hide();
+    message.success(`修改成功，新密码是：${fields.password}`);
+    return true;
+  } catch (error) {
+    hide();
+    return false;
+  }
+};
 /**
  * 修改用户
  * @param fields
@@ -64,34 +80,21 @@ const handleRemove = async (userId: number | number[]) => {
 };
 
 const TableList: React.FC = () => {
-  const [userModalVisible, setUserModalVisible] = useState<boolean>(false);
-  const [userModalTitle, setUserModalTitle] = useState<string>('');
-  const [userModalCurrent, setUserModalCurrent] = useState<UserListItem | undefined>(undefined);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<string>('');
+  const [modalCurrent, setModalCurrent] = useState<UserListItem | undefined>(undefined);
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<UserListItem[]>([]);
 
   /**
-   *  新增
-   */
-  const handleAdd = () => {
-    setUserModalTitle('添加用户');
-    setUserModalVisible(true);
-    setUserModalCurrent(undefined);
-  };
-  /**
-   *  编辑
-   */
-  const handleEdit = (record: UserListItem) => {
-    setUserModalVisible(true);
-    setUserModalCurrent(record);
-    setUserModalTitle('修改用户');
-  };
-  /**
    * 取消
    */
   const handleCancel = () => {
-    setUserModalVisible(false);
-    setUserModalCurrent(undefined);
+    setModalVisible(false);
+    setModalType('');
+    setModalCurrent(undefined);
+    setResetPwdVisible(false);
   };
 
   /**
@@ -111,7 +114,7 @@ const TableList: React.FC = () => {
       content: `是否确认删除用户编号为"${userIds}"的数据项？`,
       onOk: async () => {
         const success = await handleRemove(userIds);
-        if (success) handleRefresh(success);
+        handleRefresh(success);
       },
     });
   };
@@ -166,7 +169,9 @@ const TableList: React.FC = () => {
         <a
           key="edit"
           onClick={() => {
-            handleEdit(record);
+            setModalVisible(true);
+            setModalCurrent(record);
+            setModalType('edit');
           }}
         >
           修改
@@ -174,12 +179,20 @@ const TableList: React.FC = () => {
         <a
           key="del"
           onClick={() => {
-            handleDelModal(record.userId);
+            handleDelModal(record?.userId as number);
           }}
         >
           删除
         </a>,
-        <a key="pwd">重置密码</a>,
+        <a
+          key="pwd"
+          onClick={() => {
+            setModalCurrent(record);
+            setResetPwdVisible(true);
+          }}
+        >
+          重置密码
+        </a>,
         <a key="role">分配角色</a>,
       ],
     },
@@ -194,7 +207,15 @@ const TableList: React.FC = () => {
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={handleAdd}>
+          <Button
+            type="primary"
+            key="primary"
+            onClick={() => {
+              setModalType('add');
+              setModalVisible(true);
+              setModalCurrent(undefined);
+            }}
+          >
             <PlusOutlined /> 新建
           </Button>,
           <Button
@@ -203,7 +224,7 @@ const TableList: React.FC = () => {
             key="primary"
             onClick={() => {
               const userIds = selectedRowsState.map((m) => m.userId);
-              handleDelModal(userIds);
+              handleDelModal(userIds as number[]);
             }}
           >
             <DeleteOutlined /> 删除
@@ -212,7 +233,7 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setUserModalVisible(true);
+              setModalVisible(true);
             }}
           >
             <UploadOutlined /> 导入
@@ -221,7 +242,7 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setUserModalVisible(true);
+              setModalVisible(true);
             }}
           >
             <DownloadOutlined /> 导出
@@ -245,16 +266,28 @@ const TableList: React.FC = () => {
         }}
       />
       <UserModal
-        visible={userModalVisible}
-        current={userModalCurrent}
+        visible={modalVisible}
+        current={modalCurrent}
         onSubmit={async (fields) => {
-          const success = await (userModalCurrent?.userId
-            ? handleUpdate({ ...userModalCurrent, ...fields })
-            : handleUserAdd({ ...userModalCurrent, ...fields }));
+          const success = await (modalCurrent?.userId
+            ? handleUpdate({ ...modalCurrent, ...fields })
+            : handleUserAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}
-        title={userModalTitle}
+        type={modalType}
+      />
+      <ResetPwdModal
+        visible={resetPwdVisible}
+        current={modalCurrent as UserListItem}
+        onSubmit={async (fields) => {
+          const success = await handleResetUserPwd({
+            password: fields.password,
+            userId: modalCurrent?.userId,
+          });
+          handleRefresh(success);
+        }}
+        onCancel={handleCancel}
       />
     </PageContainer>
   );
