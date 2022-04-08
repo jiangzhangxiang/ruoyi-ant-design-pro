@@ -11,6 +11,7 @@ type UserModalProps = {
 
 const ResetPwdModal: FC<UserModalProps> = (props) => {
   const { visible, onSubmit, children, onCancel, current } = props;
+  const msg = `请输入的${current?.userName}新密码`;
   return (
     <ModalForm<UserListItem>
       visible={visible}
@@ -28,9 +29,12 @@ const ResetPwdModal: FC<UserModalProps> = (props) => {
       <>
         <ProFormText
           name="password"
-          label={`请输入的${current?.userName}新密码`}
-          rules={[{ required: true, message: '请输入用户昵称' }]}
-          placeholder="请输入用户昵称"
+          label={msg}
+          rules={[
+            { required: true, message: msg },
+            { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间' },
+          ]}
+          placeholder={msg}
         />
       </>
     </ModalForm>
