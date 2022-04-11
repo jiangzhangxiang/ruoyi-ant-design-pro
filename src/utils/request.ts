@@ -1,5 +1,5 @@
 import type { RequestConfig } from '@@/plugin-request/request';
-import type { RequestOptionsInit } from '/Users/issuser/myproject/ruoyi-ant-design-pro/node_modules/umi-request';
+import type { RequestOptionsInit } from 'umi-request';
 import { message, Modal } from 'antd';
 import { ls } from '@/utils/index';
 import errorCode from '@/utils/errorCode';
