@@ -1,5 +1,9 @@
 import { request } from 'umi';
-
+import { blobValidate, tansParams } from '@/utils';
+import { message } from 'antd';
+import errorCode from '@/utils/errorCode';
+// @ts-ignore
+import { saveAs } from 'file-saver';
 /** 获取图形验证码 */
 export async function captchaImage(options?: { [key: string]: any }) {
   return request<API.FakeCaptcha>('/api/captchaImage', {
@@ -46,4 +50,39 @@ export async function getNotices(options?: { [key: string]: any }) {
     method: 'GET',
     ...(options || {}),
   });
+}
+
+// 通用下载方法
+export async function download(url: any, params: any, filename: any) {
+  const hide = message.loading('正在下载数据，请稍候', 0);
+  request<API.NoticeIconList>(url, {
+    method: 'POST',
+    ...{
+      transformRequest: [
+        (p: any) => {
+          return tansParams(p);
+        },
+      ],
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      responseType: 'blob',
+    },
+  })
+    .then(async (data: any) => {
+      const isLogin = await blobValidate(data);
+      if (isLogin) {
+        const blob = new Blob([data]);
+        saveAs(blob, filename);
+      } else {
+        const resText = await data.text();
+        const rspObj = JSON.parse(resText);
+        const errMsg = errorCode[rspObj.code] || rspObj.msg || errorCode['default'];
+        return message.error(errMsg);
+      }
+      hide();
+    })
+    .catch((err) => {
+      hide();
+      console.error(err);
+      message.error('下载文件出现错误，请联系管理员！');
+    });
 }

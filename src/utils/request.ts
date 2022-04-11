@@ -33,12 +33,11 @@ const requestInterceptors = (url: string, options: RequestOptionsInit) => {
 
 // 响应拦截器
 const responseInterceptors = async (response: Response, options: RequestOptionsInit) => {
+  if (options?.responseType === 'blob') {
+    return response;
+  }
   const res = await response.clone().json();
   const { code } = res;
-
-  // if (res?.request?.responseType === 'blob' || res?.request?.responseType === 'arraybuffer') {
-  //   return res.data;
-  // }
   if (code === 401) {
     Modal.confirm({
       title: '系统提示',

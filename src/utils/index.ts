@@ -73,3 +73,14 @@ export function tansParams(params: Record<string, any>) {
   }
   return result;
 }
+
+// 验证是否为blob格式
+export async function blobValidate(data: any) {
+  try {
+    const text = await data.text();
+    JSON.parse(text);
+    return false;
+  } catch (error) {
+    return true;
+  }
+}

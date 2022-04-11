@@ -1,13 +1,23 @@
 import { PlusOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
-import { Button, message, Modal } from 'antd';
+import { Button, message, Modal, TreeSelect } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { list, addUser, updateUser, delUser, resetUserPwd } from '@/services/ant-design-pro/system';
+import {
+  list,
+  addUser,
+  updateUser,
+  delUser,
+  resetUserPwd,
+} from '@/services/ant-design-pro/system/user';
 import UserModal from '@/pages/system/User/components/UserModal';
 import { UserListItem } from '@/pages/system/User/data';
 import ResetPwdModal from '@/pages/system/User/components/ResetPwdModal';
+import { download } from '@/services/ant-design-pro/api';
+import { treeselect } from '@/services/ant-design-pro/system/dept';
+import { useRequest } from '@@/plugin-request/request';
+import type { DefaultOptionType } from 'rc-select/lib/Select';
 
 /**
  * 添加用户
@@ -86,7 +96,7 @@ const TableList: React.FC = () => {
   const [modalCurrent, setModalCurrent] = useState<UserListItem>({});
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
-
+  const { data: treeData } = useRequest(treeselect);
   /**
    * 取消
    */
@@ -136,9 +146,21 @@ const TableList: React.FC = () => {
     },
     {
       title: '部门',
-      dataIndex: 'dept.deptName',
+      dataIndex: 'deptId',
       renderText: (_, record) => record.dept?.deptName,
-      hideInSearch: true,
+      renderFormItem: (item, rest, form) => {
+        return (
+          <TreeSelect
+            treeData={treeData as DefaultOptionType[] | undefined}
+            placeholder="请选择"
+            treeDefaultExpandAll
+            fieldNames={{ label: 'label', value: 'id', children: 'children' }}
+            onChange={(e) => {
+              form.setFieldsValue({ deptId: e });
+            }}
+          />
+        );
+      },
     },
     {
       title: '手机号码',
@@ -244,13 +266,14 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setModalVisible(true);
+              download('/api/system/user/export', {}, `user_${new Date().getTime()}.xlsx`);
             }}
           >
             <DownloadOutlined /> 导出
           </Button>,
         ]}
         request={async (params = {}) => {
+          console.log(params);
           return list(params).then((res) => {
             return {
               data: res.rows,
