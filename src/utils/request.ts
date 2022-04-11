@@ -1,7 +1,7 @@
 import type { RequestConfig } from '@@/plugin-request/request';
 import type { RequestOptionsInit } from '/Users/issuser/myproject/ruoyi-ant-design-pro/node_modules/umi-request';
 import { message, Modal } from 'antd';
-import { ls, tansParams } from '@/utils/index';
+import { ls } from '@/utils/index';
 import errorCode from '@/utils/errorCode';
 import { loginOut } from '@/components/RightContent/AvatarDropdown';
 
@@ -18,13 +18,13 @@ const requestInterceptors = (url: string, options: RequestOptionsInit) => {
   }
   const authHeader = { Authorization: 'Bearer ' + Authorization };
 
-  // get请求映射params参数
-  if (options.method === 'get' && options.params) {
-    let u = options.url + '?' + tansParams(options.params);
-    u = u.slice(0, -1);
-    options.params = {};
-    options.url = u;
-  }
+  // // get请求映射params参数
+  // if (options.method === 'get' && options.params) {
+  //   let u = options.url + '?' + tansParams(options.params);
+  //   u = u.slice(0, -1);
+  //   options.params = {};
+  //   options.url = u;
+  // }
   return {
     url: `${url}`,
     options: { ...options, interceptors: true, headers: authHeader },

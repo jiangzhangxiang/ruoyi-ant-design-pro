@@ -118,11 +118,11 @@ const UserModal: FC<UserModalProps> = (props) => {
             label="状态"
             options={[
               {
-                label: '停用',
+                label: '启用',
                 value: '0',
               },
               {
-                label: '正常',
+                label: '停用',
                 value: '1',
               },
             ]}

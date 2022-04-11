@@ -123,6 +123,7 @@ const TableList: React.FC = () => {
     {
       title: '用户编号',
       dataIndex: 'userId',
+      hideInSearch: true,
     },
     {
       title: '用户名称',
@@ -131,11 +132,13 @@ const TableList: React.FC = () => {
     {
       title: '用户昵称',
       dataIndex: 'nickName',
+      hideInSearch: true,
     },
     {
       title: '部门',
       dataIndex: 'dept.deptName',
       renderText: (_, record) => record.dept?.deptName,
+      hideInSearch: true,
     },
     {
       title: '手机号码',
@@ -248,9 +251,7 @@ const TableList: React.FC = () => {
           </Button>,
         ]}
         request={async (params = {}) => {
-          return list({
-            ...params,
-          }).then((res) => {
+          return list(params).then((res) => {
             return {
               data: res.rows,
               total: res.total,

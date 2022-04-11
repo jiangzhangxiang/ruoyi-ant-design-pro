@@ -14,9 +14,7 @@ export async function list(
 ) {
   return request<UserList>('/api/system/user/list', {
     method: 'GET',
-    params: {
-      ...params,
-    },
+    params: params,
     ...(options || {}),
   });
 }
