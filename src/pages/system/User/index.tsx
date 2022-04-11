@@ -154,6 +154,7 @@ const TableList: React.FC = () => {
             treeData={treeData as DefaultOptionType[] | undefined}
             placeholder="请选择"
             treeDefaultExpandAll
+            allowClear
             fieldNames={{ label: 'label', value: 'id', children: 'children' }}
             onChange={(e) => {
               form.setFieldsValue({ deptId: e });
