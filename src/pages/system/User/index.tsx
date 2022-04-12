@@ -4,8 +4,6 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-
-import ProTable from '@ant-design/pro-table';
 import {
   list,
   addUser,
@@ -20,6 +18,7 @@ import { download } from '@/services/ant-design-pro/api';
 import { treeselect } from '@/services/ant-design-pro/system/dept';
 import { useRequest } from '@@/plugin-request/request';
 import type { DefaultOptionType } from 'rc-select/lib/Select';
+import { BasicTable } from '@/components/Table';
 
 /**
  * 添加用户
@@ -100,6 +99,7 @@ const TableList: React.FC = () => {
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
   const { data: treeData } = useRequest(treeselect);
+  console.log(treeData);
   /**
    * 取消
    */
@@ -229,7 +229,7 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<UserListItem, API.PageParams>
+      <BasicTable<UserListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
         rowKey="userId"

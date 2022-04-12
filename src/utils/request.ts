@@ -4,10 +4,9 @@ import { message, Modal } from 'antd';
 import { ls } from '@/utils/index';
 import errorCode from '@/utils/errorCode';
 import { loginOut } from '@/components/RightContent/AvatarDropdown';
-import { TableResponseEnum } from '@/utils/httpEnum';
 
 /**
- * @description: 数据处理
+ * @description: TODO 数据处理
  */
 
 const transform: any = {
@@ -21,38 +20,14 @@ const transform: any = {
       isTransformRequestData?: boolean;
     },
   ) => {
-    const { isTransformRequestData = true, params } = options;
-    if (!isTransformRequestData) {
-      return options;
-    }
-    return {
-      ...options,
-      params: {
-        ...params,
-        [TableResponseEnum.pageField]: params.current,
-        [TableResponseEnum.sizeField]: params.pageSize,
-      },
-    };
+    return options;
   },
 
   /**
    * @description: 处理响应数据数据
    */
-  transformResponseData: (
-    response: Response,
-    options: Omit<RequestOptionsInit, ''> & {
-      // 需要对返回数据进行处理
-      isTransformResponseData?: boolean;
-    },
-  ) => {
-    const { isTransformResponseData = true } = options;
-    if (!isTransformResponseData) {
-      return response;
-    }
-    return {
-      ...response,
-      data: response[TableResponseEnum.listField],
-    };
+  transformResponseData: (response: Response) => {
+    return response;
   },
 };
 
