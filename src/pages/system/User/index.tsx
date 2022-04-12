@@ -99,7 +99,6 @@ const TableList: React.FC = () => {
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
   const { data: treeData } = useRequest(treeselect);
-  console.log(treeData);
   /**
    * 取消
    */
