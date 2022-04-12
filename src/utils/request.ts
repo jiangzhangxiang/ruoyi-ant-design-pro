@@ -28,6 +28,7 @@ const transform: any = {
     return {
       ...options,
       params: {
+        ...params,
         [TableResponseEnum.pageField]: params.current,
         [TableResponseEnum.sizeField]: params.pageSize,
       },
