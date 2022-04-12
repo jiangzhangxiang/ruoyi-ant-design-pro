@@ -4,6 +4,56 @@ import { message, Modal } from 'antd';
 import { ls } from '@/utils/index';
 import errorCode from '@/utils/errorCode';
 import { loginOut } from '@/components/RightContent/AvatarDropdown';
+import { TableResponseEnum } from '@/utils/httpEnum';
+
+/**
+ * @description: 数据处理
+ */
+
+const transform: any = {
+  /**
+   * @description: 处理请求数据
+   */
+  transformRequestData: (
+    url: string,
+    options: Omit<RequestOptionsInit, ''> & {
+      // 需要对请求数据进行处理
+      isTransformRequestData?: boolean;
+    },
+  ) => {
+    const { isTransformRequestData = true, params } = options;
+    if (!isTransformRequestData) {
+      return options;
+    }
+    return {
+      ...options,
+      params: {
+        [TableResponseEnum.pageField]: params.current,
+        [TableResponseEnum.sizeField]: params.pageSize,
+      },
+    };
+  },
+
+  /**
+   * @description: 处理响应数据数据
+   */
+  transformResponseData: (
+    response: Response,
+    options: Omit<RequestOptionsInit, ''> & {
+      // 需要对返回数据进行处理
+      isTransformResponseData?: boolean;
+    },
+  ) => {
+    const { isTransformResponseData = true } = options;
+    if (!isTransformResponseData) {
+      return response;
+    }
+    return {
+      ...response,
+      data: response[TableResponseEnum.listField],
+    };
+  },
+};
 
 /**
  * 请求拦截封装
@@ -17,7 +67,7 @@ const requestInterceptors = (url: string, options: RequestOptionsInit) => {
     Authorization = ls.getItem('token');
   }
   const authHeader = { Authorization: 'Bearer ' + Authorization };
-
+  const transformOptions = transform.transformRequestData(url, options);
   // // get请求映射params参数
   // if (options.method === 'get' && options.params) {
   //   let u = options.url + '?' + tansParams(options.params);
@@ -27,7 +77,7 @@ const requestInterceptors = (url: string, options: RequestOptionsInit) => {
   // }
   return {
     url: `${url}`,
-    options: { ...options, interceptors: true, headers: authHeader },
+    options: { ...transformOptions, interceptors: true, headers: authHeader },
   };
 };
 
@@ -37,7 +87,9 @@ const responseInterceptors = async (response: Response, options: RequestOptionsI
     return response;
   }
   const res = await response.clone().json();
-  const { code } = res;
+  const transformResponse = transform.transformResponseData(res, options);
+
+  const { code } = transformResponse;
   if (code === 401) {
     Modal.confirm({
       title: '系统提示',
@@ -51,9 +103,9 @@ const responseInterceptors = async (response: Response, options: RequestOptionsI
     });
     return Promise.reject('无效的会话，或者会话已过期，请重新登录。');
   } else if (code !== 200) {
-    return Promise.reject({ res, options });
+    return Promise.reject({ transformResponse, options });
   } else {
-    return res;
+    return transformResponse;
   }
 };
 

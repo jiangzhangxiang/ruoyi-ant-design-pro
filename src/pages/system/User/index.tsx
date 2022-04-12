@@ -3,6 +3,8 @@ import { Button, message, Modal, TreeSelect } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import type { FormInstance } from 'antd';
+
 import ProTable from '@ant-design/pro-table';
 import {
   list,
@@ -95,6 +97,7 @@ const TableList: React.FC = () => {
   const [modalType, setModalType] = useState<string>('');
   const [modalCurrent, setModalCurrent] = useState<UserListItem>({});
   const actionRef = useRef<ActionType>();
+  const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
   const { data: treeData } = useRequest(treeselect);
   /**
@@ -228,6 +231,7 @@ const TableList: React.FC = () => {
     <PageContainer>
       <ProTable<UserListItem, API.PageParams>
         actionRef={actionRef}
+        formRef={formRef}
         rowKey="userId"
         search={{
           labelWidth: 120,
@@ -267,21 +271,14 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              download('/api/system/user/export', {}, `user_${new Date().getTime()}.xlsx`);
+              const params = formRef.current?.getFieldsValue();
+              download('/api/system/user/export', params, `user_${new Date().getTime()}.xlsx`);
             }}
           >
             <DownloadOutlined /> 导出
           </Button>,
         ]}
-        request={async (params = {}) => {
-          console.log(params);
-          return list(params).then((res) => {
-            return {
-              data: res.rows,
-              total: res.total,
-            };
-          });
-        }}
+        request={list}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
