@@ -6,8 +6,12 @@ import {
   ProForm,
   ProFormRadio,
   ProFormTextArea,
+  ProFormTreeSelect,
 } from '@ant-design/pro-form';
+
 import type { UserListItem } from '../data.d';
+import { useRequest } from '@@/plugin-request/request';
+import { treeselect } from '@/services/ant-design-pro/system/dept';
 
 export type UserModalProps = {
   visible: boolean;
@@ -19,10 +23,12 @@ export type UserModalProps = {
 
 const UserModal: FC<UserModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
+  const { data: deptIdTreeData }: any = useRequest(treeselect);
   const titleMap = {
     edit: '修改用户',
     add: '添加用户',
   };
+
   return (
     <ModalForm<UserListItem>
       visible={visible}
@@ -47,21 +53,18 @@ const UserModal: FC<UserModalProps> = (props) => {
             rules={[{ required: true, message: '请输入用户昵称' }]}
             placeholder="请输入用户昵称"
           />
-          <ProFormSelect
+          <ProFormTreeSelect
             width="sm"
             name="deptId"
             label="归属部门"
-            options={[
-              {
-                label: '付晓晓',
-                value: 'xiao',
-              },
-              {
-                label: '周毛毛',
-                value: 'mao',
-              },
-            ]}
+            allowClear
             placeholder="请选择归属部门"
+            request={() => deptIdTreeData}
+            fieldProps={{
+              fieldNames: { label: 'label', value: 'id', children: 'children' },
+              treeDefaultExpandAll: true,
+              allowClear: true,
+            }}
           />
         </ProForm.Group>
         <ProForm.Group>

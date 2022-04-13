@@ -98,7 +98,7 @@ const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
-  const { data: treeData } = useRequest(treeselect);
+  const { data: deptIdTreeData } = useRequest(treeselect);
   /**
    * 取消
    */
@@ -149,11 +149,13 @@ const TableList: React.FC = () => {
     {
       title: '部门',
       dataIndex: 'deptId',
+      valueType: 'treeSelect',
       renderText: (_, record) => record.dept?.deptName,
+
       renderFormItem: (item, rest, form) => {
         return (
           <TreeSelect
-            treeData={treeData as DefaultOptionType[] | undefined}
+            treeData={deptIdTreeData as DefaultOptionType[] | undefined}
             placeholder="请选择"
             treeDefaultExpandAll
             allowClear
