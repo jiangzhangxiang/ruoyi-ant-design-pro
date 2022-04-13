@@ -1,7 +1,9 @@
 ## 简介
-ruoyi-ant-design-pro 完全免费，且可商用。前端基于ant-design-pro，后端直接对接访问 ruoyi 的服务。
+
+ruoyi-ant-design-pro 完全免费，且可商用。前端基于 ant-design-pro，后端直接对接访问 ruoyi 的服务。
 
 ## 特性
+
 - :gem: **优雅美观**：基于 Ant Design Pro 二次开发
 - :bulb: **TypeScript**: 应用程序级 JavaScript 的语言
 
@@ -17,7 +19,6 @@ $ yarn install
 $ yarn start   # visit http://localhost:8000
 ```
 
-
 ## 如何贡献
 
 非常欢迎你的加入！[提一个 Issue](https://github.com/jiangzhangxiang/ruoyi-ant-design-pro/issues) 或者提交一个 Pull Request。
@@ -30,7 +31,6 @@ $ yarn start   # visit http://localhost:8000
 4. 推送您的分支: `git push origin feat/xxxx`
 5. 提交`pull request`
 
-
 ## 浏览器支持
 
 现代浏览器及 IE11。
@@ -39,9 +39,6 @@ $ yarn start   # visit http://localhost:8000
 | --- | --- | --- | --- | --- |
 | IE11, Edge | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
-
 ## 维护者
 
 [@jiang zhang xiang](https://github.com/jiangzhangxiang)
-
-
