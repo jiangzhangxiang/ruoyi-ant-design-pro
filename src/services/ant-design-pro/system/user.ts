@@ -1,5 +1,6 @@
 import { request } from 'umi';
-import { UserList, UserListItem } from '@/pages/system/User/data';
+import { UserInfo, UserList, UserListItem } from '@/pages/system/User/data';
+import { parseStrEmpty } from '@/utils';
 
 /** 获取客户管理列表 GET /system/user/list */
 export async function list(
@@ -49,6 +50,14 @@ export async function resetUserPwd(data: UserListItem, options?: { [key: string]
   return request<UserListItem>('/api/system/user/resetPwd', {
     method: 'PUT',
     data,
+    ...(options || {}),
+  });
+}
+
+/** 查询用户详细 PUT /system/user/${userId} */
+export async function getUser(userId: number | undefined, options?: { [key: string]: any }) {
+  return request<UserInfo>('/api/system/user/' + parseStrEmpty(userId), {
+    method: 'GET',
     ...(options || {}),
   });
 }

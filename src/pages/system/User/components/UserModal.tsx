@@ -12,6 +12,10 @@ import {
 import type { UserListItem } from '../data.d';
 import { useRequest } from '@@/plugin-request/request';
 import { treeselect } from '@/services/ant-design-pro/system/dept';
+import { getUser } from '@/services/ant-design-pro/system/user';
+import { useEffect, useState } from 'react';
+import { Form } from 'antd';
+import { configKey } from '@/services/ant-design-pro/system/config';
 
 export type UserModalProps = {
   visible: boolean;
@@ -21,16 +25,53 @@ export type UserModalProps = {
   type: string;
 };
 
+let initPassword = '';
+
+const titleMap = {
+  edit: '修改用户',
+  add: '添加用户',
+};
+
 const UserModal: FC<UserModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
   const { data: deptIdTreeData }: any = useRequest(treeselect);
-  const titleMap = {
-    edit: '修改用户',
-    add: '添加用户',
+  const [userData, setUserData] = useState<{ posts: any[]; roles: any[] } | any>();
+  const [form] = Form.useForm();
+
+  /**
+   * 查询参数值
+   */
+  useEffect(() => {
+    configKey('sys.user.initPassword').then((res) => {
+      initPassword = res.msg;
+    });
+  }, []);
+
+  /**
+   * 初始化表单数据
+   */
+  const initFormData = async () => {
+    if (visible) {
+      const userInfo = await getUser(current?.userId);
+      userInfo.posts = userInfo.posts.map((p: any) => ({ value: p.postId, label: p.postName }));
+      userInfo.roles = userInfo.roles.map((r: any) => ({ value: r.roleId, label: r.roleName }));
+      setUserData(userInfo);
+      form.setFieldsValue({ ...current, roleIds: userInfo.roleIds, postIds: userInfo.postIds });
+    }
+    if (type === 'add') {
+      form.setFieldsValue({ password: initPassword });
+    }
+    if (!visible) {
+      form.resetFields();
+    }
   };
 
+  useEffect(() => {
+    initFormData();
+  }, [visible]);
   return (
     <ModalForm<UserListItem>
+      form={form}
       visible={visible}
       title={titleMap[type]}
       width={540}
@@ -38,7 +79,6 @@ const UserModal: FC<UserModalProps> = (props) => {
       onFinish={async (values) => {
         onSubmit(values);
       }}
-      initialValues={current}
       modalProps={{
         onCancel: onCancel,
         destroyOnClose: true,
@@ -134,42 +174,18 @@ const UserModal: FC<UserModalProps> = (props) => {
         <ProForm.Group>
           <ProFormSelect
             width="sm"
+            mode="multiple"
             name="postIds"
             label="岗位"
-            options={[
-              {
-                label: '男',
-                value: 'xiao',
-              },
-              {
-                label: '女',
-                value: 'mao',
-              },
-              {
-                label: '未知',
-                value: 'mao',
-              },
-            ]}
+            options={userData?.posts}
             placeholder="请选择岗位"
           />
           <ProFormSelect
             width="sm"
+            mode="multiple"
             name="roleIds"
             label="角色"
-            options={[
-              {
-                label: '男',
-                value: 'xiao',
-              },
-              {
-                label: '女',
-                value: 'mao',
-              },
-              {
-                label: '未知',
-                value: 'mao',
-              },
-            ]}
+            options={userData?.roles}
             placeholder="请选择角色"
           />
         </ProForm.Group>

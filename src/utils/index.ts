@@ -84,3 +84,11 @@ export async function blobValidate(data: any) {
     return true;
   }
 }
+
+// 转换字符串，undefined,null等转化为""
+export function parseStrEmpty(str: any) {
+  if (!str || str == 'undefined' || str == 'null') {
+    return '';
+  }
+  return str;
+}

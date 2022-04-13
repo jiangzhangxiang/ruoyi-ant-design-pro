@@ -151,7 +151,6 @@ const TableList: React.FC = () => {
       dataIndex: 'deptId',
       valueType: 'treeSelect',
       renderText: (_, record) => record.dept?.deptName,
-
       renderFormItem: (item, rest, form) => {
         return (
           <TreeSelect
@@ -244,6 +243,7 @@ const TableList: React.FC = () => {
             onClick={() => {
               setModalType('add');
               setModalVisible(true);
+              setModalCurrent({});
               setModalCurrent({});
             }}
           >

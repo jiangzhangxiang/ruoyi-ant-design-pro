@@ -79,7 +79,7 @@ const responseInterceptors = async (response: Response, options: RequestOptionsI
     });
     return Promise.reject('无效的会话，或者会话已过期，请重新登录。');
   } else if (code !== 200) {
-    return Promise.reject({ transformResponse, options });
+    return Promise.reject({ res: transformResponse, options });
   } else {
     return transformResponse;
   }
