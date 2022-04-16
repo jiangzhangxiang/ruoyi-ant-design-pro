@@ -35,7 +35,7 @@ declare namespace API {
   };
 
   type FakeCaptcha = {
-    captchaOnOff?: boolean;
+    captchaOnOff: boolean;
     code?: number;
     img: string;
     msg?: string;

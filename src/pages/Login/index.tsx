@@ -27,6 +27,8 @@ const Login: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [codeUrl, setCodeUrl] = useState<string>('');
   const [uuid, setUid] = useState<string>('');
+  const [captchaOnOff, setCaptchaOnOff] = useState<boolean>(false);
+
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
 
@@ -39,6 +41,7 @@ const Login: React.FC = () => {
       // 登录
       const result = await captchaImage();
       setCodeUrl('data:image/gif;base64,' + result.img);
+      setCaptchaOnOff(result.captchaOnOff);
       setUid(result.uuid);
       return true;
     } catch (error) {
@@ -69,7 +72,6 @@ const Login: React.FC = () => {
       }
 
       console.log(msg); // 如果失败去设置用户错误信息
-
       setUserLoginState(msg);
       await initCaptchaImage();
     } catch (error) {
@@ -127,39 +129,41 @@ const Login: React.FC = () => {
                 },
               ]}
             />
-            <ProForm.Group>
-              <Row>
-                <Col span={16}>
-                  <ProFormText
-                    name="code"
-                    fieldProps={{
-                      size: 'large',
-                      prefix: <SafetyOutlined className={styles.prefixIcon} />,
-                    }}
-                    placeholder={'请输入验证码! '}
-                    rules={[
-                      {
-                        required: true,
-                        message: '验证码是必填项！',
-                      },
-                    ]}
-                  />
-                </Col>
-                <Col span={7} offset={1}>
-                  <img
-                    onClick={initCaptchaImage}
-                    style={{
-                      height: '40px',
-                      width: '100%',
-                      cursor: 'pointer',
-                      border: '1px solid transparent',
-                      verticalAlign: 'middle',
-                    }}
-                    src={codeUrl}
-                  />
-                </Col>
-              </Row>
-            </ProForm.Group>
+            {captchaOnOff && (
+              <ProForm.Group>
+                <Row>
+                  <Col span={16}>
+                    <ProFormText
+                      name="code"
+                      fieldProps={{
+                        size: 'large',
+                        prefix: <SafetyOutlined className={styles.prefixIcon} />,
+                      }}
+                      placeholder={'请输入验证码! '}
+                      rules={[
+                        {
+                          required: true,
+                          message: '验证码是必填项！',
+                        },
+                      ]}
+                    />
+                  </Col>
+                  <Col span={7} offset={1}>
+                    <img
+                      onClick={initCaptchaImage}
+                      style={{
+                        height: '40px',
+                        width: '100%',
+                        cursor: 'pointer',
+                        border: '1px solid transparent',
+                        verticalAlign: 'middle',
+                      }}
+                      src={codeUrl}
+                    />
+                  </Col>
+                </Row>
+              </ProForm.Group>
+            )}
           </>
         </LoginForm>
       </div>
