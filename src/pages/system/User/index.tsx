@@ -1,6 +1,6 @@
 import { PlusOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, message, Modal, TreeSelect } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
@@ -19,6 +19,7 @@ import { treeselect } from '@/services/ant-design-pro/system/dept';
 import { useRequest } from '@@/plugin-request/request';
 import type { DefaultOptionType } from 'rc-select/lib/Select';
 import { BasicTable } from '@/components/Table';
+import { connect } from 'umi';
 
 /**
  * 添加用户
@@ -90,7 +91,17 @@ const handleRemove = async (userId: number | number[]) => {
   }
 };
 
-const TableList: React.FC = () => {
+const TableList: React.FC = ({ dispatch, ...state }: any) => {
+  console.log(state);
+  useEffect(() => {
+    if (dispatch) {
+      dispatch({
+        type: 'dict/query',
+        payload: ['sys_normal_disable', 'sys_user_sex'],
+      });
+    }
+  }, []);
+
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
@@ -244,7 +255,6 @@ const TableList: React.FC = () => {
               setModalType('add');
               setModalVisible(true);
               setModalCurrent({});
-              setModalCurrent({});
             }}
           >
             <PlusOutlined /> 新建
@@ -317,4 +327,4 @@ const TableList: React.FC = () => {
   );
 };
 
-export default TableList;
+export default connect((state) => state)(TableList);

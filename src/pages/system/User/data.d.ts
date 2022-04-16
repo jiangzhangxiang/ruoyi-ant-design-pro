@@ -1,5 +1,5 @@
 export type UserListItem = {
-  userId: number;
+  userId?: number;
   nickName?: string;
   password?: string;
   postIds?: any[];
