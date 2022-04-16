@@ -64,7 +64,6 @@ const responseInterceptors = async (response: Response, options: RequestOptionsI
   }
   const res = await response.clone().json();
   const transformResponse = transform.transformResponseData(res, options);
-
   const { code } = transformResponse;
   if (code === 401) {
     Modal.confirm({
@@ -88,7 +87,8 @@ const responseInterceptors = async (response: Response, options: RequestOptionsI
 // 统一的错误处理
 const errorHandler = (error: any) => {
   const { res } = error;
-  message.error(`${res.msg || res.errorMessage || errorCode[res.code] || errorCode['default']}`);
+  if (res)
+    message.error(`${res.msg || res.errorMessage || errorCode[res.code] || errorCode['default']}`);
   return Promise.reject(res);
 };
 

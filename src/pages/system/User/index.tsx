@@ -12,7 +12,7 @@ import {
   resetUserPwd,
 } from '@/services/ant-design-pro/system/user';
 import UserModal from '@/pages/system/User/components/UserModal';
-import { UserListItem } from '@/pages/system/User/data';
+import type { UserListItem } from '@/pages/system/User/data';
 import ResetPwdModal from '@/pages/system/User/components/ResetPwdModal';
 import { download } from '@/services/ant-design-pro/api';
 import { treeselect } from '@/services/ant-design-pro/system/dept';
@@ -91,8 +91,7 @@ const handleRemove = async (userId: number | number[]) => {
   }
 };
 
-const TableList: React.FC = ({ dispatch, ...state }: any) => {
-  console.log(state);
+const TableList: React.FC = ({ dispatch }: any) => {
   useEffect(() => {
     if (dispatch) {
       dispatch({
@@ -327,4 +326,4 @@ const TableList: React.FC = ({ dispatch, ...state }: any) => {
   );
 };
 
-export default connect((state) => state)(TableList);
+export default connect()(TableList);
