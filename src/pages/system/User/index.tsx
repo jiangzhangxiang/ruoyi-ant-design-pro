@@ -1,6 +1,6 @@
 import { PlusOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, message, Modal, TreeSelect } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
@@ -20,6 +20,7 @@ import { useRequest } from '@@/plugin-request/request';
 import type { DefaultOptionType } from 'rc-select/lib/Select';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
+import useDict from '@/hooks/useDict';
 
 /**
  * 添加用户
@@ -91,16 +92,11 @@ const handleRemove = async (userId: number | number[]) => {
   }
 };
 
-const TableList: React.FC = ({ dispatch }: any) => {
-  useEffect(() => {
-    if (dispatch) {
-      dispatch({
-        type: 'dict/query',
-        payload: ['sys_normal_disable', 'sys_user_sex'],
-      });
-    }
-  }, []);
-
+const TableList: React.FC = () => {
+  const { sys_normal_disable, sys_user_sex } = useDict({
+    dictType: ['sys_normal_disable', 'sys_user_sex'],
+  });
+  console.log({ sys_normal_disable, sys_user_sex });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');

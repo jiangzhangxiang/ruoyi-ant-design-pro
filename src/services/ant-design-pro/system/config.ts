@@ -8,8 +8,8 @@ export async function configKey(key?: string) {
 }
 
 /** 查询字典数据 GET system/dict/data/type */
-export async function getDicts(key?: string) {
-  return request<any>('/api/system/dict/data/type/' + key, {
+export async function getDicts(dictType?: string) {
+  return request<any>('/api/system/dict/data/type/' + dictType, {
     method: 'GET',
   });
 }
