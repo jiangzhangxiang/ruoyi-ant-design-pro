@@ -61,10 +61,10 @@ const UserModal: FC<UserModalProps> = (props) => {
       setUserData(userInfo);
       form.setFieldsValue({ ...current, roleIds: userInfo.roleIds, postIds: userInfo.postIds });
     }
-    if (type === 'add') {
+    if (type === 'add' && form) {
       form.setFieldsValue({ password: initPassword });
     }
-    if (!visible) {
+    if (!visible && form) {
       form.resetFields();
     }
   };

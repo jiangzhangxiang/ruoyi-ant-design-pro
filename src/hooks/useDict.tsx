@@ -4,6 +4,7 @@ import { getDicts } from '@/services/ant-design-pro/system/config';
 type useDictType = {
   dictType: string[];
   transform?: (arr: any[]) => any[];
+  isRequest?: boolean;
 };
 
 type dictItem = {
@@ -64,10 +65,8 @@ export default function useDict({ dictType, transform }: useDictType) {
     });
     setDataSource(data);
   };
-
   useEffect(() => {
     initSelect().then();
   }, []);
-
   return dataSource;
 }
