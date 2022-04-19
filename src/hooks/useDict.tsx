@@ -26,6 +26,10 @@ type dictItem = {
   updateTime: null | string;
 };
 
+/**
+ * 初始化 返回数据格式
+ * @param dictType
+ */
 const initDataSource = (dictType: string[]) => {
   const o = {};
   dictType.forEach((f) => {
@@ -34,19 +38,23 @@ const initDataSource = (dictType: string[]) => {
   return o;
 };
 
-export default function useDict({ dictType, transform }: useDictType) {
-  const dict_transform = (arr: dictItem[]) => {
-    const valueEnum = {};
-    const list = arr.map((m) => {
-      valueEnum[m.dictValue] = m.dictLabel;
-      return { value: m.dictValue, label: m.dictLabel };
-    });
-    return {
-      options: list,
-      valueEnum,
-    };
+/**
+ * 默认的字典处理方法 - 遍历处理每一项
+ * @param arr
+ */
+const dict_transform = (arr: dictItem[]) => {
+  const valueEnum = {};
+  const list = arr.map((m) => {
+    valueEnum[m.dictValue] = m.dictLabel;
+    return { value: m.dictValue, label: m.dictLabel };
+  });
+  return {
+    options: list,
+    valueEnum,
   };
+};
 
+export default function useDict({ dictType, transform }: useDictType) {
   const [dataSource, setDataSource] = useState<any>(initDataSource(dictType));
   const initSelect = async () => {
     const data = {};
@@ -56,8 +64,10 @@ export default function useDict({ dictType, transform }: useDictType) {
     });
     setDataSource(data);
   };
+
   useEffect(() => {
     initSelect().then();
   }, []);
+
   return dataSource;
 }
