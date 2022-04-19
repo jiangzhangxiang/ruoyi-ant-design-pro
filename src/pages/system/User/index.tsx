@@ -93,10 +93,9 @@ const handleRemove = async (userId: number | number[]) => {
 };
 
 const TableList: React.FC = () => {
-  const { sys_normal_disable, sys_user_sex } = useDict({
-    dictType: ['sys_normal_disable', 'sys_user_sex'],
+  const { sys_normal_disable } = useDict({
+    dictType: ['sys_normal_disable'],
   });
-  console.log({ sys_normal_disable, sys_user_sex });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
@@ -179,16 +178,7 @@ const TableList: React.FC = () => {
     {
       title: '状态',
       dataIndex: 'status',
-      valueEnum: {
-        0: {
-          text: '启用',
-          status: 'Processing',
-        },
-        1: {
-          text: '停用',
-          status: 'Default',
-        },
-      },
+      valueEnum: sys_normal_disable?.valueEnum,
     },
     {
       title: '创建时间',

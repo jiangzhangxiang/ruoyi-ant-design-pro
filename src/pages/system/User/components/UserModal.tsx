@@ -16,6 +16,7 @@ import { getUser } from '@/services/ant-design-pro/system/user';
 import { useEffect, useState } from 'react';
 import { Form } from 'antd';
 import { configKey } from '@/services/ant-design-pro/system/config';
+import useDict from '@/hooks/useDict';
 
 export type UserModalProps = {
   visible: boolean;
@@ -37,7 +38,9 @@ const UserModal: FC<UserModalProps> = (props) => {
   const { data: deptIdTreeData }: any = useRequest(treeselect);
   const [userData, setUserData] = useState<{ posts: any[]; roles: any[] } | any>();
   const [form] = Form.useForm();
-
+  const { sys_user_sex, sys_normal_disable } = useDict({
+    dictType: ['sys_user_sex', 'sys_normal_disable'],
+  });
   /**
    * 查询参数值
    */
@@ -139,36 +142,14 @@ const UserModal: FC<UserModalProps> = (props) => {
             width="sm"
             name="sex"
             label="用户性别"
-            options={[
-              {
-                label: '男',
-                value: '0',
-              },
-              {
-                label: '女',
-                value: '1',
-              },
-              {
-                label: '未知',
-                value: '2',
-              },
-            ]}
+            options={sys_user_sex.options}
             placeholder="请选择用户性别"
           />
           <ProFormRadio.Group
             width="sm"
             name="status"
             label="状态"
-            options={[
-              {
-                label: '启用',
-                value: '0',
-              },
-              {
-                label: '停用',
-                value: '1',
-              },
-            ]}
+            options={sys_normal_disable.options}
           />
         </ProForm.Group>
         <ProForm.Group>
