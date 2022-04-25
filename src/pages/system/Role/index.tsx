@@ -4,21 +4,19 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { addUser, updateUser, delUser, resetUserPwd } from '@/services/ant-design-pro/system/user';
-import { list } from '@/services/ant-design-pro/system/role';
-import UserModal from '@/pages/system/User/components/UserModal';
-import type { UserListItem } from '@/pages/system/User/data';
-import ResetPwdModal from '@/pages/system/User/components/ResetPwdModal';
+import { addUser, updateUser, delUser, list } from '@/services/ant-design-pro/system/role';
+import RoleModal from './components/RoleModal';
+import type { RoleListItem } from './data.d';
 import { download } from '@/services/ant-design-pro/api';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
 
 /**
- * 添加用户
+ * 添加角色
  * @param fields
  */
-const handleUserAdd = async (fields: UserListItem) => {
+const handleUserAdd = async (fields: RoleListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addUser({ ...fields });
@@ -30,22 +28,7 @@ const handleUserAdd = async (fields: UserListItem) => {
     return false;
   }
 };
-/**
- * 重置密码
- * @param fields
- */
-const handleResetUserPwd = async (fields: UserListItem) => {
-  const hide = message.loading('正在新增');
-  try {
-    await resetUserPwd({ ...fields });
-    hide();
-    message.success(`修改成功，新密码是：${fields.password}`);
-    return true;
-  } catch (error) {
-    hide();
-    return false;
-  }
-};
+
 /**
  * 修改用户
  * @param fields
@@ -89,9 +72,8 @@ const TableList: React.FC = () => {
     dictType: ['sys_normal_disable'],
   });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<UserListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<RoleListItem>({});
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
@@ -102,7 +84,6 @@ const TableList: React.FC = () => {
     setModalVisible(false);
     setModalType('');
     setModalCurrent({});
-    setResetPwdVisible(false);
   };
 
   /**
@@ -127,7 +108,7 @@ const TableList: React.FC = () => {
     });
   };
 
-  const columns: ProColumns<UserListItem>[] = [
+  const columns: ProColumns<RoleListItem>[] = [
     {
       title: '角色编号',
       dataIndex: 'roleId',
@@ -174,19 +155,10 @@ const TableList: React.FC = () => {
         <a
           key="del"
           onClick={() => {
-            handleDelModal(record.userId as number);
+            handleDelModal(record.roleId as number);
           }}
         >
           删除
-        </a>,
-        <a
-          key="pwd"
-          onClick={() => {
-            setModalCurrent(record);
-            setResetPwdVisible(true);
-          }}
-        >
-          重置密码
         </a>,
         <a key="role">分配角色</a>,
       ],
@@ -195,7 +167,7 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <BasicTable<UserListItem, API.PageParams>
+      <BasicTable<RoleListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
         rowKey="userId"
@@ -248,35 +220,23 @@ const TableList: React.FC = () => {
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows.map((m) => m.userId) as number[]);
+            setSelectedRows(selectedRows.map((m) => m.roleId) as number[]);
           },
           preserveSelectedRowKeys: true,
           selectedRowKeys: selectedRowsState,
         }}
       />
-      <UserModal
+      <RoleModal
         visible={modalVisible}
         current={modalCurrent}
         onSubmit={async (fields) => {
-          const success = await (modalCurrent?.userId
+          const success = await (modalCurrent?.roleId
             ? handleUpdate({ ...modalCurrent, ...fields })
             : handleUserAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}
         type={modalType}
-      />
-      <ResetPwdModal
-        visible={resetPwdVisible}
-        current={modalCurrent as UserListItem}
-        onSubmit={async (fields) => {
-          const success = await handleResetUserPwd({
-            password: fields.password,
-            userId: modalCurrent?.userId,
-          });
-          handleRefresh(success);
-        }}
-        onCancel={handleCancel}
       />
     </PageContainer>
   );
