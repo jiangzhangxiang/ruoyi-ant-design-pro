@@ -1,4 +1,4 @@
-import { PlusOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -50,14 +50,14 @@ const handleUpdate = async (fields: any) => {
 
 /**
  * 删除用户
- * @param userId
+ * @param roleId
  */
 
-const handleRemove = async (userId: number | number[]) => {
+const handleRemove = async (roleId: number | number[]) => {
   const hide = message.loading('正在删除');
-  if (!userId) return true;
+  if (!roleId) return true;
   try {
-    await delUser(userId);
+    await delUser(roleId);
     hide();
     message.success('删除成功');
     return true;
@@ -125,6 +125,7 @@ const TableList: React.FC = () => {
     {
       title: '显示排序',
       dataIndex: 'roleSort',
+      hideInSearch: true,
     },
     {
       title: '状态',
@@ -170,7 +171,7 @@ const TableList: React.FC = () => {
       <BasicTable<RoleListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
-        rowKey="userId"
+        rowKey="roleId"
         search={{
           labelWidth: 120,
         }}
@@ -200,17 +201,8 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setModalVisible(true);
-            }}
-          >
-            <UploadOutlined /> 导入
-          </Button>,
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
               const params = formRef.current?.getFieldsValue();
-              download('/api/system/user/export', params, `user_${new Date().getTime()}.xlsx`);
+              download('/api/system/role/export', params, `role_${new Date().getTime()}.xlsx`);
             }}
           >
             <DownloadOutlined /> 导出
