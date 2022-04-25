@@ -1,4 +1,4 @@
-export default [
+﻿export default [
   {
     path: '/User',
     layout: false,
@@ -25,9 +25,14 @@ export default [
     icon: 'table',
     routes: [
       {
-        path: '/system/User',
+        path: '/system/user',
         name: '用户管理',
         component: './system/User',
+      },
+      {
+        path: '/system/role',
+        name: '角色管理',
+        component: './system/Role',
       },
       {
         component: '404',
