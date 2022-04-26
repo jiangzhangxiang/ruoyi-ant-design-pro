@@ -1,7 +1,7 @@
 import type { RequestConfig } from '@@/plugin-request/request';
 import type { RequestOptionsInit } from 'umi-request';
 import { message, Modal } from 'antd';
-import { ls } from '@/utils/index';
+import { ls, tansParams } from '@/utils/index';
 import errorCode from '@/utils/errorCode';
 import { loginOut } from '@/components/RightContent/AvatarDropdown';
 
@@ -43,16 +43,20 @@ const requestInterceptors = (url: string, options: RequestOptionsInit) => {
     Authorization = ls.getItem('token');
   }
   const authHeader = { Authorization: 'Bearer ' + Authorization };
+
+  // 处理请求数据
   const transformOptions = transform.transformRequestData(url, options);
-  // // get请求映射params参数
-  // if (options.method === 'get' && options.params) {
-  //   let u = options.url + '?' + tansParams(options.params);
-  //   u = u.slice(0, -1);
-  //   options.params = {};
-  //   options.url = u;
-  // }
+
+  // get请求映射params参数
+  let requestUrl = transformOptions.url;
+  if (transformOptions.method === 'get' && transformOptions.params) {
+    let u = transformOptions.url + '?' + tansParams(transformOptions.params);
+    u = u.slice(0, -1);
+    transformOptions.params = {};
+    requestUrl = u;
+  }
   return {
-    url: `${url}`,
+    url: `${requestUrl}`,
     options: { ...transformOptions, interceptors: true, headers: authHeader },
   };
 };

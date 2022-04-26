@@ -21,6 +21,7 @@ import type { DefaultOptionType } from 'rc-select/lib/Select';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
+import { addDateRange } from '@/utils';
 
 /**
  * 添加用户
@@ -183,7 +184,11 @@ const TableList: React.FC = () => {
     {
       title: '创建时间',
       dataIndex: 'createTime',
-      valueType: 'dateTime',
+      valueType: 'dateRange',
+      render: (_, record) => record.createTime,
+      search: {
+        transform: (value: any) => addDateRange(value),
+      },
     },
     {
       title: '操作',

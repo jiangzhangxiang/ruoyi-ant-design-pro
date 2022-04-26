@@ -92,3 +92,22 @@ export function parseStrEmpty(str: any) {
   }
   return str;
 }
+
+/**
+ * 添加日期范围
+ * dateRange 日期数组
+ * propName 字段名拼接
+ */
+export function addDateRange(dateRange: any[] = [], propName?: string) {
+  const obj: any = {
+    params: {},
+  };
+  if (typeof propName === 'undefined') {
+    obj.params.beginTime = dateRange[0];
+    obj.params.endTime = dateRange[1];
+  } else {
+    obj.params['begin' + propName] = dateRange[0];
+    obj.params['end' + propName] = dateRange[1];
+  }
+  return obj;
+}

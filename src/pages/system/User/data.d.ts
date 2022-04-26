@@ -6,6 +6,7 @@ export type UserListItem = {
   roleIds?: any[];
   status?: '0' | '1' | '2';
   userName?: string;
+  createTime?: string;
   dept?: {
     deptName?: string;
   };
