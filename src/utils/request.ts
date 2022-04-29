@@ -34,8 +34,6 @@ const transform: any = {
 /**
  * 请求拦截封装
  */
-
-// 请求前拦截器
 const requestInterceptors = (url: string, options: RequestOptionsInit) => {
   // isToken 不是 false 的请求头添加 token
   let Authorization = '';
