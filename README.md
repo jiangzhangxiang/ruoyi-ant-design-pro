@@ -9,6 +9,10 @@ ruoyi-ant-design-pro 完全免费，且可商用。前端基于 ant-design-pro�
 
 ## 使用
 
+```
+先启动ruoyi服务
+```
+
 ```bash
 $ git clone https://github.com/jiangzhangxiang/ruoyi-ant-design-pro.git
 
