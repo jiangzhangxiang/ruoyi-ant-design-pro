@@ -35,6 +35,11 @@
         component: './system/Role',
       },
       {
+        path: '/system/menu',
+        name: '菜单管理',
+        component: './system/Menu',
+      },
+      {
         component: '404',
       },
     ],
