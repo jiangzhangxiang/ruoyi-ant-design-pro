@@ -40,6 +40,31 @@
         component: './system/Menu',
       },
       {
+        path: '/system/dept',
+        name: '部门管理',
+        component: './system/Dept',
+      },
+      {
+        path: '/system/post',
+        name: '岗位管理',
+        component: './system/Post',
+      },
+      {
+        path: '/system/dict',
+        name: '字典管理',
+        component: './system/Dict',
+      },
+      {
+        path: '/system/config',
+        name: '参数设置',
+        component: './system/Config',
+      },
+      {
+        path: '/system/notice',
+        name: '通知公告',
+        component: './system/Post',
+      },
+      {
         component: '404',
       },
     ],
