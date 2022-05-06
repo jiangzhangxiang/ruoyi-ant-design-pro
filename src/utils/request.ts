@@ -8,7 +8,7 @@ import getErrorModeContent from './errorModal';
 type optionsType = Omit<RequestOptionsInit, ''> & {
   // 需要对请求数据进行处理
   isTransformRequestData?: boolean;
-  // 消息提示类型
+  // 错误消息提示类型
   errorMessageMode?: 'none' | 'modal';
 };
 
