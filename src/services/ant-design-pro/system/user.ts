@@ -61,3 +61,13 @@ export async function getUser(userId: number | undefined, options?: { [key: stri
     ...(options || {}),
   });
 }
+
+/** 导入用户 POST /system/user/importData */
+export async function importData(data: any, options?: { [key: string]: any }) {
+  const url = '/api/system/user/importData' + '?updateSupport=' + data.updateSupport;
+  return request<UserInfo>(url, {
+    method: 'POST',
+    data: data.formData,
+    ...(options || {}),
+  });
+}

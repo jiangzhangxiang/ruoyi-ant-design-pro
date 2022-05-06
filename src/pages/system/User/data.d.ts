@@ -24,3 +24,8 @@ export type UserInfo = {
   postIds: any[];
   roleIds: any[];
 };
+
+export type Upload = {
+  upload: any;
+  updateSupport: number;
+};
