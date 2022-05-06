@@ -68,6 +68,7 @@ export async function importData(data: any, options?: { [key: string]: any }) {
   return request<UserInfo>(url, {
     method: 'POST',
     data: data.formData,
+    errorMessageMode: 'modal',
     ...(options || {}),
   });
 }

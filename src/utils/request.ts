@@ -4,6 +4,13 @@ import { message, Modal } from 'antd';
 import { ls, tansParams } from '@/utils/index';
 import errorCode from '@/utils/errorCode';
 import { loginOut } from '@/components/RightContent/AvatarDropdown';
+import getErrorModeContent from './errorModal';
+type optionsType = Omit<RequestOptionsInit, ''> & {
+  // 需要对请求数据进行处理
+  isTransformRequestData?: boolean;
+  // 消息提示类型
+  errorMessageMode?: 'none' | 'modal';
+};
 
 /**
  * @description: TODO 数据处理
@@ -13,13 +20,7 @@ const transform: any = {
   /**
    * @description: 处理请求数据
    */
-  transformRequestData: (
-    url: string,
-    options: Omit<RequestOptionsInit, ''> & {
-      // 需要对请求数据进行处理
-      isTransformRequestData?: boolean;
-    },
-  ) => {
+  transformRequestData: (url: string, options: optionsType) => {
     return options;
   },
 
@@ -34,7 +35,7 @@ const transform: any = {
 /**
  * 请求拦截封装
  */
-const requestInterceptors = (url: string, options: RequestOptionsInit) => {
+const requestInterceptors = (url: string, options: optionsType) => {
   // isToken 不是 false 的请求头添加 token
   let Authorization = '';
   if (ls.getItem('token') && options?.isToken !== false) {
@@ -60,7 +61,7 @@ const requestInterceptors = (url: string, options: RequestOptionsInit) => {
 };
 
 // 响应拦截器
-const responseInterceptors = async (response: Response, options: RequestOptionsInit) => {
+const responseInterceptors = async (response: Response, options: optionsType) => {
   if (options?.responseType === 'blob') {
     return response;
   }
@@ -88,9 +89,20 @@ const responseInterceptors = async (response: Response, options: RequestOptionsI
 
 // 统一的错误处理
 const errorHandler = (error: any) => {
-  const { res } = error;
-  if (res)
-    message.error(`${res.msg || res.errorMessage || errorCode[res.code] || errorCode['default']}`);
+  const { res, options } = error;
+  const { errorMessageMode = 'none' } = options;
+  if (res) {
+    const msg = `${res.msg || res.errorMessage || errorCode[res.code] || errorCode['default']}`;
+    if (errorMessageMode === 'modal') {
+      Modal.error({
+        title: '系统提示',
+        content: getErrorModeContent(msg),
+      });
+    } else {
+      message.error(msg);
+    }
+  }
+
   return Promise.reject(res);
 };
 
