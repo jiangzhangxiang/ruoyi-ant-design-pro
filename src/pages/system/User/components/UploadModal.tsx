@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { Form } from 'antd';
 import { download } from '@/services/ant-design-pro/api';
 import { Button } from 'antd';
-import { ls } from '@/utils';
 
 export type UploadModalProps = {
   visible: boolean;
@@ -16,14 +15,6 @@ export type UploadModalProps = {
 /** 下载模板操作 */
 const importTemplate = () => {
   download('/api/system/user/importTemplate', {}, `user_template_${new Date().getTime()}.xlsx`);
-};
-const upload = {
-  // 是否更新已经存在的用户数据
-  updateSupport: 0,
-  // 设置上传的请求头部
-  headers: { Authorization: 'Bearer ' + ls.getItem('token') },
-  // 上传的地址
-  url: '/api/system/user/importData',
 };
 
 const UploadModal: FC<UploadModalProps> = (props) => {
@@ -54,7 +45,6 @@ const UploadModal: FC<UploadModalProps> = (props) => {
       <>
         <ProFormUploadDragger
           name="upload"
-          action={upload.url}
           fieldProps={{
             accept: '.xlsx, .xls',
             maxCount: 1,
