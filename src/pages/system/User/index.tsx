@@ -22,6 +22,7 @@ import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
 import { addDateRange } from '@/utils';
+import UploadModal from '@/pages/system/User/components/UploadModal';
 
 /**
  * 添加用户
@@ -98,6 +99,8 @@ const TableList: React.FC = () => {
     dictType: ['sys_normal_disable'],
   });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [uploadVisible, setUploadVisible] = useState<boolean>(false);
+
   const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
   const [modalCurrent, setModalCurrent] = useState<UserListItem>({});
@@ -113,6 +116,7 @@ const TableList: React.FC = () => {
     setModalType('');
     setModalCurrent({});
     setResetPwdVisible(false);
+    setUploadVisible(false);
   };
 
   /**
@@ -263,7 +267,7 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setModalVisible(true);
+              setUploadVisible(true);
             }}
           >
             <UploadOutlined /> 导入
@@ -313,6 +317,11 @@ const TableList: React.FC = () => {
         }}
         onCancel={handleCancel}
       />
+      <UploadModal
+        visible={uploadVisible}
+        onCancel={handleCancel}
+        onSubmit={() => {}}
+      ></UploadModal>
     </PageContainer>
   );
 };
