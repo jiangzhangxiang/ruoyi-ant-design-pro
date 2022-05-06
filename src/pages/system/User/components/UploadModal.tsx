@@ -30,7 +30,11 @@ const UploadModal: FC<UploadModalProps> = (props) => {
   const { visible, onSubmit, children, onCancel } = props;
   const [form] = Form.useForm();
 
-  useEffect(() => {}, [visible]);
+  useEffect(() => {
+    if (!visible && form) {
+      form?.resetFields();
+    }
+  }, [visible]);
   return (
     <ModalForm<UserListItem>
       form={form}
@@ -54,7 +58,6 @@ const UploadModal: FC<UploadModalProps> = (props) => {
           fieldProps={{
             accept: '.xlsx, .xls',
             maxCount: 1,
-            headers: upload.headers,
             beforeUpload: () => false,
           }}
         />
