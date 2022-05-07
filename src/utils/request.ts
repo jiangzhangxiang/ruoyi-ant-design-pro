@@ -5,12 +5,19 @@ import { ls, tansParams } from '@/utils/index';
 import errorCode from '@/utils/errorCode';
 import { loginOut } from '@/components/RightContent/AvatarDropdown';
 import getErrorModeContent from './errorModal';
-type optionsType = Omit<RequestOptionsInit, ''> & {
+import { ResponseError } from 'umi-request';
+
+interface optionsType extends RequestOptionsInit {
   // 需要对请求数据进行处理
   isTransformRequestData?: boolean;
   // 错误消息提示类型
   errorMessageMode?: 'none' | 'modal';
-};
+}
+
+interface errorHandlerType extends ResponseError {
+  res: any;
+  options: optionsType;
+}
 
 /**
  * @description: TODO 数据处理
@@ -88,9 +95,9 @@ const responseInterceptors = async (response: Response, options: optionsType) =>
 };
 
 // 统一的错误处理
-const errorHandler = (error: any) => {
+const errorHandler = (error: errorHandlerType) => {
   const { res, options } = error;
-  const { errorMessageMode = 'none' } = options;
+  const errorMessageMode = options && options.errorMessageMode;
   if (res) {
     const msg = `${res.msg || res.errorMessage || errorCode[res.code] || errorCode['default']}`;
     if (errorMessageMode === 'modal') {
@@ -106,7 +113,7 @@ const errorHandler = (error: any) => {
   return Promise.reject(res);
 };
 
-export const request: RequestConfig = {
+export const request: Omit<RequestConfig, 'errorHandler'> = {
   errorHandler,
   responseInterceptors: [responseInterceptors],
   requestInterceptors: [requestInterceptors],
