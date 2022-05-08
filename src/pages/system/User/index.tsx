@@ -10,6 +10,7 @@ import {
   updateUser,
   delUser,
   resetUserPwd,
+  importData,
 } from '@/services/ant-design-pro/system/user';
 import UserModal from '@/pages/system/User/components/UserModal';
 import type { UserListItem } from '@/pages/system/User/data';
@@ -22,6 +23,7 @@ import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
 import { addDateRange } from '@/utils';
+import UploadModal from '@/pages/system/User/components/UploadModal';
 
 /**
  * 添加用户
@@ -73,7 +75,34 @@ const handleUpdate = async (fields: any) => {
     return false;
   }
 };
-
+/**
+ * 上传用户
+ * @param fields
+ */
+const handleUpload = async (fields: any) => {
+  if (!fields.upload) {
+    message.warn('请选择或拖入模板');
+    return false;
+  }
+  const formData = new FormData();
+  fields.upload?.forEach((file: { originFileObj: Blob }) => {
+    formData.append('file', file.originFileObj);
+  });
+  const hide = message.loading('正在导入');
+  const params = {
+    formData,
+    updateSupport: fields.updateSupport ? 1 : 0,
+  };
+  try {
+    await importData(params);
+    hide();
+    message.success('新增成功');
+    return true;
+  } catch (error) {
+    hide();
+    return false;
+  }
+};
 /**
  * 删除用户
  * @param userId
@@ -98,6 +127,8 @@ const TableList: React.FC = () => {
     dictType: ['sys_normal_disable'],
   });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [uploadVisible, setUploadVisible] = useState<boolean>(false);
+
   const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
   const [modalCurrent, setModalCurrent] = useState<UserListItem>({});
@@ -113,6 +144,7 @@ const TableList: React.FC = () => {
     setModalType('');
     setModalCurrent({});
     setResetPwdVisible(false);
+    setUploadVisible(false);
   };
 
   /**
@@ -263,7 +295,7 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setModalVisible(true);
+              setUploadVisible(true);
             }}
           >
             <UploadOutlined /> 导入
@@ -312,6 +344,14 @@ const TableList: React.FC = () => {
           handleRefresh(success);
         }}
         onCancel={handleCancel}
+      />
+      <UploadModal
+        visible={uploadVisible}
+        onCancel={handleCancel}
+        onSubmit={async (values) => {
+          const success = await handleUpload(values);
+          handleRefresh(success);
+        }}
       />
     </PageContainer>
   );
