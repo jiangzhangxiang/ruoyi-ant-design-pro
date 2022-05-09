@@ -128,7 +128,6 @@ const TableList: React.FC = () => {
   });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [uploadVisible, setUploadVisible] = useState<boolean>(false);
-
   const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
   const [modalCurrent, setModalCurrent] = useState<UserListItem>({});

@@ -7,6 +7,9 @@ import { loginOut } from '@/components/RightContent/AvatarDropdown';
 import getErrorModeContent from './errorModal';
 import { ResponseError } from 'umi-request';
 
+// 是否限制 重新登陆弹窗
+export const isRelogin = { show: false };
+
 interface optionsType extends RequestOptionsInit {
   // 需要对请求数据进行处理
   isTransformRequestData?: boolean;
@@ -76,16 +79,23 @@ const responseInterceptors = async (response: Response, options: optionsType) =>
   const transformResponse = transform.transformResponseData(res, options);
   const { code } = transformResponse;
   if (code === 401) {
-    Modal.confirm({
-      title: '系统提示',
-      content: '登录状态已过期，您可以继续留在该页面，或者重新登录',
-      okText: '重新登录',
-      cancelText: '取消',
-      type: 'warning',
-      onOk: () => {
-        loginOut();
-      },
-    });
+    if (!isRelogin.show) {
+      isRelogin.show = true;
+      Modal.confirm({
+        title: '系统提示',
+        content: '登录状态已过期，您可以继续留在该页面，或者重新登录',
+        okText: '重新登录',
+        cancelText: '取消',
+        type: 'warning',
+        onOk: () => {
+          isRelogin.show = false;
+          loginOut();
+        },
+        onCancel: () => {
+          isRelogin.show = false;
+        },
+      });
+    }
     return Promise.reject('无效的会话，或者会话已过期，请重新登录。');
   } else if (code !== 200) {
     return Promise.reject({ res: transformResponse, options });
