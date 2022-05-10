@@ -6,7 +6,6 @@ import {
   ProFormTextArea,
   ProFormDigit,
 } from '@ant-design/pro-form';
-
 import type { PostListItem } from '../data.d';
 import { useEffect } from 'react';
 import { Form } from 'antd';
@@ -29,7 +28,7 @@ const PostModal: FC<UserModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
-    dictType: ['sys_user_sex', 'sys_normal_disable'],
+    dictType: ['sys_normal_disable'],
   });
 
   /**
