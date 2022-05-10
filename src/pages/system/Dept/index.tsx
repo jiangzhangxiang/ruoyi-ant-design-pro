@@ -109,7 +109,6 @@ const TableList: React.FC = () => {
     {
       title: '部门名称',
       dataIndex: 'deptName',
-      hideInSearch: true,
     },
     {
       title: '排序',

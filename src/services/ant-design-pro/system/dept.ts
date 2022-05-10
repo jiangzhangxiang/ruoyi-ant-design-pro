@@ -1,11 +1,9 @@
 import { request } from 'umi';
-import { DeptList, DeptListItem } from '@/pages/system/Dept/data';
-import { UserInfo } from '@/pages/system/User/data';
-import { parseStrEmpty } from '@/utils';
+import { DeptList, DeptListItem, DeptInfo } from '@/pages/system/Dept/data';
 
 /** 获取部门管理列表 GET /system/dept/list */
 export async function list(
-  params: {
+  params?: {
     // query
     /** 当前的页码 */
     current?: number;
@@ -44,9 +42,21 @@ export async function delDept(id?: number[] | number) {
     method: 'DELETE',
   });
 }
+
 /** 查询用户详细 PUT /system/dept/${deptId} */
 export async function getDept(deptId: number | undefined, options?: { [key: string]: any }) {
-  return request<UserInfo>('/api/system/dept/' + parseStrEmpty(deptId), {
+  return request<DeptInfo>('/api/system/dept/' + deptId, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+/** 查询部门列表 （排除节点） GET /system/dept/list/exclude/${deptId} */
+export async function listDeptExcludeChild(
+  deptId: number | undefined,
+  options?: { [key: string]: any },
+) {
+  return request<DeptInfo>('/api/system/dept/list/exclude/' + deptId, {
     method: 'GET',
     ...(options || {}),
   });

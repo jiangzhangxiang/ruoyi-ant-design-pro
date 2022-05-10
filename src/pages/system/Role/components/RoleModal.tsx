@@ -9,7 +9,7 @@ import {
   ProFormTreeSelect,
 } from '@ant-design/pro-form';
 
-import type { UserListItem } from '../data.d';
+import type { RoleListItem } from '../data.d';
 import { useRequest } from '@@/plugin-request/request';
 import { treeselect } from '@/services/ant-design-pro/system/dept';
 import { getUser } from '@/services/ant-design-pro/system/user';
@@ -20,8 +20,8 @@ import useDict from '@/hooks/useDict';
 
 export type UserModalProps = {
   visible: boolean;
-  current: Partial<UserListItem> | undefined;
-  onSubmit: (values: UserListItem) => void;
+  current: Partial<RoleListItem> | undefined;
+  onSubmit: (values: RoleListItem) => void;
   onCancel: () => void;
   type: string;
 };
@@ -55,7 +55,7 @@ const RoleModal: FC<UserModalProps> = (props) => {
    */
   const initFormData = async () => {
     if (visible) {
-      const userInfo = await getUser(current?.userId);
+      const userInfo = await getUser(current?.roleId);
       userInfo.posts = userInfo.posts.map((p: any) => ({ value: p.postId, label: p.postName }));
       userInfo.roles = userInfo.roles.map((r: any) => ({ value: r.roleId, label: r.roleName }));
       setUserData(userInfo);
@@ -73,7 +73,7 @@ const RoleModal: FC<UserModalProps> = (props) => {
     initFormData();
   }, [visible]);
   return (
-    <ModalForm<UserListItem>
+    <ModalForm<RoleListItem>
       form={form}
       visible={visible}
       title={titleMap[type]}
@@ -119,7 +119,7 @@ const RoleModal: FC<UserModalProps> = (props) => {
           />
           <ProFormText width="sm" name="email" label="邮箱" placeholder="请输入邮箱" />
         </ProForm.Group>
-        {!current?.userId && (
+        {!current?.roleId && (
           <ProForm.Group>
             <ProFormText
               width="sm"

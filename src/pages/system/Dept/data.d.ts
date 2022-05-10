@@ -3,6 +3,10 @@ export type DeptListItem = {
 };
 
 export type DeptList = {
-  rows?: DeptListItem[];
+  data: DeptListItem[];
   total?: number;
+};
+
+export type DeptInfo = {
+  data: DeptListItem[];
 };

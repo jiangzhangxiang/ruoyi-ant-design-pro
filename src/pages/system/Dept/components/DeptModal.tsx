@@ -9,12 +9,11 @@ import {
 } from '@ant-design/pro-form';
 
 import type { DeptListItem } from '../data.d';
-import { useRequest } from '@@/plugin-request/request';
-import { getDept, treeselect } from '@/services/ant-design-pro/system/dept';
+import { getDept, listDeptExcludeChild, list } from '@/services/ant-design-pro/system/dept';
 import { useEffect } from 'react';
 import { Form } from 'antd';
-import { configKey } from '@/services/ant-design-pro/system/config';
 import useDict from '@/hooks/useDict';
+import { handleTree } from '@/utils';
 
 export type UserModalProps = {
   visible: boolean;
@@ -24,8 +23,6 @@ export type UserModalProps = {
   type: string;
 };
 
-let initPassword = '';
-
 const titleMap = {
   edit: '修改部门',
   add: '添加部门',
@@ -33,36 +30,33 @@ const titleMap = {
 
 const DeptModal: FC<UserModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
-  const { data: deptIdTreeData }: any = useRequest(treeselect);
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
     dictType: ['sys_normal_disable'],
   });
-  /**
-   * 查询参数值
-   */
-  useEffect(() => {
-    configKey('sys.user.initPassword').then((res) => {
-      initPassword = res.msg;
-    });
-  }, []);
-
+  const initTreeSelect = async () => {
+    const call_back = async (sever: (params: any) => any, params?: number) => {
+      const excludeChild = await sever(params);
+      const treeData = handleTree(excludeChild.data, 'deptId');
+      return treeData;
+    };
+    return type === 'add' ? call_back(list) : call_back(listDeptExcludeChild, current?.deptId);
+  };
   /**
    * 初始化表单数据
    */
   const initFormData = async () => {
     if (visible) {
-      const userInfo = await getDept(current?.deptId);
-      form.setFieldsValue({ ...current, roleIds: userInfo.roleIds, postIds: userInfo.postIds });
+      if (type === 'edit') {
+        const deptInfo = await getDept(current?.deptId);
+        form.setFieldsValue({ ...deptInfo });
+      }
     }
-    if (type === 'add' && form) {
-      form.setFieldsValue({ password: initPassword });
-    }
+
     if (!visible && form) {
       form.resetFields();
     }
   };
-
   useEffect(() => {
     initFormData();
   }, [visible]);
@@ -84,14 +78,15 @@ const DeptModal: FC<UserModalProps> = (props) => {
       <>
         <ProFormTreeSelect
           name="deptId"
-          label="归属部门"
+          label="上级部门"
           allowClear
-          placeholder="请选择归属部门"
-          request={() => deptIdTreeData}
+          placeholder="请选择上级部门"
+          request={initTreeSelect}
           fieldProps={{
-            fieldNames: { label: 'label', value: 'id', children: 'children' },
+            fieldNames: { label: 'deptName', value: 'deptId', children: 'children' },
             treeDefaultExpandAll: true,
             allowClear: true,
+            // treeData: deptIdTreeData
           }}
         />
         <ProForm.Group>
