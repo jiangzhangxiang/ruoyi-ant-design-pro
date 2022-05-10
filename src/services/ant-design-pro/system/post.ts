@@ -1,6 +1,5 @@
 import { request } from 'umi';
-import { PostInfo, PostList, PostListItem } from '@/pages/system/Post/data';
-import { parseStrEmpty } from '@/utils';
+import { PostList, PostListItem } from '@/pages/system/Post/data';
 
 /** 获取岗位管理列表 GET /system/post/list */
 export async function list(
@@ -42,13 +41,5 @@ export async function addpost(data: PostListItem, options?: { [key: string]: any
 export async function delPost(postId?: number[] | number) {
   return request<Record<string, any>>('/api/system/post/' + postId, {
     method: 'DELETE',
-  });
-}
-
-/** 查询岗位详细 PUT /system/post/${postId} */
-export async function getpost(postId: number | undefined, options?: { [key: string]: any }) {
-  return request<PostInfo>('/api/system/post/' + parseStrEmpty(postId), {
-    method: 'GET',
-    ...(options || {}),
   });
 }

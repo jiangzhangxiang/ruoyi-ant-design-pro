@@ -16,11 +16,3 @@ export type PostList = {
   rows?: PostListItem[];
   total?: number;
 };
-
-export type PostInfo = {
-  code: number;
-  posts: any[];
-  roles: any[];
-  postIds: any[];
-  roleIds: any[];
-};
