@@ -1,5 +1,5 @@
-export type UserListItem = {
-  userId?: number;
+export type PostListItem = {
+  postId?: number;
   nickName?: string;
   password?: string;
   postIds?: any[];
@@ -12,12 +12,12 @@ export type UserListItem = {
   };
 };
 
-export type UserList = {
-  rows?: UserListItem[];
+export type PostList = {
+  rows?: PostListItem[];
   total?: number;
 };
 
-export type UserInfo = {
+export type PostInfo = {
   code: number;
   posts: any[];
   roles: any[];

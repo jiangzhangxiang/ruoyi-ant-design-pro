@@ -1,36 +1,26 @@
-import { PlusOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
-import { Button, message, Modal, TreeSelect } from 'antd';
+import { PlusOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Button, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import {
-  list,
-  addUser,
-  updateUser,
-  delUser,
-  resetUserPwd,
-} from '@/services/ant-design-pro/system/user';
-import UserModal from '@/pages/system/User/components/UserModal';
-import type { UserListItem } from '@/pages/system/User/data';
-import ResetPwdModal from '@/pages/system/User/components/ResetPwdModal';
+import { list, addpost, updatePost, delPost } from '@/services/ant-design-pro/system/post';
+import PostModal from './components/PostModal';
+import type { PostListItem } from './data.d';
 import { download } from '@/services/ant-design-pro/api';
-import { treeselect } from '@/services/ant-design-pro/system/dept';
-import { useRequest } from '@@/plugin-request/request';
-import type { DefaultOptionType } from 'rc-select/lib/Select';
+
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
-import { addDateRange } from '@/utils';
 
 /**
  * 添加用户
  * @param fields
  */
-const handleUserAdd = async (fields: UserListItem) => {
+const handleUserAdd = async (fields: PostListItem) => {
   const hide = message.loading('正在新增');
   try {
-    await addUser({ ...fields });
+    await addpost({ ...fields });
     hide();
     message.success('新增成功');
     return true;
@@ -39,22 +29,7 @@ const handleUserAdd = async (fields: UserListItem) => {
     return false;
   }
 };
-/**
- * 重置密码
- * @param fields
- */
-const handleResetUserPwd = async (fields: UserListItem) => {
-  const hide = message.loading('正在新增');
-  try {
-    await resetUserPwd({ ...fields });
-    hide();
-    message.success(`修改成功，新密码是：${fields.password}`);
-    return true;
-  } catch (error) {
-    hide();
-    return false;
-  }
-};
+
 /**
  * 修改用户
  * @param fields
@@ -62,7 +37,7 @@ const handleResetUserPwd = async (fields: UserListItem) => {
 const handleUpdate = async (fields: any) => {
   const hide = message.loading('正在修改');
   try {
-    await updateUser({
+    await updatePost({
       ...fields,
     });
     hide();
@@ -83,7 +58,7 @@ const handleRemove = async (userId: number | number[]) => {
   const hide = message.loading('正在删除');
   if (!userId) return true;
   try {
-    await delUser(userId);
+    await delPost(userId);
     hide();
     message.success('删除成功');
     return true;
@@ -98,13 +73,11 @@ const TableList: React.FC = () => {
     dictType: ['sys_normal_disable'],
   });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<UserListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<PostListItem>({});
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
-  const { data: deptIdTreeData } = useRequest(treeselect);
   /**
    * 取消
    */
@@ -112,7 +85,6 @@ const TableList: React.FC = () => {
     setModalVisible(false);
     setModalType('');
     setModalCurrent({});
-    setResetPwdVisible(false);
   };
 
   /**
@@ -126,55 +98,34 @@ const TableList: React.FC = () => {
     }
   };
 
-  const handleDelModal = (userIds: number | number[]) => {
+  const handleDelModal = (ids: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
-      content: `是否确认删除用户编号为"${userIds}"的数据项？`,
+      content: `是否确认删除岗位编号为"${ids}"的数据项？`,
       onOk: async () => {
-        const success = await handleRemove(userIds);
+        const success = await handleRemove(ids);
         handleRefresh(success);
       },
     });
   };
 
-  const columns: ProColumns<UserListItem>[] = [
+  const columns: ProColumns<PostListItem>[] = [
     {
-      title: '用户编号',
-      dataIndex: 'userId',
+      title: '岗位编号',
+      dataIndex: 'postId',
       hideInSearch: true,
     },
     {
-      title: '用户名称',
-      dataIndex: 'userName',
+      title: '岗位编码',
+      dataIndex: 'postCode',
     },
     {
-      title: '用户昵称',
-      dataIndex: 'nickName',
-      hideInSearch: true,
+      title: '岗位名称',
+      dataIndex: 'postName',
     },
     {
-      title: '部门',
-      dataIndex: 'deptId',
-      valueType: 'treeSelect',
-      renderText: (_, record) => record.dept?.deptName,
-      renderFormItem: (item, rest, form) => {
-        return (
-          <TreeSelect
-            treeData={deptIdTreeData as DefaultOptionType[] | undefined}
-            placeholder="请选择"
-            treeDefaultExpandAll
-            allowClear
-            fieldNames={{ label: 'label', value: 'id', children: 'children' }}
-            onChange={(e) => {
-              form.setFieldsValue({ deptId: e });
-            }}
-          />
-        );
-      },
-    },
-    {
-      title: '手机号码',
-      dataIndex: 'phonenumber',
+      title: '岗位顺序',
+      dataIndex: 'postSort',
     },
     {
       title: '状态',
@@ -186,9 +137,7 @@ const TableList: React.FC = () => {
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => record.createTime,
-      search: {
-        transform: (value: any) => addDateRange(value),
-      },
+      hideInSearch: true,
     },
     {
       title: '操作',
@@ -209,31 +158,21 @@ const TableList: React.FC = () => {
         <a
           key="del"
           onClick={() => {
-            handleDelModal(record.userId as number);
+            handleDelModal(record.postId as number);
           }}
         >
           删除
         </a>,
-        <a
-          key="pwd"
-          onClick={() => {
-            setModalCurrent(record);
-            setResetPwdVisible(true);
-          }}
-        >
-          重置密码
-        </a>,
-        <a key="role">分配角色</a>,
       ],
     },
   ];
 
   return (
     <PageContainer>
-      <BasicTable<UserListItem, API.PageParams>
+      <BasicTable<PostListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
-        rowKey="userId"
+        rowKey="postId"
         search={{
           labelWidth: 120,
         }}
@@ -263,17 +202,8 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setModalVisible(true);
-            }}
-          >
-            <UploadOutlined /> 导入
-          </Button>,
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
               const params = formRef.current?.getFieldsValue();
-              download('/api/system/user/export', params, `user_${new Date().getTime()}.xlsx`);
+              download('/api/system/post/export', params, `post_${new Date().getTime()}.xlsx`);
             }}
           >
             <DownloadOutlined /> 导出
@@ -283,35 +213,23 @@ const TableList: React.FC = () => {
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows.map((m) => m.userId) as number[]);
+            setSelectedRows(selectedRows.map((m) => m.postId) as number[]);
           },
           preserveSelectedRowKeys: true,
           selectedRowKeys: selectedRowsState,
         }}
       />
-      <UserModal
+      <PostModal
         visible={modalVisible}
         current={modalCurrent}
         onSubmit={async (fields) => {
-          const success = await (modalCurrent?.userId
+          const success = await (modalCurrent?.postId
             ? handleUpdate({ ...modalCurrent, ...fields })
             : handleUserAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}
         type={modalType}
-      />
-      <ResetPwdModal
-        visible={resetPwdVisible}
-        current={modalCurrent as UserListItem}
-        onSubmit={async (fields) => {
-          const success = await handleResetUserPwd({
-            password: fields.password,
-            userId: modalCurrent?.userId,
-          });
-          handleRefresh(success);
-        }}
-        onCancel={handleCancel}
       />
     </PageContainer>
   );
