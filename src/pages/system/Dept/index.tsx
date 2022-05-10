@@ -10,6 +10,7 @@ import type { DeptListItem } from './data.d';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
+import { handleTree } from '@/utils';
 
 /**
  * 添加部门
@@ -141,10 +142,9 @@ const TableList: React.FC = () => {
         >
           修改
         </a>,
-        <>
+        <div key="del">
           {record.parentId !== 0 && (
             <a
-              key="del"
               onClick={() => {
                 handleDelModal(record.deptId as number);
               }}
@@ -152,7 +152,7 @@ const TableList: React.FC = () => {
               删除
             </a>
           )}
-        </>,
+        </div>,
       ],
     },
   ];
@@ -179,15 +179,11 @@ const TableList: React.FC = () => {
             <PlusOutlined /> 新建
           </Button>,
         ]}
-        request={async (params: any) => {
-          return list(params).then((res: any) => {
-            return {
-              data: res.data,
-            };
-          });
-        }}
+        request={async (params: any) =>
+          list(params).then((res: any) => ({ data: handleTree(res.data, 'deptId') }))
+        }
         columns={columns}
-        pagination={false}
+        expandable={{ defaultExpandAllRows: true }}
       />
       <DeptModal
         visible={modalVisible}

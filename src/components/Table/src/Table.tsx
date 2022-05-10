@@ -14,11 +14,11 @@ function Table<T, U extends Record<string, any> = {}>(
     request?: any;
   },
 ) {
-  const { search, pagination = {}, scroll, id, className, request, ...restProps } = props;
+  const { search, pagination = {}, scroll, id, className, request, rowKey, ...restProps } = props;
   return (
     <div id={id}>
       <ProTable<T, U>
-        rowKey="id"
+        rowKey={rowKey}
         request={async (params) => {
           const transformParams = {
             ...params,

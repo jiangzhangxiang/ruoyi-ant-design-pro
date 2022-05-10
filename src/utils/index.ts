@@ -122,7 +122,7 @@ export function addDateRange(dateRange: any[] = [], propName?: string) {
  * @param {*} parentId 父节点字段 默认 'parentId'
  * @param {*} children 孩子节点字段 默认 'children'
  */
-export function handleTree(data: any, id?: any, parentId?: any, children?: any) {
+export function handleTree(data: any[], id?: string, parentId?: string, children?: string) {
   const config = {
     id: id || 'id',
     parentId: parentId || 'parentId',

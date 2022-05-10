@@ -226,36 +226,37 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       width: 240,
-      render: (_, record) => [
-        <a
-          key="edit"
-          onClick={() => {
-            setModalVisible(true);
-            setModalCurrent(record);
-            setModalType('edit');
-          }}
-        >
-          修改
-        </a>,
-        <a
-          key="del"
-          onClick={() => {
-            handleDelModal(record.userId as number);
-          }}
-        >
-          删除
-        </a>,
-        <a
-          key="pwd"
-          onClick={() => {
-            setModalCurrent(record);
-            setResetPwdVisible(true);
-          }}
-        >
-          重置密码
-        </a>,
-        <a key="role">分配角色</a>,
-      ],
+      render: (_, record) =>
+        record.userId !== 1 && [
+          <a
+            key="edit"
+            onClick={() => {
+              setModalVisible(true);
+              setModalCurrent(record);
+              setModalType('edit');
+            }}
+          >
+            修改
+          </a>,
+          <a
+            key="del"
+            onClick={() => {
+              handleDelModal(record.userId as number);
+            }}
+          >
+            删除
+          </a>,
+          <a
+            key="pwd"
+            onClick={() => {
+              setModalCurrent(record);
+              setResetPwdVisible(true);
+            }}
+          >
+            重置密码
+          </a>,
+          <a key="role">分配角色</a>,
+        ],
     },
   ];
 

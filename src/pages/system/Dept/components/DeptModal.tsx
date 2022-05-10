@@ -45,7 +45,6 @@ const DeptModal: FC<DeptModalProps> = (props) => {
     if (!visible) return [];
     const call_back = async (sever: (params: any) => any, params?: number) => {
       const excludeChild = await sever(params);
-      console.log(handleTree(excludeChild.data, 'deptId'));
       return handleTree(excludeChild.data, 'deptId');
     };
     return type === 'add' ? call_back(list) : call_back(listDeptExcludeChild, current?.deptId);
@@ -62,8 +61,8 @@ const DeptModal: FC<DeptModalProps> = (props) => {
         form.setFieldsValue({ ...data });
       }
     }
-    if (!visible && form) {
-      form.resetFields();
+    if (!visible) {
+      form?.resetFields();
     }
   };
   useEffect(() => {
