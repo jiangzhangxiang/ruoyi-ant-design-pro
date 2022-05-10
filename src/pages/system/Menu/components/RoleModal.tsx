@@ -9,7 +9,7 @@ import {
   ProFormTreeSelect,
 } from '@ant-design/pro-form';
 
-import type { UserListItem } from '../data.d';
+import type { RoleListItem } from '../data.d';
 import { useRequest } from '@@/plugin-request/request';
 import { treeselect } from '@/services/ant-design-pro/system/dept';
 import { getUser } from '@/services/ant-design-pro/system/user';
@@ -20,8 +20,8 @@ import useDict from '@/hooks/useDict';
 
 export type UserModalProps = {
   visible: boolean;
-  current: Partial<UserListItem> | undefined;
-  onSubmit: (values: UserListItem) => void;
+  current: Partial<RoleListItem> | undefined;
+  onSubmit: (values: RoleListItem) => void;
   onCancel: () => void;
   type: string;
 };
@@ -73,7 +73,7 @@ const RoleModal: FC<UserModalProps> = (props) => {
     initFormData();
   }, [visible]);
   return (
-    <ModalForm<UserListItem>
+    <ModalForm<RoleListItem>
       form={form}
       visible={visible}
       title={titleMap[type]}

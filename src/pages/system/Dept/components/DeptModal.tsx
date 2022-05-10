@@ -1,21 +1,21 @@
 import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ModalForm,
-  ProFormText,
   ProForm,
-  ProFormRadio,
-  ProFormTreeSelect,
   ProFormDigit,
+  ProFormRadio,
+  ProFormText,
+  ProFormTreeSelect,
 } from '@ant-design/pro-form';
 
 import type { DeptListItem } from '../data.d';
-import { getDept, listDeptExcludeChild, list } from '@/services/ant-design-pro/system/dept';
-import { useEffect } from 'react';
+import { getDept, list, listDeptExcludeChild } from '@/services/ant-design-pro/system/dept';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
 import { handleTree } from '@/utils';
 
-export type UserModalProps = {
+export type DeptModalProps = {
   visible: boolean;
   current: Partial<DeptListItem> | undefined;
   onSubmit: (values: DeptListItem) => void;
@@ -28,31 +28,40 @@ const titleMap = {
   add: '添加部门',
 };
 
-const DeptModal: FC<UserModalProps> = (props) => {
+const DeptModal: FC<DeptModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
+  const [formData, setFormData] = useState<DeptListItem>({
+    parentId: undefined,
+  });
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
     dictType: ['sys_normal_disable'],
   });
+
+  /**
+   * 初始化 上级部门选择
+   */
   const initTreeSelect = async () => {
+    if (!visible) return [];
     const call_back = async (sever: (params: any) => any, params?: number) => {
       const excludeChild = await sever(params);
-      const treeData = handleTree(excludeChild.data, 'deptId');
-      return treeData;
+      console.log(handleTree(excludeChild.data, 'deptId'));
+      return handleTree(excludeChild.data, 'deptId');
     };
     return type === 'add' ? call_back(list) : call_back(listDeptExcludeChild, current?.deptId);
   };
+
   /**
    * 初始化表单数据
    */
   const initFormData = async () => {
     if (visible) {
       if (type === 'edit') {
-        const deptInfo = await getDept(current?.deptId);
-        form.setFieldsValue({ ...deptInfo });
+        const { data } = await getDept(current?.deptId);
+        setFormData(data);
+        form.setFieldsValue({ ...data });
       }
     }
-
     if (!visible && form) {
       form.resetFields();
     }
@@ -76,19 +85,21 @@ const DeptModal: FC<UserModalProps> = (props) => {
       }}
     >
       <>
-        <ProFormTreeSelect
-          name="deptId"
-          label="上级部门"
-          allowClear
-          placeholder="请选择上级部门"
-          request={initTreeSelect}
-          fieldProps={{
-            fieldNames: { label: 'deptName', value: 'deptId', children: 'children' },
-            treeDefaultExpandAll: true,
-            allowClear: true,
-            // treeData: deptIdTreeData
-          }}
-        />
+        {formData?.parentId !== 0 && (
+          <ProFormTreeSelect
+            name="parentId"
+            label="上级部门"
+            allowClear
+            placeholder="请选择上级部门"
+            request={initTreeSelect}
+            rules={[{ required: true, message: '请选择上级部门' }]}
+            fieldProps={{
+              fieldNames: { label: 'deptName', value: 'deptId', children: 'children' },
+              treeDefaultExpandAll: true,
+              allowClear: true,
+            }}
+          />
+        )}
         <ProForm.Group>
           <ProFormText
             width="sm"
@@ -100,7 +111,7 @@ const DeptModal: FC<UserModalProps> = (props) => {
           <ProFormDigit
             width="sm"
             label="显示排序"
-            name="ancestors"
+            name="orderNum"
             min={0}
             fieldProps={{ precision: 0 }}
             rules={[{ required: true, message: '请输入显示排序' }]}

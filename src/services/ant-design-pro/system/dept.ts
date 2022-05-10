@@ -56,7 +56,7 @@ export async function listDeptExcludeChild(
   deptId: number | undefined,
   options?: { [key: string]: any },
 ) {
-  return request<DeptInfo>('/api/system/dept/list/exclude/' + deptId, {
+  return request<DeptList>('/api/system/dept/list/exclude/' + deptId, {
     method: 'GET',
     ...(options || {}),
   });

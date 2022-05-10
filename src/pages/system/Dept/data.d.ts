@@ -1,5 +1,6 @@
 export type DeptListItem = {
   deptId?: number;
+  parentId?: number;
 };
 
 export type DeptList = {
@@ -8,5 +9,5 @@ export type DeptList = {
 };
 
 export type DeptInfo = {
-  data: DeptListItem[];
+  data: DeptListItem;
 };

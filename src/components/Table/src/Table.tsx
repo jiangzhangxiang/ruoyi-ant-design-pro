@@ -28,7 +28,7 @@ function Table<T, U extends Record<string, any> = {}>(
           return request(transformParams).then((res: any) => {
             return {
               ...res,
-              data: res[RESPONSE.listField],
+              data: res[RESPONSE.listField] || res[RESPONSE.pagingListField],
               total: res[RESPONSE.totalField],
             };
           });

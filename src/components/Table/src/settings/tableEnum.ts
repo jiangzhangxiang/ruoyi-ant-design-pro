@@ -16,8 +16,10 @@ export const tableSettings = {
     sizeField: 'pageSize',
   },
   response: {
-    // 接口返回的数据字段名
-    listField: 'rows',
+    // 接口返回的数据字段名-分页
+    pagingListField: 'rows',
+    // 接口返回的数据字段名-不分页
+    listField: 'data',
     // 接口返回总页数字段名
     totalField: 'total',
   },

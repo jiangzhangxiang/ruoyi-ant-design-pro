@@ -10,6 +10,7 @@ import type { DeptListItem } from './data.d';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
+import { REQUEST, RESPONSE } from '@/components/Table/src/settings/tableEnum';
 
 /**
  * 添加部门
@@ -112,7 +113,7 @@ const TableList: React.FC = () => {
     },
     {
       title: '排序',
-      dataIndex: 'ancestors',
+      dataIndex: 'orderNum',
       hideInSearch: true,
     },
     {
@@ -175,7 +176,20 @@ const TableList: React.FC = () => {
             <PlusOutlined /> 新建
           </Button>,
         ]}
-        request={list}
+        request={async (params: any) => {
+          const transformParams = {
+            ...params,
+            [REQUEST.pageField]: params.current,
+            [REQUEST.sizeField]: params.pageSize,
+          };
+          return list(transformParams).then((res: any) => {
+            return {
+              ...res,
+              data: res[RESPONSE.listField] || res[RESPONSE.pagingListField],
+              total: res[RESPONSE.totalField],
+            };
+          });
+        }}
         columns={columns}
       />
       <DeptModal

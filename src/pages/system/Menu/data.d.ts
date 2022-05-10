@@ -1,5 +1,5 @@
 export type RoleListItem = {
-  roleId?: number;
+  userId?: number;
   createTime?: string;
 };
 
