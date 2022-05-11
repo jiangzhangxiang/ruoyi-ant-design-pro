@@ -9,7 +9,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { list, addDict, updateDict, delDict } from '@/services/ant-design-pro/system/dict/data';
+import {
+  listData,
+  addDictData,
+  updateDictData,
+  delDictData,
+} from '@/services/ant-design-pro/system/dict/data';
 import { list as listType } from '@/services/ant-design-pro/system/dict/type';
 
 import DictDataModal from './components/DictDataModal';
@@ -27,7 +32,7 @@ import { dictTransform } from '@/hooks/useDict';
 const handleUserAdd = async (fields: DictListItem) => {
   const hide = message.loading('正在新增');
   try {
-    await addDict({ ...fields });
+    await addDictData({ ...fields });
     hide();
     message.success('新增成功');
     return true;
@@ -44,7 +49,7 @@ const handleUserAdd = async (fields: DictListItem) => {
 const handleUpdate = async (fields: any) => {
   const hide = message.loading('正在修改');
   try {
-    await updateDict({
+    await updateDictData({
       ...fields,
     });
     hide();
@@ -65,7 +70,7 @@ const handleRemove = async (id: number | number[]) => {
   const hide = message.loading('正在删除');
   if (!id) return true;
   try {
-    await delDict(id);
+    await delDictData(id);
     hide();
     message.success('删除成功');
     return true;
@@ -248,7 +253,7 @@ const TableList: React.FC = (props: any) => {
             <RollbackOutlined /> 关闭
           </Button>,
         ]}
-        request={list}
+        request={listData}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {

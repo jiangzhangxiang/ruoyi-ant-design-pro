@@ -1,7 +1,7 @@
 import { request } from 'umi';
 import { DictList, DictListItem, DictInfo } from '@/pages/system/Dict/data';
 
-/** 获取字典类型管理列表 GET /system/dict/list */
+/** 获取字典类型管理列表 GET /system/dict/type/list */
 export async function list(
   params?: {
     // query
@@ -18,7 +18,7 @@ export async function list(
     ...(options || {}),
   });
 }
-/** 修改字典类型 PUT /system/dict */
+/** 修改字典类型 PUT /system/dict/type */
 export async function updateDict(data: DictListItem, options?: { [key: string]: any }) {
   return request<DictListItem>('/api/system/dict/type', {
     method: 'PUT',
@@ -27,7 +27,7 @@ export async function updateDict(data: DictListItem, options?: { [key: string]: 
   });
 }
 
-/** 新建字典类型 POST /system/dict */
+/** 新建字典类型 POST /system/dict/type */
 export async function addDict(data: DictListItem, options?: { [key: string]: any }) {
   return request<DictListItem>('/api/system/dict/type', {
     method: 'POST',
@@ -36,9 +36,9 @@ export async function addDict(data: DictListItem, options?: { [key: string]: any
   });
 }
 
-/** 删除字典类型 DELETE /system/dict/ */
-export async function delDict(id?: number[] | number) {
-  return request<Record<string, any>>('/api/system/dict/type/' + id, {
+/** 删除字典类型 DELETE /system/dict/type/${dictId} */
+export async function delDict(dictId?: number[] | number) {
+  return request<Record<string, any>>('/api/system/dict/type/' + dictId, {
     method: 'DELETE',
   });
 }

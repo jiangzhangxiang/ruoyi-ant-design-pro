@@ -1,8 +1,8 @@
 import { request } from 'umi';
 import { DictList, DictListItem } from '@/pages/system/Dict/data';
 
-/** 获取字典数据管理列表 GET /system/dict/list */
-export async function list(
+/** 获取字典数据管理列表 GET /system/dict/data/list */
+export async function listData(
   params?: {
     // query
     /** 当前的页码 */
@@ -18,8 +18,8 @@ export async function list(
     ...(options || {}),
   });
 }
-/** 修改字典数据 PUT /system/dict */
-export async function updateDict(data: DictListItem, options?: { [key: string]: any }) {
+/** 修改字典数据 PUT /system/dict/data */
+export async function updateDictData(data: DictListItem, options?: { [key: string]: any }) {
   return request<DictListItem>('/api/system/dict/data', {
     method: 'PUT',
     data,
@@ -27,8 +27,8 @@ export async function updateDict(data: DictListItem, options?: { [key: string]: 
   });
 }
 
-/** 新建字典数据 POST /system/dict */
-export async function addDict(data: DictListItem, options?: { [key: string]: any }) {
+/** 新建字典数据 POST /system/dict/data */
+export async function addDictData(data: DictListItem, options?: { [key: string]: any }) {
   return request<DictListItem>('/api/system/dict/data', {
     method: 'POST',
     data,
@@ -36,8 +36,8 @@ export async function addDict(data: DictListItem, options?: { [key: string]: any
   });
 }
 
-/** 删除字典数据 DELETE /system/dict/ */
-export async function delDict(id?: number[] | number) {
+/** 删除字典数据 DELETE /system/dict/data/${id} */
+export async function delDictData(id?: number[] | number) {
   return request<Record<string, any>>('/api/system/dict/data/' + id, {
     method: 'DELETE',
   });
