@@ -43,7 +43,7 @@ export async function delDept(id?: number[] | number) {
   });
 }
 
-/** 查询用户详细 PUT /system/dept/${deptId} */
+/** 查询部门详细 PUT /system/dept/${deptId} */
 export async function getDept(deptId: number | undefined, options?: { [key: string]: any }) {
   return request<DeptInfo>('/api/system/dept/' + deptId, {
     method: 'GET',
