@@ -133,10 +133,12 @@ const TableList: React.FC = () => {
           <a
             key="edit"
             onClick={() => {
-              history.push({
-                pathname: '/system/dict-data',
-                query: { dictType: record.dictType },
-              });
+              if (record.dictType) {
+                history.push({
+                  pathname: '/system/dict-data/',
+                  query: { dictType: record.dictType },
+                });
+              }
             }}
           >
             {text}
