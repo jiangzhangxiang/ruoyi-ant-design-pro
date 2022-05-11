@@ -1,24 +1,22 @@
-import { PlusOutlined, DeleteOutlined, DownloadOutlined, RetweetOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  DownloadOutlined,
+  RollbackOutlined,
+} from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import {
-  list,
-  addDict,
-  updateDict,
-  delDict,
-  refreshCache,
-} from '@/services/ant-design-pro/system/dict/type';
+import { list, addDict, updateDict, delDict } from '@/services/ant-design-pro/system/dict/data';
 import DictModal from './components/DictModal';
 import type { DictListItem } from './data.d';
 import { download } from '@/services/ant-design-pro/api';
 import { BasicTable } from '@/components/Table';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import useDict from '@/hooks/useDict';
 import { addDateRange } from '@/utils';
-import { history } from '@@/core/history';
 
 /**
  * 添加字典
@@ -75,7 +73,8 @@ const handleRemove = async (id: number | number[]) => {
   }
 };
 
-const TableList: React.FC = () => {
+const TableList: React.FC = (props: any) => {
+  const { params: searchParams } = props.match;
   const { sys_normal_disable } = useDict({
     dictType: ['sys_normal_disable'],
   });
@@ -129,20 +128,6 @@ const TableList: React.FC = () => {
     {
       title: '字典类型',
       dataIndex: 'dictType',
-      render: (text, record) => {
-        return (
-          <a
-            key="edit"
-            onClick={() => {
-              history.push({
-                pathname: '/system/dict-data/' + record.dictId,
-              });
-            }}
-          >
-            {text}
-          </a>
-        );
-      },
     },
     {
       title: '状态',
@@ -202,7 +187,7 @@ const TableList: React.FC = () => {
         toolBarRender={() => [
           <Button
             type="primary"
-            key="primary"
+            key="add"
             onClick={() => {
               setModalType('add');
               setModalVisible(true);
@@ -214,7 +199,7 @@ const TableList: React.FC = () => {
           <Button
             danger
             disabled={!selectedRowsState.length}
-            key="primary"
+            key="del"
             onClick={() => {
               handleDelModal(selectedRowsState as number[]);
             }}
@@ -223,7 +208,7 @@ const TableList: React.FC = () => {
           </Button>,
           <Button
             type="primary"
-            key="primary"
+            key="down"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
               download('/api/system/dict/type/export', params, `type_${new Date().getTime()}.xlsx`);
@@ -232,18 +217,18 @@ const TableList: React.FC = () => {
             <DownloadOutlined /> 导出
           </Button>,
           <Button
-            danger
-            key="primary"
+            key="close"
             onClick={() => {
-              refreshCache().then(() => {
-                message.success('刷新成功');
-              });
+              history.goBack();
             }}
           >
-            <RetweetOutlined /> 刷新缓存
+            <RollbackOutlined /> 关闭
           </Button>,
         ]}
-        request={list}
+        request={async (params: any) => {
+          console.log({ ...params, ...searchParams });
+          return list({ ...params, ...searchParams });
+        }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {

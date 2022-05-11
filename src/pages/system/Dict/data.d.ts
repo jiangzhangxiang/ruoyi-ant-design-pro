@@ -9,4 +9,6 @@ export type DictList = {
   total?: number;
 };
 
-export type DictInfo = {};
+export type DictInfo = {
+  data?: DictListItem;
+};

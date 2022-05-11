@@ -1,7 +1,7 @@
 import { request } from 'umi';
 import { DictList, DictListItem, DictInfo } from '@/pages/system/Dict/data';
 
-/** 获取字典管理列表 GET /system/dict/list */
+/** 获取字典数据管理列表 GET /system/dict/list */
 export async function list(
   params?: {
     // query
@@ -12,48 +12,48 @@ export async function list(
   },
   options?: { [key: string]: any },
 ) {
-  return request<DictList>('/api/system/dict/type/list', {
+  return request<DictList>('/api/system/dict/data/list', {
     method: 'GET',
     params: params,
     ...(options || {}),
   });
 }
-/** 修改字典 PUT /system/dict */
+/** 修改字典数据 PUT /system/dict */
 export async function updateDict(data: DictListItem, options?: { [key: string]: any }) {
-  return request<DictListItem>('/api/system/dict/type', {
+  return request<DictListItem>('/api/system/dict/data', {
     method: 'PUT',
     data,
     ...(options || {}),
   });
 }
 
-/** 新建字典 POST /system/dict */
+/** 新建字典数据 POST /system/dict */
 export async function addDict(data: DictListItem, options?: { [key: string]: any }) {
-  return request<DictListItem>('/api/system/dict/type', {
+  return request<DictListItem>('/api/system/dict/data', {
     method: 'POST',
     data,
     ...(options || {}),
   });
 }
 
-/** 删除字典 DELETE /system/dict/ */
+/** 删除字典数据 DELETE /system/dict/ */
 export async function delDict(id?: number[] | number) {
-  return request<Record<string, any>>('/api/system/dict/type/' + id, {
+  return request<Record<string, any>>('/api/system/dict/data/' + id, {
     method: 'DELETE',
   });
 }
 
-/** 查询字典详细 PUT /system/dict/${dictId} */
+/** 查询字典数据详细 PUT /system/dict/${dictId} */
 export async function getDict(dictId: number | undefined, options?: { [key: string]: any }) {
-  return request<DictInfo>('/api/system/dict/type/' + dictId, {
+  return request<DictInfo>('/api/system/dict/data/' + dictId, {
     method: 'GET',
     ...(options || {}),
   });
 }
 
-/** 查询刷新 DELETE /system/dict/type/refreshCache */
+/** 刷新缓存 DELETE /system/dict/data/refreshCache */
 export async function refreshCache() {
-  return request<DictInfo>('/api/system/dict/type/refreshCache', {
+  return request<DictInfo>('/api/system/dict/data/refreshCache', {
     method: 'DELETE',
   });
 }

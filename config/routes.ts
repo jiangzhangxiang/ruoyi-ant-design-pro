@@ -55,6 +55,12 @@
         component: './system/Dict',
       },
       {
+        path: '/system/dict-data/:dictId(\\d+)',
+        name: '字典数据',
+        hideInMenu: true,
+        component: './system/Dict/dictData',
+      },
+      {
         path: '/system/config',
         name: '参数设置',
         component: './system/Config',
