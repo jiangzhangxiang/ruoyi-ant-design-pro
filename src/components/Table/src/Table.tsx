@@ -28,6 +28,7 @@ function Table<T, U extends Record<string, any> = {}>(
           return request(transformParams).then((res: any) => {
             return {
               ...res,
+              // 先找分页的数据字段，再找不分页的数据字段-如果有改变 可以直接 修改 tableSettings
               data: res[RESPONSE.listField] || res[RESPONSE.pagingListField],
               total: res[RESPONSE.totalField],
             };
