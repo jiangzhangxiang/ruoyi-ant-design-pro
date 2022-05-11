@@ -20,7 +20,7 @@ export async function list(
 }
 /** 修改字典 PUT /system/dict */
 export async function updateDict(data: DictListItem, options?: { [key: string]: any }) {
-  return request<DictListItem>('/api/system/dict', {
+  return request<DictListItem>('/api/system/dict/type', {
     method: 'PUT',
     data,
     ...(options || {}),
@@ -29,7 +29,7 @@ export async function updateDict(data: DictListItem, options?: { [key: string]: 
 
 /** 新建字典 POST /system/dict */
 export async function addDict(data: DictListItem, options?: { [key: string]: any }) {
-  return request<DictListItem>('/api/system/dict', {
+  return request<DictListItem>('/api/system/dict/type', {
     method: 'POST',
     data,
     ...(options || {}),
@@ -38,14 +38,14 @@ export async function addDict(data: DictListItem, options?: { [key: string]: any
 
 /** 删除字典 DELETE /system/dict/ */
 export async function delDict(id?: number[] | number) {
-  return request<Record<string, any>>('/api/system/dict/' + id, {
+  return request<Record<string, any>>('/api/system/dict/type/' + id, {
     method: 'DELETE',
   });
 }
 
 /** 查询字典详细 PUT /system/dict/${dictId} */
 export async function getDict(dictId: number | undefined, options?: { [key: string]: any }) {
-  return request<DictInfo>('/api/system/dict/' + dictId, {
+  return request<DictInfo>('/api/system/dict/type/' + dictId, {
     method: 'GET',
     ...(options || {}),
   });
