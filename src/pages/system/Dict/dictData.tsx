@@ -5,21 +5,23 @@ import {
   RollbackOutlined,
 } from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
 import { list, addDict, updateDict, delDict } from '@/services/ant-design-pro/system/dict/data';
-import DictModal from './components/DictModal';
+import { list as listType } from '@/services/ant-design-pro/system/dict/type';
+
+import DictDataModal from './components/DictDataModal';
 import type { DictListItem } from './data.d';
 import { download } from '@/services/ant-design-pro/api';
 import { BasicTable } from '@/components/Table';
 import { connect, history } from 'umi';
-import useDict from '@/hooks/useDict';
 import { addDateRange } from '@/utils';
+import { dictTransform } from '@/hooks/useDict';
 
 /**
- * 添加字典
+ * 添加字典数据
  * @param fields
  */
 const handleUserAdd = async (fields: DictListItem) => {
@@ -36,7 +38,7 @@ const handleUserAdd = async (fields: DictListItem) => {
 };
 
 /**
- * 修改字典
+ * 修改字典数据
  * @param fields
  */
 const handleUpdate = async (fields: any) => {
@@ -55,8 +57,8 @@ const handleUpdate = async (fields: any) => {
 };
 
 /**
- * 删除字典
- * @param dictId
+ * 删除字典数据
+ * @param id
  */
 
 const handleRemove = async (id: number | number[]) => {
@@ -74,16 +76,29 @@ const handleRemove = async (id: number | number[]) => {
 };
 
 const TableList: React.FC = (props: any) => {
-  const { params: searchParams } = props.match;
-  const { sys_normal_disable } = useDict({
-    dictType: ['sys_normal_disable'],
-  });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
   const [modalCurrent, setModalCurrent] = useState<DictListItem>({});
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
+  const [dictTypeValueEnum, setDictTypeValueEnum] = useState({});
+  const [dictType, setDictType] = useState('');
+
+  /**
+   * 初始化 dictType
+   */
+  const initData = () => {
+    listType().then((res) => {
+      const { valueEnum } = dictTransform(res.rows, 'dictType', 'dictName');
+      setDictTypeValueEnum(valueEnum);
+    });
+  };
+
+  useEffect(() => {
+    initData();
+  }, []);
+
   /**
    * 取消
    */
@@ -107,7 +122,7 @@ const TableList: React.FC = (props: any) => {
   const handleDelModal = (userIds: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
-      content: `是否确认删除字典编号为"${userIds}"的数据项？`,
+      content: `是否确认删除字典数据编号为"${userIds}"的数据项？`,
       onOk: async () => {
         const success = await handleRemove(userIds);
         handleRefresh(success);
@@ -117,22 +132,28 @@ const TableList: React.FC = (props: any) => {
 
   const columns: ProColumns<DictListItem>[] = [
     {
+      title: '字典名称',
+      dataIndex: 'dictType',
+      hideInTable: true,
+      valueEnum: dictTypeValueEnum,
+      initialValue: props.location.query.dictType,
+    },
+    {
       title: '字典编号',
-      dataIndex: 'dictId',
+      dataIndex: 'dictCode',
       hideInSearch: true,
     },
     {
-      title: '字典名称',
-      dataIndex: 'dictName',
+      title: '字典标签',
+      dataIndex: 'dictLabel',
     },
     {
-      title: '字典类型',
-      dataIndex: 'dictType',
+      title: '字典键值',
+      dataIndex: 'dictValue',
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      valueEnum: sys_normal_disable?.valueEnum,
+      title: '字典排序',
+      dataIndex: 'dictSort',
     },
     {
       title: '备注',
@@ -159,6 +180,7 @@ const TableList: React.FC = (props: any) => {
             setModalVisible(true);
             setModalCurrent(record);
             setModalType('edit');
+            setDictType(formRef.current?.getFieldsValue().dictType);
           }}
         >
           修改
@@ -166,7 +188,7 @@ const TableList: React.FC = (props: any) => {
         <a
           key="del"
           onClick={() => {
-            handleDelModal(record.dictId as number);
+            handleDelModal(record.dictCode as number);
           }}
         >
           删除
@@ -180,7 +202,7 @@ const TableList: React.FC = (props: any) => {
       <BasicTable<DictListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
-        rowKey="dictId"
+        rowKey="dictCode"
         search={{
           labelWidth: 120,
         }}
@@ -192,6 +214,7 @@ const TableList: React.FC = (props: any) => {
               setModalType('add');
               setModalVisible(true);
               setModalCurrent({});
+              setDictType(formRef.current?.getFieldsValue().dictType);
             }}
           >
             <PlusOutlined /> 新建
@@ -211,7 +234,7 @@ const TableList: React.FC = (props: any) => {
             key="down"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
-              download('/api/system/dict/type/export', params, `type_${new Date().getTime()}.xlsx`);
+              download('/api/system/dict/data/export', params, `data_${new Date().getTime()}.xlsx`);
             }}
           >
             <DownloadOutlined /> 导出
@@ -225,24 +248,22 @@ const TableList: React.FC = (props: any) => {
             <RollbackOutlined /> 关闭
           </Button>,
         ]}
-        request={async (params: any) => {
-          console.log({ ...params, ...searchParams });
-          return list({ ...params, ...searchParams });
-        }}
+        request={list}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows.map((m) => m.dictId) as number[]);
+            setSelectedRows(selectedRows.map((m) => m.dictCode) as number[]);
           },
           preserveSelectedRowKeys: true,
           selectedRowKeys: selectedRowsState,
         }}
       />
-      <DictModal
+      <DictDataModal
+        dictType={dictType}
         visible={modalVisible}
         current={modalCurrent}
         onSubmit={async (fields) => {
-          const success = await (modalCurrent?.dictId
+          const success = await (modalCurrent?.dictCode
             ? handleUpdate({ ...modalCurrent, ...fields })
             : handleUserAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);

@@ -7,26 +7,6 @@ type useDictType = {
   isRequest?: boolean;
 };
 
-type dictItem = {
-  createBy: string;
-  createTime: string;
-  cssClass: string;
-  default: boolean;
-  dictCode: number;
-  dictLabel: string;
-  dictSort: number;
-  dictType: string;
-  dictValue: string;
-  isDefault: string;
-  listClass: string;
-  params: unknown;
-  remark: string;
-  searchValue: null | string;
-  status: string;
-  updateBy: null | string;
-  updateTime: null | string;
-};
-
 /**
  * 初始化 返回数据格式
  * @param dictType
@@ -42,12 +22,18 @@ const initDataSource = (dictType: string[]) => {
 /**
  * 默认的字典处理方法 - 遍历处理每一项
  * @param arr
+ * @param value
+ * @param label
  */
-const dict_transform = (arr: dictItem[]) => {
+export const dictTransform = (arr: any[], value?: string, label?: string) => {
+  const config = {
+    value: value || 'dictValue',
+    label: label || 'dictLabel',
+  };
   const valueEnum = {};
   const list = arr.map((m) => {
-    valueEnum[m.dictValue] = m.dictLabel;
-    return { value: m.dictValue, label: m.dictLabel };
+    valueEnum[m[config.value]] = m[config.label];
+    return { value: m[config.value], label: m[config.label] };
   });
   return {
     options: list,
@@ -61,7 +47,7 @@ export default function useDict({ dictType, transform }: useDictType) {
     const data = {};
     const res = await Promise.all(dictType.map((m: string) => getDicts(m)));
     dictType.forEach((k, i) => {
-      data[k] = transform ? transform(res[i].data) : dict_transform(res[i].data);
+      data[k] = transform ? transform(res[i].data) : dictTransform(res[i].data);
     });
     setDataSource(data);
   };

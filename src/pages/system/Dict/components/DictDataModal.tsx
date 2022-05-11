@@ -1,7 +1,12 @@
 import type { FC } from 'react';
-import { ModalForm, ProFormText, ProFormRadio, ProFormTextArea } from '@ant-design/pro-form';
+import {
+  ModalForm,
+  ProFormText,
+  ProFormRadio,
+  ProFormTextArea,
+  ProFormDigit,
+} from '@ant-design/pro-form';
 import type { DictListItem } from '../data.d';
-import { getType } from '@/services/ant-design-pro/system/dict/type';
 import { useEffect } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
@@ -12,15 +17,16 @@ export type UserModalProps = {
   onSubmit: (values: DictListItem) => void;
   onCancel: () => void;
   type: string;
+  dictType: string;
 };
 
 const titleMap = {
-  edit: '修改字典类型',
-  add: '添加字典类型',
+  edit: '修改字典数据',
+  add: '添加字典数据',
 };
 
 const DictModal: FC<UserModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, type } = props;
+  const { visible, current, onSubmit, children, onCancel, type, dictType } = props;
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
     dictType: ['sys_normal_disable'],
@@ -30,9 +36,8 @@ const DictModal: FC<UserModalProps> = (props) => {
    * 初始化表单数据
    */
   const initFormData = async () => {
-    if (visible && type === 'edit') {
-      const { data } = await getType(current?.dictId);
-      form?.setFieldsValue({ ...data });
+    if (visible) {
+      form?.setFieldsValue({ ...current, dictType });
     }
     if (!visible && form) {
       form.resetFields();
@@ -58,17 +63,25 @@ const DictModal: FC<UserModalProps> = (props) => {
       }}
     >
       <>
+        <ProFormText name="dictType" label="字典类型" disabled placeholder="请输入字典类型" />
         <ProFormText
-          name="dictName"
-          label="字典名称"
-          rules={[{ required: true, message: '请输入字典名称' }]}
-          placeholder="请输入字典名称"
+          name="dictLabel"
+          label="数据标签"
+          rules={[{ required: true, message: '请输入数据标签' }]}
+          placeholder="请输入数据标签"
         />
         <ProFormText
-          name="dictType"
-          label="字典类型"
-          rules={[{ required: true, message: '请输入字典类型' }]}
-          placeholder="请输入字典类型"
+          name="dictValue"
+          label="数据键值"
+          rules={[{ required: true, message: '请输入数据键值' }]}
+          placeholder="请输入数据键值"
+        />
+        <ProFormDigit
+          label="显示排序"
+          name="dictSort"
+          min={0}
+          fieldProps={{ precision: 0 }}
+          rules={[{ required: true, message: '请输入显示排序' }]}
         />
         <ProFormRadio.Group name="status" label="状态" options={sys_normal_disable.options} />
         <ProFormTextArea name="remark" label="备注" placeholder="请输入备注" />

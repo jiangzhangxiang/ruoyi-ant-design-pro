@@ -56,6 +56,7 @@ export async function getNotices(options?: { [key: string]: any }) {
 export async function download(url: any, params: any, filename: any) {
   const hide = message.loading('正在下载数据，请稍候', 0);
   request<API.NoticeIconList>(url, {
+    params,
     method: 'POST',
     ...{
       transformRequest: [

@@ -115,7 +115,6 @@ const TableList: React.FC = () => {
       },
     });
   };
-
   const columns: ProColumns<DictListItem>[] = [
     {
       title: '字典编号',
@@ -135,7 +134,8 @@ const TableList: React.FC = () => {
             key="edit"
             onClick={() => {
               history.push({
-                pathname: '/system/dict-data/' + record.dictId,
+                pathname: '/system/dict-data',
+                query: { dictType: record.dictType },
               });
             }}
           >
@@ -152,6 +152,7 @@ const TableList: React.FC = () => {
     {
       title: '备注',
       dataIndex: 'remark',
+      hideInSearch: true,
     },
     {
       title: '创建时间',
