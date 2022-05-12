@@ -1,6 +1,7 @@
 import { request } from 'umi';
 import { ConfigInfo, ConfigList, ConfigListItem } from '@/pages/system/Config/data';
 import { parseStrEmpty } from '@/utils';
+import { DictInfo } from '@/pages/system/Dict/data';
 
 /** 获取参数管理列表 GET /system/config/list */
 export async function list(
@@ -46,16 +47,16 @@ export async function delConfig(userId?: number[] | number) {
 }
 
 /** 查询参数详细 PUT /system/config/${userId} */
-export async function getConfig(userId?: number | string, options?: { [key: string]: any }) {
+export async function configKey(userId?: number | string, options?: { [key: string]: any }) {
   return request<ConfigInfo>('/api/system/config/' + parseStrEmpty(userId), {
     method: 'GET',
     ...(options || {}),
   });
 }
 
-/** 查询字典数据 GET system/dict/data/type  */
-export async function getDicts(dictType?: string) {
-  return request<any>('/api/system/dict/data/type/' + dictType, {
-    method: 'GET',
+/** 刷新缓存 DELETE /system/config/refreshCache */
+export async function refreshCache() {
+  return request<DictInfo>('/api/system/config/refreshCache', {
+    method: 'DELETE',
   });
 }

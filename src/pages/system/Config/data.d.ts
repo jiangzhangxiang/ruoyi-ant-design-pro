@@ -1,5 +1,5 @@
 export type ConfigListItem = {
-  userId?: number;
+  configId?: number;
   nickName?: string;
   password?: string;
   postIds?: any[];
@@ -19,4 +19,5 @@ export type ConfigList = {
 
 export type ConfigInfo = {
   data: ConfigListItem[];
+  msg: string;
 };

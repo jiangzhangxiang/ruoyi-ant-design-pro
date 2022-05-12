@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getDicts } from '@/services/ant-design-pro/system/config';
+import { getDicts } from '@/services/ant-design-pro/system/dict/data';
 
 type useDictType = {
   dictType: string[];

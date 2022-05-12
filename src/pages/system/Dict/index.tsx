@@ -236,7 +236,7 @@ const TableList: React.FC = () => {
           </Button>,
           <Button
             danger
-            key="primary"
+            key="retweet"
             onClick={() => {
               refreshCache().then(() => {
                 message.success('刷新成功');

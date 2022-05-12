@@ -1,10 +1,16 @@
-import { PlusOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined, DownloadOutlined, RetweetOutlined } from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { list, addConfig, updateConfig, delConfig } from '@/services/ant-design-pro/system/config';
+import {
+  list,
+  addConfig,
+  updateConfig,
+  delConfig,
+  refreshCache,
+} from '@/services/ant-design-pro/system/config';
 import ConfigModal from './components/ConfigModal';
 import type { ConfigListItem } from './data.d';
 import { download } from '@/services/ant-design-pro/api';
@@ -51,14 +57,14 @@ const handleUpdate = async (fields: any) => {
 
 /**
  * 删除用户
- * @param userId
+ * @param configId
  */
 
-const handleRemove = async (userId: number | number[]) => {
+const handleRemove = async (configId: number | number[]) => {
   const hide = message.loading('正在删除');
-  if (!userId) return true;
+  if (!configId) return true;
   try {
-    await delConfig(userId);
+    await delConfig(configId);
     hide();
     message.success('删除成功');
     return true;
@@ -98,12 +104,12 @@ const TableList: React.FC = () => {
     }
   };
 
-  const handleDelModal = (userIds: number | number[]) => {
+  const handleDelModal = (configIds: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
-      content: `是否确认删除用户编号为"${userIds}"的数据项？`,
+      content: `是否确认删除用户编号为"${configIds}"的数据项？`,
       onOk: async () => {
-        const success = await handleRemove(userIds);
+        const success = await handleRemove(configIds);
         handleRefresh(success);
       },
     });
@@ -113,6 +119,7 @@ const TableList: React.FC = () => {
     {
       title: '参数主键',
       dataIndex: 'configId',
+      hideInSearch: true,
     },
     {
       title: '参数名称',
@@ -127,6 +134,7 @@ const TableList: React.FC = () => {
     {
       title: '参数键值',
       dataIndex: 'configValue',
+      hideInSearch: true,
     },
     {
       title: '是否系统内置',
@@ -137,6 +145,7 @@ const TableList: React.FC = () => {
       title: '备注',
       dataIndex: 'remark',
       ellipsis: true,
+      hideInSearch: true,
     },
     {
       title: '创建时间',
@@ -166,7 +175,7 @@ const TableList: React.FC = () => {
         <a
           key="del"
           onClick={() => {
-            handleDelModal(record.userId as number);
+            handleDelModal(record.configId as number);
           }}
         >
           删除
@@ -180,14 +189,14 @@ const TableList: React.FC = () => {
       <BasicTable<ConfigListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
-        rowKey="userId"
+        rowKey="configId"
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
           <Button
             type="primary"
-            key="primary"
+            key="add"
             onClick={() => {
               setModalType('add');
               setModalVisible(true);
@@ -199,7 +208,7 @@ const TableList: React.FC = () => {
           <Button
             danger
             disabled={!selectedRowsState.length}
-            key="primary"
+            key="del"
             onClick={() => {
               handleDelModal(selectedRowsState as number[]);
             }}
@@ -208,29 +217,31 @@ const TableList: React.FC = () => {
           </Button>,
           <Button
             type="primary"
-            key="primary"
-            onClick={() => {
-              setModalVisible(true);
-            }}
-          >
-            <UploadOutlined /> 导入
-          </Button>,
-          <Button
-            type="primary"
-            key="primary"
+            key="down"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
-              download('/api/system/user/export', params, `user_${new Date().getTime()}.xlsx`);
+              download('/api/system/config/export', params, `config_${new Date().getTime()}.xlsx`);
             }}
           >
             <DownloadOutlined /> 导出
+          </Button>,
+          <Button
+            danger
+            key="retweet"
+            onClick={() => {
+              refreshCache().then(() => {
+                message.success('刷新成功');
+              });
+            }}
+          >
+            <RetweetOutlined /> 刷新缓存
           </Button>,
         ]}
         request={list}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows.map((m) => m.userId) as number[]);
+            setSelectedRows(selectedRows.map((m) => m.configId) as number[]);
           },
           preserveSelectedRowKeys: true,
           selectedRowKeys: selectedRowsState,
@@ -240,7 +251,7 @@ const TableList: React.FC = () => {
         visible={modalVisible}
         current={modalCurrent}
         onSubmit={async (fields) => {
-          const success = await (modalCurrent?.userId
+          const success = await (modalCurrent?.configId
             ? handleUpdate({ ...modalCurrent, ...fields })
             : handleUserAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);

@@ -45,3 +45,10 @@ export async function delDictData(id?: number[] | number) {
     method: 'DELETE',
   });
 }
+
+/** 查询字典数据 GET system/dict/data/type  */
+export async function getDicts(dictType?: string) {
+  return request<any>('/api/system/dict/data/type/' + dictType, {
+    method: 'GET',
+  });
+}
