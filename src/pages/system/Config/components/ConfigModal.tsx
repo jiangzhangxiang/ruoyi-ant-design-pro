@@ -5,7 +5,7 @@ import type { ConfigListItem } from '../data.d';
 import { useEffect } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
-import { configKey } from '@/services/ant-design-pro/system/config';
+import { getConfig } from '@/services/ant-design-pro/system/config';
 
 export type UserModalProps = {
   visible: boolean;
@@ -32,7 +32,7 @@ const ConfigModal: FC<UserModalProps> = (props) => {
    */
   const initFormData = async () => {
     if (visible && type === 'edit') {
-      const { data } = await configKey(current?.configId);
+      const { data } = await getConfig(current?.configId);
       form.setFieldsValue({ ...data });
     }
     if (!visible && form) {
