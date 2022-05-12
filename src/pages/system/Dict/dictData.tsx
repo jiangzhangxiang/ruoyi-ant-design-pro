@@ -18,7 +18,7 @@ import {
 import { list as listType } from '@/services/ant-design-pro/system/dict/type';
 
 import DictDataModal from './components/DictDataModal';
-import type { DictListItem } from './data.d';
+import type { DictDataListItem } from './data.d';
 import { download } from '@/services/ant-design-pro/api';
 import { BasicTable } from '@/components/Table';
 import { connect, history } from 'umi';
@@ -29,7 +29,7 @@ import { dictTransform } from '@/hooks/useDict';
  * 添加字典数据
  * @param fields
  */
-const handleUserAdd = async (fields: DictListItem) => {
+const handleUserAdd = async (fields: DictDataListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addDictData({ ...fields });
@@ -83,7 +83,7 @@ const handleRemove = async (id: number | number[]) => {
 const TableList: React.FC = (props: any) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<DictListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<DictDataListItem>({});
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
@@ -135,7 +135,7 @@ const TableList: React.FC = (props: any) => {
     });
   };
 
-  const columns: ProColumns<DictListItem>[] = [
+  const columns: ProColumns<DictDataListItem>[] = [
     {
       title: '字典名称',
       dataIndex: 'dictType',
@@ -204,7 +204,7 @@ const TableList: React.FC = (props: any) => {
 
   return (
     <PageContainer>
-      <BasicTable<DictListItem, API.PageParams>
+      <BasicTable<DictDataListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
         rowKey="dictCode"

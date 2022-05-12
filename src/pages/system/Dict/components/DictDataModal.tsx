@@ -6,15 +6,15 @@ import {
   ProFormTextArea,
   ProFormDigit,
 } from '@ant-design/pro-form';
-import type { DictListItem } from '../data.d';
+import type { DictDataListItem } from '../data.d';
 import { useEffect } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
 
 export type UserModalProps = {
   visible: boolean;
-  current: Partial<DictListItem> | undefined;
-  onSubmit: (values: DictListItem) => void;
+  current: Partial<DictDataListItem> | undefined;
+  onSubmit: (values: DictDataListItem) => void;
   onCancel: () => void;
   type: string;
   dictType: string;
@@ -48,7 +48,7 @@ const DictModal: FC<UserModalProps> = (props) => {
     initFormData();
   }, [visible]);
   return (
-    <ModalForm<DictListItem>
+    <ModalForm<DictDataListItem>
       form={form}
       visible={visible}
       title={titleMap[type]}

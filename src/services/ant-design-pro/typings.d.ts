@@ -20,20 +20,6 @@ declare namespace API {
     pageSize?: number;
   };
 
-  type UserListItem = {
-    userId: number;
-    dept: {
-      deptName?: string;
-    };
-  };
-
-  type UserList = {
-    rows?: UserListItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
   type FakeCaptcha = {
     captchaOnOff: boolean;
     code?: number;

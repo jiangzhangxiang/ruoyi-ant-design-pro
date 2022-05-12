@@ -4,11 +4,21 @@ export type DictListItem = {
   createTime?: string;
   dictType?: string;
   code?: number;
-  dictCode?: string | number;
 };
 
 export type DictList = {
   rows: DictListItem[];
+  total: number;
+  code: number;
+};
+
+export type DictDataListItem = {
+  dictCode?: string | number;
+  createTime?: string;
+};
+
+export type DictDataList = {
+  rows: DictDataListItem[];
   total: number;
   code: number;
 };
