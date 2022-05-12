@@ -3,7 +3,7 @@ import { getDicts } from '@/services/ant-design-pro/system/config';
 
 type useDictType = {
   dictType: string[];
-  transform?: (arr: any[]) => any[];
+  transform?: (arr: any[]) => void;
   isRequest?: boolean;
 };
 

@@ -1,4 +1,4 @@
-export type UserListItem = {
+export type ConfigListItem = {
   userId?: number;
   nickName?: string;
   password?: string;
@@ -12,15 +12,11 @@ export type UserListItem = {
   };
 };
 
-export type UserList = {
-  rows?: UserListItem[];
+export type ConfigList = {
+  rows?: ConfigListItem[];
   total?: number;
 };
 
-export type UserInfo = {
-  code: number;
-  posts: any[];
-  roles: any[];
-  postIds: any[];
-  roleIds: any[];
+export type ConfigInfo = {
+  data: ConfigListItem[];
 };
