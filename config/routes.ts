@@ -68,7 +68,7 @@
       {
         path: '/system/notice',
         name: '通知公告',
-        component: './system/Post',
+        component: './system/Notice',
       },
       {
         component: '404',
