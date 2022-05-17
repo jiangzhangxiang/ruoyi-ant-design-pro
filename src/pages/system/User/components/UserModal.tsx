@@ -30,7 +30,7 @@ let initPassword = '';
 
 const titleMap = {
   edit: '修改用户',
-  add: '添加用户',
+  add: '新增用户',
 };
 
 const UserModal: FC<UserModalProps> = (props) => {

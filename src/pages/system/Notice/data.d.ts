@@ -1,23 +1,15 @@
-export type ConfigListItem = {
-  configId?: number;
-  nickName?: string;
-  password?: string;
-  postIds?: any[];
-  roleIds?: any[];
+export type NoticeListItem = {
+  noticeId?: number;
   status?: '0' | '1' | '2';
-  userName?: string;
   createTime?: string;
-  dept?: {
-    deptName?: string;
-  };
 };
 
-export type ConfigList = {
-  rows?: ConfigListItem[];
+export type NoticeList = {
+  rows?: NoticeListItem[];
   total?: number;
 };
 
-export type ConfigInfo = {
-  data: ConfigListItem[];
+export type NoticeInfo = {
+  data: NoticeListItem[];
   msg: string;
 };

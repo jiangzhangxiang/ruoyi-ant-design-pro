@@ -22,7 +22,7 @@ export type UserModalProps = {
 
 const titleMap = {
   edit: '修改字典数据',
-  add: '添加字典数据',
+  add: '新增字典数据',
 };
 
 const DictModal: FC<UserModalProps> = (props) => {

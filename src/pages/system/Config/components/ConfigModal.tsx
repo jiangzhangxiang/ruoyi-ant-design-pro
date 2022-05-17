@@ -17,7 +17,7 @@ export type UserModalProps = {
 
 const titleMap = {
   edit: '修改参数',
-  add: '添加参数',
+  add: '新增参数',
 };
 
 const ConfigModal: FC<UserModalProps> = (props) => {
