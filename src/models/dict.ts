@@ -1,6 +1,6 @@
 import { Reducer } from 'react';
 import { Effect } from '@@/plugin-dva/connect';
-import { getDicts } from '@/services/ant-design-pro/system/config';
+import { getConfig } from '@/services/ant-design-pro/system/config';
 
 export interface DictModelState {
   dictMap: any;
@@ -23,7 +23,7 @@ const DictModel: DictModeType = {
 
   effects: {
     *query({ payload }, { call, put }) {
-      const res = yield call(() => Promise.all(payload.map((m: string) => getDicts(m))));
+      const res = yield call(() => Promise.all(payload.map((m: string) => getConfig(m))));
       yield put({
         type: 'saveDict',
         payload: res,

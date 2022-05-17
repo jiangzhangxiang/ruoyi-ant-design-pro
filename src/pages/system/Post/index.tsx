@@ -186,7 +186,7 @@ const TableList: React.FC = () => {
               setModalCurrent({});
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined /> 新增
           </Button>,
           <Button
             danger

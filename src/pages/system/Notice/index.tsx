@@ -1,19 +1,12 @@
-import { PlusOutlined, DeleteOutlined, DownloadOutlined, RetweetOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import {
-  list,
-  addConfig,
-  updateConfig,
-  delConfig,
-  refreshCache,
-} from '@/services/ant-design-pro/system/config';
+import { list, addConfig, updateConfig, delConfig } from '@/services/ant-design-pro/system/config';
 import ConfigModal from './components/ConfigModal';
 import type { ConfigListItem } from './data.d';
-import { download } from '@/services/ant-design-pro/api';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
@@ -203,7 +196,7 @@ const TableList: React.FC = () => {
               setModalCurrent({});
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined /> 新增
           </Button>,
           <Button
             danger
@@ -214,27 +207,6 @@ const TableList: React.FC = () => {
             }}
           >
             <DeleteOutlined /> 删除
-          </Button>,
-          <Button
-            type="primary"
-            key="down"
-            onClick={() => {
-              const params = formRef.current?.getFieldsValue();
-              download('/api/system/config/export', params, `config_${new Date().getTime()}.xlsx`);
-            }}
-          >
-            <DownloadOutlined /> 导出
-          </Button>,
-          <Button
-            danger
-            key="retweet"
-            onClick={() => {
-              refreshCache().then(() => {
-                message.success('刷新成功');
-              });
-            }}
-          >
-            <RetweetOutlined /> 刷新缓存
           </Button>,
         ]}
         request={list}
