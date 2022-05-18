@@ -1,4 +1,3 @@
-import type { RequestConfig } from '@@/plugin-request/request';
 import type { RequestOptionsInit } from 'umi-request';
 import { message, Modal } from 'antd';
 import { ls, tansParams } from '@/utils/index';
@@ -45,7 +44,13 @@ const transform: any = {
 /**
  * 请求拦截封装
  */
+
+const prefixMap = {
+  dev: '/api',
+  prod: '/prod-api',
+};
 const requestInterceptors = (url: string, options: optionsType) => {
+  const prefix = prefixMap[REACT_APP_ENV] || '';
   // isToken 不是 false 的请求头添加 token
   let Authorization = '';
   if (ls.getItem('token') && options?.isToken !== false) {
@@ -65,7 +70,7 @@ const requestInterceptors = (url: string, options: optionsType) => {
     requestUrl = u;
   }
   return {
-    url: `${requestUrl}`,
+    url: `${prefix}${requestUrl}`,
     options: { ...transformOptions, interceptors: true, headers: authHeader },
   };
 };
@@ -123,7 +128,7 @@ const errorHandler = (error: errorHandlerType) => {
   return Promise.reject(res);
 };
 
-export const request: Omit<RequestConfig, 'errorHandler'> = {
+export const request: Omit<any, 'errorHandler'> = {
   errorHandler,
   responseInterceptors: [responseInterceptors],
   requestInterceptors: [requestInterceptors],

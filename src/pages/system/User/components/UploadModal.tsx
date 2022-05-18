@@ -14,7 +14,7 @@ export type UploadModalProps = {
 
 /** 下载模板操作 */
 const importTemplate = () => {
-  download('/api/system/user/importTemplate', {}, `user_template_${new Date().getTime()}.xlsx`);
+  download('/system/user/importTemplate', {}, `user_template_${new Date().getTime()}.xlsx`);
 };
 
 const UploadModal: FC<UploadModalProps> = (props) => {

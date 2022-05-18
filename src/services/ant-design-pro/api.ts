@@ -6,34 +6,34 @@ import errorCode from '@/utils/errorCode';
 import { saveAs } from 'file-saver';
 /** 获取图形验证码 */
 export async function captchaImage(options?: { [key: string]: any }) {
-  return request<API.FakeCaptcha>('/api/captchaImage', {
+  return request<API.FakeCaptcha>('/captchaImage', {
     method: 'GET',
     isToken: false,
     ...(options || {}),
   });
 }
 
-/** 获取当前的用户 GET /api/currentUser */
+/** 获取当前的用户 GET /currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     user: API.CurrentUser;
-  }>('/api/getInfo', {
+  }>('/getInfo', {
     method: 'GET',
     ...(options || {}),
   });
 }
 
-/** 退出登录接口 POST /api/login/outLogin */
+/** 退出登录接口 POST /login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/logout', {
+  return request<Record<string, any>>('/logout', {
     method: 'POST',
     ...(options || {}),
   });
 }
 
-/** 登录接口 POST /api/login/account */
+/** 登录接口 POST /login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login', {
+  return request<API.LoginResult>('/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -44,9 +44,9 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
-/** 此处后端没有提供注释 GET /api/notices */
+/** 此处后端没有提供注释 GET /notices */
 export async function getNotices(options?: { [key: string]: any }) {
-  return request<API.NoticeIconList>('/api/notices', {
+  return request<API.NoticeIconList>('/notices', {
     method: 'GET',
     ...(options || {}),
   });

@@ -12,7 +12,7 @@ export async function list(
   },
   options?: { [key: string]: any },
 ) {
-  return request<DeptList>('/api/system/dept/list', {
+  return request<DeptList>('/system/dept/list', {
     method: 'GET',
     params: params,
     ...(options || {}),
@@ -20,7 +20,7 @@ export async function list(
 }
 /** 修改部门 PUT /system/dept */
 export async function updateDept(data: DeptListItem, options?: { [key: string]: any }) {
-  return request<DeptListItem>('/api/system/dept', {
+  return request<DeptListItem>('/system/dept', {
     method: 'PUT',
     data,
     ...(options || {}),
@@ -29,7 +29,7 @@ export async function updateDept(data: DeptListItem, options?: { [key: string]: 
 
 /** 新建部门 POST /system/dept */
 export async function addDept(data: DeptListItem, options?: { [key: string]: any }) {
-  return request<DeptListItem>('/api/system/dept', {
+  return request<DeptListItem>('/system/dept', {
     method: 'POST',
     data,
     ...(options || {}),
@@ -38,14 +38,14 @@ export async function addDept(data: DeptListItem, options?: { [key: string]: any
 
 /** 删除部门 DELETE /system/dept/ */
 export async function delDept(id?: number[] | number) {
-  return request<Record<string, any>>('/api/system/dept/' + id, {
+  return request<Record<string, any>>('/system/dept/' + id, {
     method: 'DELETE',
   });
 }
 
 /** 查询部门详细 PUT /system/dept/${deptId} */
 export async function getDept(deptId: number | undefined, options?: { [key: string]: any }) {
-  return request<DeptInfo>('/api/system/dept/' + deptId, {
+  return request<DeptInfo>('/system/dept/' + deptId, {
     method: 'GET',
     ...(options || {}),
   });
@@ -56,7 +56,7 @@ export async function listDeptExcludeChild(
   deptId: number | undefined,
   options?: { [key: string]: any },
 ) {
-  return request<DeptList>('/api/system/dept/list/exclude/' + deptId, {
+  return request<DeptList>('/system/dept/list/exclude/' + deptId, {
     method: 'GET',
     ...(options || {}),
   });
@@ -64,7 +64,7 @@ export async function listDeptExcludeChild(
 
 /** 查询部门下拉树结构 GET /system/dept/treeselect*/
 export async function treeselect() {
-  return request<DeptList>('/api/system/dept/treeselect', {
+  return request<DeptList>('/system/dept/treeselect', {
     method: 'GET',
   });
 }

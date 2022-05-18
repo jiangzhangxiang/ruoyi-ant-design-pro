@@ -12,7 +12,7 @@ export async function listData(
   },
   options?: { [key: string]: any },
 ) {
-  return request<DictDataList>('/api/system/dict/data/list', {
+  return request<DictDataList>('/system/dict/data/list', {
     method: 'GET',
     params: params,
     ...(options || {}),
@@ -20,7 +20,7 @@ export async function listData(
 }
 /** 修改字典数据 PUT /system/dict/data */
 export async function updateDictData(data: DictDataListItem, options?: { [key: string]: any }) {
-  return request<DictDataListItem>('/api/system/dict/data', {
+  return request<DictDataListItem>('/system/dict/data', {
     method: 'PUT',
     data,
     ...(options || {}),
@@ -32,7 +32,7 @@ export async function addDictData(
   data: { dictCode?: string | number },
   options?: { [p: string]: any },
 ) {
-  return request<DictDataListItem>('/api/system/dict/data', {
+  return request<DictDataListItem>('/system/dict/data', {
     method: 'POST',
     data,
     ...(options || {}),
@@ -41,14 +41,14 @@ export async function addDictData(
 
 /** 删除字典数据 DELETE /system/dict/data/${id} */
 export async function delDictData(id?: number[] | number) {
-  return request<Record<string, any>>('/api/system/dict/data/' + id, {
+  return request<Record<string, any>>('/system/dict/data/' + id, {
     method: 'DELETE',
   });
 }
 
 /** 查询字典数据 GET system/dict/data/type  */
 export async function getDicts(dictType?: string) {
-  return request<any>('/api/system/dict/data/type/' + dictType, {
+  return request<any>('/system/dict/data/type/' + dictType, {
     method: 'GET',
   });
 }

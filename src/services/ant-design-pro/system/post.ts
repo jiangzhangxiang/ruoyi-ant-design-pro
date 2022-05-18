@@ -12,7 +12,7 @@ export async function list(
   },
   options?: { [key: string]: any },
 ) {
-  return request<PostList>('/api/system/post/list', {
+  return request<PostList>('/system/post/list', {
     method: 'GET',
     params: params,
     ...(options || {}),
@@ -21,7 +21,7 @@ export async function list(
 
 /** 修改岗位 PUT /system/post */
 export async function updatePost(data: PostListItem, options?: { [key: string]: any }) {
-  return request<PostListItem>('/api/system/post', {
+  return request<PostListItem>('/system/post', {
     method: 'PUT',
     data,
     ...(options || {}),
@@ -30,7 +30,7 @@ export async function updatePost(data: PostListItem, options?: { [key: string]: 
 
 /** 新建岗位 POST /system/post */
 export async function addpost(data: PostListItem, options?: { [key: string]: any }) {
-  return request<PostListItem>('/api/system/post', {
+  return request<PostListItem>('/system/post', {
     method: 'POST',
     data,
     ...(options || {}),
@@ -39,7 +39,7 @@ export async function addpost(data: PostListItem, options?: { [key: string]: any
 
 /** 删除岗位 DELETE /system/post/ */
 export async function delPost(postId?: number[] | number) {
-  return request<Record<string, any>>('/api/system/post/' + postId, {
+  return request<Record<string, any>>('/system/post/' + postId, {
     method: 'DELETE',
   });
 }

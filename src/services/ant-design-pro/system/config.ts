@@ -14,7 +14,7 @@ export async function list(
   },
   options?: Record<string, any>,
 ) {
-  return request<ConfigList>('/api/system/config/list', {
+  return request<ConfigList>('/system/config/list', {
     method: 'GET',
     params: params,
     ...(options || {}),
@@ -23,7 +23,7 @@ export async function list(
 
 /** 修改参数 PUT /system/config */
 export async function updateConfig(data: ConfigListItem, options?: Record<string, any>) {
-  return request<ConfigListItem>('/api/system/config', {
+  return request<ConfigListItem>('/system/config', {
     method: 'PUT',
     data,
     ...(options || {}),
@@ -32,7 +32,7 @@ export async function updateConfig(data: ConfigListItem, options?: Record<string
 
 /** 新建参数 POST /system/config */
 export async function addConfig(data: ConfigListItem, options?: Record<string, any>) {
-  return request<ConfigListItem>('/api/system/config', {
+  return request<ConfigListItem>('/system/config', {
     method: 'POST',
     data,
     ...(options || {}),
@@ -41,14 +41,14 @@ export async function addConfig(data: ConfigListItem, options?: Record<string, a
 
 /** 删除参数 DELETE /system/config/ */
 export async function delConfig(userId?: number[] | number) {
-  return request<Record<string, any>>('/api/system/config/' + userId, {
+  return request<Record<string, any>>('/system/config/' + userId, {
     method: 'DELETE',
   });
 }
 
 /** 查询参数详细 PUT /system/config/${userId} */
 export async function getConfig(userId?: number | string, options?: Record<string, any>) {
-  return request<ConfigInfo>('/api/system/config/' + parseStrEmpty(userId), {
+  return request<ConfigInfo>('/system/config/' + parseStrEmpty(userId), {
     method: 'GET',
     ...(options || {}),
   });
@@ -56,14 +56,14 @@ export async function getConfig(userId?: number | string, options?: Record<strin
 
 /** 根据参数键名查询参数值 GET system/config/configKey */
 export async function configKey(key?: string) {
-  return request<any>('/api/system/config/configKey/' + key, {
+  return request<any>('/system/config/configKey/' + key, {
     method: 'GET',
   });
 }
 
 /** 刷新缓存 DELETE /system/config/refreshCache */
 export async function refreshCache() {
-  return request<DictInfo>('/api/system/config/refreshCache', {
+  return request<DictInfo>('/system/config/refreshCache', {
     method: 'DELETE',
   });
 }

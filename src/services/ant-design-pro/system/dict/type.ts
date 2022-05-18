@@ -12,7 +12,7 @@ export async function list(
   },
   options?: { [key: string]: any },
 ) {
-  return request<DictList>('/api/system/dict/type/list', {
+  return request<DictList>('/system/dict/type/list', {
     method: 'GET',
     params: params,
     ...(options || {}),
@@ -20,7 +20,7 @@ export async function list(
 }
 /** 修改字典类型 PUT /system/dict/type */
 export async function updateDict(data: DictListItem, options?: { [key: string]: any }) {
-  return request<DictListItem>('/api/system/dict/type', {
+  return request<DictListItem>('/system/dict/type', {
     method: 'PUT',
     data,
     ...(options || {}),
@@ -29,7 +29,7 @@ export async function updateDict(data: DictListItem, options?: { [key: string]: 
 
 /** 新建字典类型 POST /system/dict/type */
 export async function addDict(data: DictListItem, options?: { [key: string]: any }) {
-  return request<DictListItem>('/api/system/dict/type', {
+  return request<DictListItem>('/system/dict/type', {
     method: 'POST',
     data,
     ...(options || {}),
@@ -38,14 +38,14 @@ export async function addDict(data: DictListItem, options?: { [key: string]: any
 
 /** 删除字典类型 DELETE /system/dict/type/${dictId} */
 export async function delDict(dictId?: number[] | number) {
-  return request<Record<string, any>>('/api/system/dict/type/' + dictId, {
+  return request<Record<string, any>>('/system/dict/type/' + dictId, {
     method: 'DELETE',
   });
 }
 
 /** 查询字典类型详细 PUT /system/dict/${dictId} */
 export async function getDict(dictId: number | undefined, options?: { [key: string]: any }) {
-  return request<DictInfo>('/api/system/dict/type/' + dictId, {
+  return request<DictInfo>('/system/dict/type/' + dictId, {
     method: 'GET',
     ...(options || {}),
   });
@@ -53,7 +53,7 @@ export async function getDict(dictId: number | undefined, options?: { [key: stri
 
 /** 刷新缓存 DELETE /system/dict/type/refreshCache */
 export async function refreshCache() {
-  return request<DictInfo>('/api/system/dict/type/refreshCache', {
+  return request<DictInfo>('/system/dict/type/refreshCache', {
     method: 'DELETE',
   });
 }

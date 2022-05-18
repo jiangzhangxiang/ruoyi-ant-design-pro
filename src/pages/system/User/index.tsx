@@ -305,7 +305,7 @@ const TableList: React.FC = () => {
             key="primary"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
-              download('/api/system/user/export', params, `user_${new Date().getTime()}.xlsx`);
+              download('/system/user/export', params, `user_${new Date().getTime()}.xlsx`);
             }}
           >
             <DownloadOutlined /> 导出

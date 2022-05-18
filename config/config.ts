@@ -35,6 +35,9 @@ export default defineConfig({
   title: false,
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
+  define: {
+    REACT_APP_ENV: REACT_APP_ENV || 'dev',
+  },
   manifest: {
     basePath: '/',
   },

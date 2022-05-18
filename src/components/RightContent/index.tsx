@@ -1,4 +1,4 @@
-import { Space } from 'antd';
+import { Space, Tag } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useModel } from 'umi';
@@ -57,6 +57,11 @@ const GlobalHeaderRight: React.FC = () => {
         <QuestionCircleOutlined />
       </span>
       <Avatar />
+      {REACT_APP_ENV && (
+        <span>
+          <Tag>{REACT_APP_ENV}</Tag>
+        </span>
+      )}
     </Space>
   );
 };

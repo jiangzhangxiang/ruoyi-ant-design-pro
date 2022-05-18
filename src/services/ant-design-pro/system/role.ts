@@ -12,7 +12,7 @@ export async function list(
   },
   options?: Record<string, any>,
 ) {
-  return request<RoleList>('/api/system/role/list', {
+  return request<RoleList>('/system/role/list', {
     method: 'GET',
     params: params,
     ...(options || {}),
@@ -21,7 +21,7 @@ export async function list(
 
 /** 修改角色 PUT /system/user */
 export async function updateUser(data: RoleListItem, options?: Record<string, any>) {
-  return request<RoleListItem>('/api/system/role', {
+  return request<RoleListItem>('/system/role', {
     method: 'PUT',
     data,
     ...(options || {}),
@@ -30,7 +30,7 @@ export async function updateUser(data: RoleListItem, options?: Record<string, an
 
 /** 新建角色 POST /system/user */
 export async function addUser(data: RoleListItem, options?: Record<string, any>) {
-  return request<RoleListItem>('/api/system/role', {
+  return request<RoleListItem>('/system/role', {
     method: 'POST',
     data,
     ...(options || {}),
@@ -39,7 +39,7 @@ export async function addUser(data: RoleListItem, options?: Record<string, any>)
 
 /** 删除角色 DELETE /system/user/ */
 export async function delUser(userId?: number[] | number) {
-  return request<Record<string, any>>('/api/system/role/' + userId, {
+  return request<Record<string, any>>('/system/role/' + userId, {
     method: 'DELETE',
   });
 }
