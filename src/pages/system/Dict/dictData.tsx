@@ -222,7 +222,7 @@ const TableList: React.FC = (props: any) => {
               setDictType(formRef.current?.getFieldsValue().dictType);
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined /> 新增
           </Button>,
           <Button
             danger

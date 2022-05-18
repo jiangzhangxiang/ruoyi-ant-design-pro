@@ -1,32 +1,24 @@
-import { PlusOutlined, DeleteOutlined, DownloadOutlined, RetweetOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import {
-  list,
-  addConfig,
-  updateConfig,
-  delConfig,
-  refreshCache,
-} from '@/services/ant-design-pro/system/config';
-import ConfigModal from './components/ConfigModal';
-import type { ConfigListItem } from './data.d';
-import { download } from '@/services/ant-design-pro/api';
+import { list, addNotice, updateNotice, delNotice } from '@/services/ant-design-pro/system/notice';
+import NoticeModal from './components/NoticeModal';
+import type { NoticeListItem } from './data.d';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
-import { addDateRange } from '@/utils';
 
 /**
- * 添加用户
+ * 添加公告
  * @param fields
  */
-const handleUserAdd = async (fields: ConfigListItem) => {
+const handleUserAdd = async (fields: NoticeListItem) => {
   const hide = message.loading('正在新增');
   try {
-    await addConfig({ ...fields });
+    await addNotice({ ...fields });
     hide();
     message.success('新增成功');
     return true;
@@ -37,13 +29,13 @@ const handleUserAdd = async (fields: ConfigListItem) => {
 };
 
 /**
- * 修改用户
+ * 修改公告
  * @param fields
  */
 const handleUpdate = async (fields: any) => {
   const hide = message.loading('正在修改');
   try {
-    await updateConfig({
+    await updateNotice({
       ...fields,
     });
     hide();
@@ -56,15 +48,15 @@ const handleUpdate = async (fields: any) => {
 };
 
 /**
- * 删除用户
- * @param configId
+ * 删除公告
+ * @param NoticeId
  */
 
-const handleRemove = async (configId: number | number[]) => {
+const handleRemove = async (NoticeId: number | number[]) => {
   const hide = message.loading('正在删除');
-  if (!configId) return true;
+  if (!NoticeId) return true;
   try {
-    await delConfig(configId);
+    await delNotice(NoticeId);
     hide();
     message.success('删除成功');
     return true;
@@ -77,12 +69,12 @@ const handleRemove = async (configId: number | number[]) => {
 const TableList: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<ConfigListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<NoticeListItem>({});
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
-  const { sys_yes_no } = useDict({
-    dictType: ['sys_yes_no'],
+  const { sys_normal_disable, sys_notice_type } = useDict({
+    dictType: ['sys_normal_disable', 'sys_notice_type'],
   });
   /**
    * 取消
@@ -104,57 +96,48 @@ const TableList: React.FC = () => {
     }
   };
 
-  const handleDelModal = (configIds: number | number[]) => {
+  const handleDelModal = (NoticeIds: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
-      content: `是否确认删除用户编号为"${configIds}"的数据项？`,
+      content: `是否确认删除公告编号为"${NoticeIds}"的数据项？`,
       onOk: async () => {
-        const success = await handleRemove(configIds);
+        const success = await handleRemove(NoticeIds);
         handleRefresh(success);
       },
     });
   };
 
-  const columns: ProColumns<ConfigListItem>[] = [
+  const columns: ProColumns<NoticeListItem>[] = [
     {
-      title: '参数主键',
-      dataIndex: 'configId',
+      title: '序号',
+      dataIndex: 'noticeId',
       hideInSearch: true,
     },
     {
-      title: '参数名称',
-      dataIndex: 'configName',
+      title: '公告标题',
+      dataIndex: 'noticeTitle',
       ellipsis: true,
     },
     {
-      title: '参数键名',
-      dataIndex: 'configKey',
-      ellipsis: true,
+      title: '公告类型',
+      dataIndex: 'noticeType',
+      valueEnum: sys_notice_type?.valueEnum,
     },
     {
-      title: '参数键值',
-      dataIndex: 'configValue',
+      title: '状态',
+      dataIndex: 'status',
+      valueEnum: sys_normal_disable?.valueEnum,
       hideInSearch: true,
     },
     {
-      title: '是否系统内置',
-      dataIndex: 'configType',
-      valueEnum: sys_yes_no?.valueEnum,
-    },
-    {
-      title: '备注',
-      dataIndex: 'remark',
-      ellipsis: true,
-      hideInSearch: true,
+      title: '创建者',
+      dataIndex: 'createBy',
     },
     {
       title: '创建时间',
       dataIndex: 'createTime',
-      valueType: 'dateRange',
-      render: (_, record) => record.createTime,
-      search: {
-        transform: (value: any) => addDateRange(value),
-      },
+      valueType: 'dateTime',
+      hideInSearch: true,
     },
     {
       title: '操作',
@@ -175,7 +158,7 @@ const TableList: React.FC = () => {
         <a
           key="del"
           onClick={() => {
-            handleDelModal(record.configId as number);
+            handleDelModal(record.noticeId as number);
           }}
         >
           删除
@@ -186,10 +169,10 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <BasicTable<ConfigListItem, API.PageParams>
+      <BasicTable<NoticeListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
-        rowKey="configId"
+        rowKey="noticeId"
         search={{
           labelWidth: 120,
         }}
@@ -203,7 +186,7 @@ const TableList: React.FC = () => {
               setModalCurrent({});
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined /> 新增
           </Button>,
           <Button
             danger
@@ -215,43 +198,22 @@ const TableList: React.FC = () => {
           >
             <DeleteOutlined /> 删除
           </Button>,
-          <Button
-            type="primary"
-            key="down"
-            onClick={() => {
-              const params = formRef.current?.getFieldsValue();
-              download('/api/system/config/export', params, `config_${new Date().getTime()}.xlsx`);
-            }}
-          >
-            <DownloadOutlined /> 导出
-          </Button>,
-          <Button
-            danger
-            key="retweet"
-            onClick={() => {
-              refreshCache().then(() => {
-                message.success('刷新成功');
-              });
-            }}
-          >
-            <RetweetOutlined /> 刷新缓存
-          </Button>,
         ]}
         request={list}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows.map((m) => m.configId) as number[]);
+            setSelectedRows(selectedRows.map((m) => m.noticeId) as number[]);
           },
           preserveSelectedRowKeys: true,
           selectedRowKeys: selectedRowsState,
         }}
       />
-      <ConfigModal
+      <NoticeModal
         visible={modalVisible}
         current={modalCurrent}
         onSubmit={async (fields) => {
-          const success = await (modalCurrent?.configId
+          const success = await (modalCurrent?.noticeId
             ? handleUpdate({ ...modalCurrent, ...fields })
             : handleUserAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);

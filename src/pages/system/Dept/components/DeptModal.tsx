@@ -25,7 +25,7 @@ export type DeptModalProps = {
 
 const titleMap = {
   edit: '修改部门',
-  add: '添加部门',
+  add: '新增部门',
 };
 
 const DeptModal: FC<DeptModalProps> = (props) => {

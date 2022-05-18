@@ -21,7 +21,7 @@ export type UserModalProps = {
 
 const titleMap = {
   edit: '修改岗位',
-  add: '添加岗位',
+  add: '新增岗位',
 };
 
 const PostModal: FC<UserModalProps> = (props) => {
