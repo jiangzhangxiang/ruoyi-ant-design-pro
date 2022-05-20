@@ -82,7 +82,7 @@ const NoticeModal: FC<UserModalProps> = (props) => {
             options={sys_normal_disable.options}
           />
         </ProForm.Group>
-        <Form.Item name="noticeContent">
+        <Form.Item name="noticeContent" label="内容">
           <Tinymce onChangeValue={(e) => setInfoData(e)} />
         </Form.Item>
       </>
