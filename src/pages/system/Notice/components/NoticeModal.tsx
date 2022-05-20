@@ -33,7 +33,6 @@ const NoticeModal: FC<UserModalProps> = (props) => {
   const initFormData = async () => {
     if (visible && type === 'edit') {
       const { data } = await getNotice(current?.noticeId);
-      console.log(data);
       setInfoData(data.noticeContent);
       form.setFieldsValue({ ...data });
     }
