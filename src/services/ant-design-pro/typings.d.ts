@@ -50,7 +50,14 @@ declare namespace API {
     total?: number;
     success?: boolean;
   };
-
+  type FileType = {
+    msg?: string;
+    fileName?: string;
+    code?: number;
+    newFileName?: string;
+    url?: string;
+    originalFilename?: string;
+  };
   type NoticeIconItemType = 'notification' | 'message' | 'event';
 
   type NoticeIconItem = {

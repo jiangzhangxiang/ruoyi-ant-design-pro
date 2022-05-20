@@ -52,6 +52,22 @@ export async function getNotices(options?: { [key: string]: any }) {
   });
 }
 
+/** 上传图片 POST /common/upload */
+export async function upload(data: any, options?: { [key: string]: any }) {
+  const url = '/common/upload';
+  return request<API.FileType>(url, {
+    data: data,
+    method: 'POST',
+    transformRequest: [
+      (p: any) => {
+        return tansParams(p);
+      },
+    ],
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    ...options,
+  });
+}
+
 // 通用下载方法
 export async function download(url: any, params: any, filename: any) {
   const hide = message.loading('正在下载数据，请稍候', 0);

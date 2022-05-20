@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
-// import { uploadFile } from '@/pages/serverList/service';
+import { upload } from '@/services/ant-design-pro/api';
 
 type UploadProps = {
   value?: any;
@@ -28,23 +28,23 @@ const Tinymce: FC<UploadProps> = (params) => {
     content_style: 'img {max-width:100% !important }',
     paste_data_images: true,
     tabfocus_elements: ':prev,:next',
-    // images_upload_handler: (blobInfo: any, success: any) => {
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(blobInfo.blob());
-    //   reader.onload = () => {
-    //     const file = blobInfo.blob();
-    //     const formData = new FormData();
-    //     formData.append('file', file);
-    //     uploadFile(formData).then((res: { code: number; data: any }) => {
-    //       if (res.code === 2000) {
-    //         console.log(res);
-    //         success(res.data);
-    //       } else {
-    //         success('');
-    //       }
-    //     });
-    //   };
-    // },
+    images_upload_handler: (blobInfo: any, success: any) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blobInfo.blob());
+      reader.onload = () => {
+        const file = blobInfo.blob();
+        const formData = new FormData();
+        formData.append('file', file);
+        upload(formData).then((res) => {
+          success(res.url);
+          if (res.code === 200) {
+            success(res.url);
+          } else {
+            success('');
+          }
+        });
+      };
+    },
   };
   return (
     <Editor
