@@ -1,18 +1,11 @@
 import type { FC } from 'react';
-import {
-  ModalForm,
-  ProFormText,
-  ProFormRadio,
-  ProFormTextArea,
-  ProForm,
-  ProFormSelect,
-} from '@ant-design/pro-form';
-
+import { ModalForm, ProFormText, ProFormRadio, ProForm, ProFormSelect } from '@ant-design/pro-form';
 import type { NoticeListItem } from '../data.d';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
 import { getNotice } from '@/services/ant-design-pro/system/notice';
+import Tinymce from '@/components/Tinymce';
 
 export type UserModalProps = {
   visible: boolean;
@@ -29,6 +22,7 @@ const titleMap = {
 
 const NoticeModal: FC<UserModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
+  const [infoData, setInfoData] = useState<any>('');
   const [form] = Form.useForm();
   const { sys_normal_disable, sys_notice_type } = useDict({
     dictType: ['sys_normal_disable', 'sys_notice_type'],
@@ -39,6 +33,8 @@ const NoticeModal: FC<UserModalProps> = (props) => {
   const initFormData = async () => {
     if (visible && type === 'edit') {
       const { data } = await getNotice(current?.noticeId);
+      console.log(data);
+      setInfoData(data.noticeContent);
       form.setFieldsValue({ ...data });
     }
     if (!visible && form) {
@@ -54,10 +50,10 @@ const NoticeModal: FC<UserModalProps> = (props) => {
       form={form}
       visible={visible}
       title={titleMap[type]}
-      width={540}
+      width={700}
       trigger={<>{children}</>}
       onFinish={async (values) => {
-        onSubmit(values);
+        onSubmit({ ...values, noticeContent: infoData });
       }}
       modalProps={{
         onCancel: onCancel,
@@ -86,7 +82,9 @@ const NoticeModal: FC<UserModalProps> = (props) => {
             options={sys_normal_disable.options}
           />
         </ProForm.Group>
-        <ProFormTextArea name="remark" label="备注" placeholder="请输入备注" />
+        <Form.Item name="noticeContent">
+          <Tinymce onChangeValue={(e) => setInfoData(e)} />
+        </Form.Item>
       </>
     </ModalForm>
   );

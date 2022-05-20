@@ -2,6 +2,7 @@ export type NoticeListItem = {
   noticeId?: number;
   status?: '0' | '1' | '2';
   createTime?: string;
+  noticeContent?: string;
 };
 
 export type NoticeList = {
@@ -10,6 +11,6 @@ export type NoticeList = {
 };
 
 export type NoticeInfo = {
-  data: NoticeListItem[];
+  data: NoticeListItem;
   msg: string;
 };
