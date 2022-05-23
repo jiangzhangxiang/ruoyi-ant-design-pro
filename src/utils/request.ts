@@ -5,6 +5,7 @@ import errorCode from '@/utils/errorCode';
 import { loginOut } from '@/components/RightContent/AvatarDropdown';
 import getErrorModeContent from './errorModal';
 import { ResponseError } from 'umi-request';
+import { RequestConfig } from '@@/plugin-request/request';
 
 // 是否限制 重新登陆弹窗
 export const isRelogin = { show: false };
@@ -128,7 +129,7 @@ const errorHandler = (error: errorHandlerType) => {
   return Promise.reject(res);
 };
 
-export const request: Omit<any, 'errorHandler'> = {
+export const request: Omit<RequestConfig, 'errorHandler'> = {
   errorHandler,
   responseInterceptors: [responseInterceptors],
   requestInterceptors: [requestInterceptors],
