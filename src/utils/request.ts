@@ -4,8 +4,8 @@ import { ls, tansParams } from '@/utils/index';
 import errorCode from '@/utils/errorCode';
 import { loginOut } from '@/components/RightContent/AvatarDropdown';
 import getErrorModeContent from './errorModal';
-import { ResponseError } from 'umi-request';
-import { RequestConfig } from '@@/plugin-request/request';
+import type { ResponseError } from 'umi-request';
+import type { RequestConfig } from '@@/plugin-request/request';
 
 // 是否限制 重新登陆弹窗
 export const isRelogin = { show: false };
@@ -115,7 +115,7 @@ const errorHandler = (error: errorHandlerType) => {
   const { res, options } = error;
   const errorMessageMode = options && options.errorMessageMode;
   if (res) {
-    const msg = `${res.msg || res.errorMessage || errorCode[res.code] || errorCode['default']}`;
+    const msg = `${res.msg || res.errorMessage || errorCode[res.code] || errorCode.default}`;
     if (errorMessageMode === 'modal') {
       Modal.error({
         title: '系统提示',
