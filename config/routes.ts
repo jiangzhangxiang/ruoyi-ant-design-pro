@@ -71,6 +71,15 @@
         component: './system/Notice',
       },
       {
+        path: '/system/log/',
+        name: '日志管理',
+        routes: [
+          { path: 'operlog', name: '操作日志', component: './Welcome' },
+          { path: 'logininfor', name: '操作日志', component: './Welcome' },
+          { component: '404' },
+        ],
+      },
+      {
         component: '404',
       },
     ],
