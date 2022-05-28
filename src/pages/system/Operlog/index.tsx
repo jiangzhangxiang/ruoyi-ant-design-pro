@@ -4,53 +4,18 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { list, addpost, updatePost, delPost } from '@/services/ant-design-pro/system/post';
+import { list, delOperlog, clearOperlog } from '@/services/ant-design-pro/monitor/operlog';
 import OperlogModal from './components/OperlogModal';
-import type { PostListItem } from './data.d';
+import type { OperlogListItem } from './data.d';
 import { download } from '@/services/ant-design-pro/api';
 
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
+import { addDateRange } from '@/utils';
 
 /**
- * 添加用户
- * @param fields
- */
-const handleUserAdd = async (fields: PostListItem) => {
-  const hide = message.loading('正在新增');
-  try {
-    await addpost({ ...fields });
-    hide();
-    message.success('新增成功');
-    return true;
-  } catch (error) {
-    hide();
-    return false;
-  }
-};
-
-/**
- * 修改用户
- * @param fields
- */
-const handleUpdate = async (fields: any) => {
-  const hide = message.loading('正在修改');
-  try {
-    await updatePost({
-      ...fields,
-    });
-    hide();
-    message.success('修改成功');
-    return true;
-  } catch (error) {
-    hide();
-    return false;
-  }
-};
-
-/**
- * 删除用户
+ * 删除操作日志
  * @param userId
  */
 
@@ -58,7 +23,7 @@ const handleRemove = async (userId: number | number[]) => {
   const hide = message.loading('正在删除');
   if (!userId) return true;
   try {
-    await delPost(userId);
+    await delOperlog(userId);
     hide();
     message.success('删除成功');
     return true;
@@ -68,13 +33,29 @@ const handleRemove = async (userId: number | number[]) => {
   }
 };
 
+/**
+ * 清空操作日志
+ */
+
+const handleClear = async () => {
+  const hide = message.loading('清空删除');
+  try {
+    await clearOperlog();
+    hide();
+    message.success('清空成功');
+    return true;
+  } catch (error) {
+    hide();
+    return false;
+  }
+};
 const TableList: React.FC = () => {
-  const { sys_normal_disable } = useDict({
-    dictType: ['sys_normal_disable'],
+  const { sys_common_status, sys_oper_type } = useDict({
+    dictType: ['sys_common_status', 'sys_oper_type'],
   });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<PostListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<OperlogListItem>({});
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
@@ -108,42 +89,69 @@ const TableList: React.FC = () => {
       },
     });
   };
-
-  const columns: ProColumns<PostListItem>[] = [
+  const handleClearModal = () => {
+    Modal.confirm({
+      title: '系统提示',
+      content: `是否确认清空所有操作日志数据项？`,
+      onOk: async () => {
+        const success = await handleClear();
+        handleRefresh(success);
+      },
+    });
+  };
+  const columns: ProColumns<OperlogListItem>[] = [
     {
-      title: '岗位编号',
-      dataIndex: 'postId',
+      title: '日志编号',
+      dataIndex: 'operId',
       hideInSearch: true,
     },
     {
-      title: '岗位编码',
-      dataIndex: 'postCode',
+      title: '系统模块',
+      dataIndex: 'title',
     },
     {
-      title: '岗位名称',
-      dataIndex: 'postName',
+      title: '操作类型',
+      dataIndex: 'operatorType',
+      valueEnum: sys_oper_type?.valueEnum,
     },
     {
-      title: '岗位顺序',
-      dataIndex: 'postSort',
+      title: '请求方式',
+      dataIndex: 'requestMethod',
+      hideInSearch: true,
     },
     {
-      title: '状态',
+      title: '操作人员',
+      dataIndex: 'operName',
+    },
+    {
+      title: '操作地址',
+      dataIndex: 'operIp',
+      hideInSearch: true,
+    },
+    {
+      title: '操作地点',
+      dataIndex: 'operLocation',
+      hideInSearch: true,
+    },
+    {
+      title: '操作状态',
       dataIndex: 'status',
-      valueEnum: sys_normal_disable?.valueEnum,
+      valueEnum: sys_common_status?.valueEnum,
     },
     {
-      title: '创建时间',
+      title: '操作时间',
       dataIndex: 'createTime',
       valueType: 'dateRange',
       render: (_, record) => record.createTime,
-      hideInSearch: true,
+      search: {
+        transform: (value: any) => addDateRange(value),
+      },
     },
     {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      width: 240,
+      width: 80,
       render: (_, record) => [
         <a
           key="edit"
@@ -161,10 +169,10 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <BasicTable<PostListItem, API.PageParams>
+      <BasicTable<OperlogListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
-        rowKey="postId"
+        rowKey="operId"
         search={{
           labelWidth: 120,
         }}
@@ -181,20 +189,19 @@ const TableList: React.FC = () => {
           </Button>,
           <Button
             danger
-            disabled={!selectedRowsState.length}
             key="clear"
             onClick={() => {
-              handleDelModal(selectedRowsState as number[]);
+              handleClearModal();
             }}
           >
-            <DeleteOutlined /> 删除
+            <DeleteOutlined /> 清空
           </Button>,
           <Button
             type="primary"
             key="primary"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
-              download('/system/post/export', params, `post_${new Date().getTime()}.xlsx`);
+              download('/system/operlog/export', params, `operlog_${new Date().getTime()}.xlsx`);
             }}
           >
             <DownloadOutlined /> 导出
@@ -204,7 +211,7 @@ const TableList: React.FC = () => {
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows.map((m) => m.postId) as number[]);
+            setSelectedRows(selectedRows.map((m) => m.operId) as number[]);
           },
           preserveSelectedRowKeys: true,
           selectedRowKeys: selectedRowsState,
@@ -213,12 +220,6 @@ const TableList: React.FC = () => {
       <OperlogModal
         visible={modalVisible}
         current={modalCurrent}
-        onSubmit={async (fields) => {
-          const success = await (modalCurrent?.postId
-            ? handleUpdate({ ...modalCurrent, ...fields })
-            : handleUserAdd({ ...modalCurrent, ...fields }));
-          handleRefresh(success);
-        }}
         onCancel={handleCancel}
         type={modalType}
       />

@@ -1,11 +1,11 @@
-export type PostListItem = {
-  postId?: number;
+export type OperlogListItem = {
+  operId?: number;
   status?: '0' | '1' | '2';
   userName?: string;
   createTime?: string;
 };
 
-export type PostList = {
-  rows?: PostListItem[];
+export type OperlogList = {
+  rows?: OperlogListItem[];
   total?: number;
 };
