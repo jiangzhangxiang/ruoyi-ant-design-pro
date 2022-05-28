@@ -20,11 +20,10 @@ export type UserModalProps = {
 };
 
 const titleMap = {
-  edit: '修改岗位',
-  add: '新增岗位',
+  details: '操作日志详细',
 };
 
-const PostModal: FC<UserModalProps> = (props) => {
+const OperlogModal: FC<UserModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
@@ -93,4 +92,4 @@ const PostModal: FC<UserModalProps> = (props) => {
   );
 };
 
-export default PostModal;
+export default OperlogModal;

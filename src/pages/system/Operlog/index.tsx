@@ -1,11 +1,11 @@
-import { PlusOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
 import { list, addpost, updatePost, delPost } from '@/services/ant-design-pro/system/post';
-import PostModal from './components/PostModal';
+import OperlogModal from './components/OperlogModal';
 import type { PostListItem } from './data.d';
 import { download } from '@/services/ant-design-pro/api';
 
@@ -150,18 +150,10 @@ const TableList: React.FC = () => {
           onClick={() => {
             setModalVisible(true);
             setModalCurrent(record);
-            setModalType('edit');
+            setModalType('details');
           }}
         >
-          修改
-        </a>,
-        <a
-          key="del"
-          onClick={() => {
-            handleDelModal(record.postId as number);
-          }}
-        >
-          删除
+          详细
         </a>,
       ],
     },
@@ -178,20 +170,19 @@ const TableList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button
-            type="primary"
-            key="primary"
+            danger
+            disabled={!selectedRowsState.length}
+            key="delete"
             onClick={() => {
-              setModalType('add');
-              setModalVisible(true);
-              setModalCurrent({});
+              handleDelModal(selectedRowsState as number[]);
             }}
           >
-            <PlusOutlined /> 新增
+            <DeleteOutlined /> 删除
           </Button>,
           <Button
             danger
             disabled={!selectedRowsState.length}
-            key="primary"
+            key="clear"
             onClick={() => {
               handleDelModal(selectedRowsState as number[]);
             }}
@@ -219,7 +210,7 @@ const TableList: React.FC = () => {
           selectedRowKeys: selectedRowsState,
         }}
       />
-      <PostModal
+      <OperlogModal
         visible={modalVisible}
         current={modalCurrent}
         onSubmit={async (fields) => {
