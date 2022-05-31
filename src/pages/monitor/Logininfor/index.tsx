@@ -13,7 +13,7 @@ import useDict from '@/hooks/useDict';
 import { addDateRange } from '@/utils';
 
 /**
- * 删除操作日志
+ * 删除登录日志
  * @param userId
  */
 
@@ -32,7 +32,7 @@ const handleRemove = async (userId: number | number[]) => {
 };
 
 /**
- * 清空操作日志
+ * 清空登录日志
  */
 
 const handleClear = async () => {
@@ -78,7 +78,7 @@ const TableList: React.FC = () => {
   const handleClearModal = () => {
     Modal.confirm({
       title: '系统提示',
-      content: `是否确认清空所有操作日志数据项？`,
+      content: `是否确认清空所有登录日志数据项？`,
       onOk: async () => {
         const success = await handleClear();
         handleRefresh(success);
@@ -110,7 +110,7 @@ const TableList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '操作系统',
+      title: '登录系统',
       dataIndex: 'os',
       hideInSearch: true,
     },
@@ -120,12 +120,12 @@ const TableList: React.FC = () => {
       valueEnum: sys_common_status?.valueEnum,
     },
     {
-      title: '操作信息',
+      title: '登录信息',
       dataIndex: 'msg',
       hideInSearch: true,
     },
     {
-      title: '操作时间',
+      title: '登录时间',
       dataIndex: 'loginTime',
       valueType: 'dateRange',
       render: (_, record) => record.loginTime,
