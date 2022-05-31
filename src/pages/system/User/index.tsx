@@ -11,12 +11,12 @@ import {
   delUser,
   resetUserPwd,
   importData,
-} from '@/services/ant-design-pro/system/user';
+} from '@/services/system/user';
 import UserModal from '@/pages/system/User/components/UserModal';
 import type { UserListItem } from '@/pages/system/User/data';
 import ResetPwdModal from '@/pages/system/User/components/ResetPwdModal';
-import { download } from '@/services/ant-design-pro/api';
-import { treeselect } from '@/services/ant-design-pro/system/dept';
+import { download } from '@/services/api';
+import { treeselect } from '@/services/system/dept';
 import { useRequest } from '@@/plugin-request/request';
 import type { DefaultOptionType } from 'rc-select/lib/Select';
 import { BasicTable } from '@/components/Table';

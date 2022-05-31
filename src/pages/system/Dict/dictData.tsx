@@ -9,17 +9,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import {
-  listData,
-  addDictData,
-  updateDictData,
-  delDictData,
-} from '@/services/ant-design-pro/system/dict/data';
-import { list as listType } from '@/services/ant-design-pro/system/dict/type';
+import { listData, addDictData, updateDictData, delDictData } from '@/services/system/dict/data';
+import { list as listType } from '@/services/system/dict/type';
 
 import DictDataModal from './components/DictDataModal';
 import type { DictDataListItem } from './data.d';
-import { download } from '@/services/ant-design-pro/api';
+import { download } from '@/services/api';
 import { BasicTable } from '@/components/Table';
 import { connect, history } from 'umi';
 import { addDateRange } from '@/utils';

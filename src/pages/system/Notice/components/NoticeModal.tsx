@@ -4,7 +4,7 @@ import type { NoticeListItem } from '../data.d';
 import { useEffect, useState } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
-import { getNotice } from '@/services/ant-design-pro/system/notice';
+import { getNotice } from '@/services/system/notice';
 import Tinymce from '@/components/Tinymce';
 
 export type UserModalProps = {

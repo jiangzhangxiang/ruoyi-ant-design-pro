@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
-import { upload } from '@/services/ant-design-pro/api';
+import { upload } from '@/services/api';
 
 type UploadProps = {
   value?: any;

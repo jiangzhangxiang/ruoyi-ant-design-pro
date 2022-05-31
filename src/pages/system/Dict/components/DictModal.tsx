@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { ModalForm, ProFormText, ProFormRadio, ProFormTextArea } from '@ant-design/pro-form';
 import type { DictListItem } from '../data.d';
-import { getDict } from '@/services/ant-design-pro/system/dict/type';
+import { getDict } from '@/services/system/dict/type';
 import { useEffect } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';

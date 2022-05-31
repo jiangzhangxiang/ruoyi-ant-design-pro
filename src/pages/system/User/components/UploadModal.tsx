@@ -3,7 +3,7 @@ import { ModalForm, ProFormCheckbox, ProFormUploadDragger } from '@ant-design/pr
 import type { UserListItem } from '../data.d';
 import { useEffect } from 'react';
 import { Form } from 'antd';
-import { download } from '@/services/ant-design-pro/api';
+import { download } from '@/services/api';
 import { Button } from 'antd';
 
 export type UploadModalProps = {

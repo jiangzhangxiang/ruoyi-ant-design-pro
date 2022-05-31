@@ -10,7 +10,7 @@ import {
 } from '@ant-design/pro-form';
 
 import type { DeptListItem } from '../data.d';
-import { getDept, list, listDeptExcludeChild } from '@/services/ant-design-pro/system/dept';
+import { getDept, list, listDeptExcludeChild } from '@/services/system/dept';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
 import { handleTree } from '@/utils';

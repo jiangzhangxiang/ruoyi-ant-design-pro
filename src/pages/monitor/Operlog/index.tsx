@@ -4,10 +4,10 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { list, delOperlog, clearOperlog } from '@/services/ant-design-pro/monitor/operlog';
+import { list, delOperlog, clearOperlog } from '@/services/monitor/operlog';
 import OperlogModal from './components/OperlogModal';
-import type { OperlogListItem } from './data.d';
-import { download } from '@/services/ant-design-pro/api';
+import type { OperlogListItem } from './data';
+import { download } from '@/services/api';
 
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
@@ -140,9 +140,9 @@ const TableList: React.FC = () => {
     },
     {
       title: '操作时间',
-      dataIndex: 'createTime',
+      dataIndex: 'operTime',
       valueType: 'dateRange',
-      render: (_, record) => record.createTime,
+      render: (_, record) => record.operTime,
       search: {
         transform: (value: any) => addDateRange(value),
       },
@@ -218,6 +218,7 @@ const TableList: React.FC = () => {
         }}
       />
       <OperlogModal
+        columns={columns}
         visible={modalVisible}
         current={modalCurrent}
         onCancel={handleCancel}

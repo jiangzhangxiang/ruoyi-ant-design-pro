@@ -4,10 +4,10 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { list, addpost, updatePost, delPost } from '@/services/ant-design-pro/system/post';
+import { list, addpost, updatePost, delPost } from '@/services/system/post';
 import PostModal from './components/PostModal';
 import type { PostListItem } from './data.d';
-import { download } from '@/services/ant-design-pro/api';
+import { download } from '@/services/api';
 
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';

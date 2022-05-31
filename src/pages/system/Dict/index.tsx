@@ -4,16 +4,10 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import {
-  list,
-  addDict,
-  updateDict,
-  delDict,
-  refreshCache,
-} from '@/services/ant-design-pro/system/dict/type';
+import { list, addDict, updateDict, delDict, refreshCache } from '@/services/system/dict/type';
 import DictModal from './components/DictModal';
 import type { DictListItem } from './data.d';
-import { download } from '@/services/ant-design-pro/api';
+import { download } from '@/services/api';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';

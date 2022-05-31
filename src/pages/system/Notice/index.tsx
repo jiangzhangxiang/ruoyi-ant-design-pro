@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { list, addNotice, updateNotice, delNotice } from '@/services/ant-design-pro/system/notice';
+import { list, addNotice, updateNotice, delNotice } from '@/services/system/notice';
 import NoticeModal from './components/NoticeModal';
 import type { NoticeListItem } from './data.d';
 import { BasicTable } from '@/components/Table';

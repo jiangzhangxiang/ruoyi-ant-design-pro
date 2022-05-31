@@ -74,7 +74,7 @@
         path: '/system/log/',
         name: '日志管理',
         routes: [
-          { path: 'operlog', name: '操作日志', component: './system/Operlog' },
+          { path: 'operlog', name: '操作日志', component: './monitor/Operlog' },
           { path: 'logininfor', name: '操作日志', component: './Welcome' },
           { component: '404' },
         ],

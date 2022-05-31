@@ -5,7 +5,7 @@ import type { ConfigListItem } from '../data.d';
 import { useEffect } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
-import { getConfig } from '@/services/ant-design-pro/system/config';
+import { getConfig } from '@/services/system/config';
 
 export type UserModalProps = {
   visible: boolean;

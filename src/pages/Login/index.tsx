@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { ProFormText, LoginForm, ProForm } from '@ant-design/pro-form';
 import { history, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
-import { captchaImage } from '@/services/ant-design-pro/api';
+import { login } from '@/services/api';
+import { captchaImage } from '@/services/api';
 import styles from './index.less';
 import { ls } from '@/utils';
 

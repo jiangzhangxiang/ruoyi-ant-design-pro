@@ -1,8 +1,10 @@
 import type { FC } from 'react';
 import { ModalForm } from '@ant-design/pro-form';
-import type { OperlogListItem } from '../data.d';
+import type { OperlogListItem } from '../data';
 import { useEffect } from 'react';
 import { Form } from 'antd';
+import { ProColumns } from '@ant-design/pro-table';
+import ProDescriptions from '@ant-design/pro-descriptions';
 
 export type OperlogModalProps = {
   visible: boolean;
@@ -10,6 +12,7 @@ export type OperlogModalProps = {
   onSubmit?: (values: OperlogListItem) => void;
   onCancel?: () => void;
   type: string;
+  columns: ProColumns<OperlogListItem>[];
 };
 
 const titleMap = {
@@ -17,7 +20,7 @@ const titleMap = {
 };
 
 const OperlogModal: FC<OperlogModalProps> = (props) => {
-  const { visible, current, onCancel, type } = props;
+  const { visible, current, onCancel, type, columns } = props;
   const [form] = Form.useForm();
 
   /**
@@ -49,7 +52,7 @@ const OperlogModal: FC<OperlogModalProps> = (props) => {
         cancelText: false,
       }}
     >
-      <></>
+      <ProDescriptions dataSource={current} columns={columns}></ProDescriptions>
     </ModalForm>
   );
 };

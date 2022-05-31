@@ -1,5 +1,5 @@
 import { request } from 'umi';
-import { OperlogList } from '@/pages/system/Operlog/data';
+import { OperlogList } from '@/pages/monitor/Operlog/data';
 
 /** 获取登录日志管理列表 GET /monitor/operlog/list */
 export async function list(

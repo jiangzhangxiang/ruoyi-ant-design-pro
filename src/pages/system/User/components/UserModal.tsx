@@ -11,11 +11,11 @@ import {
 
 import type { UserListItem } from '../data.d';
 import { useRequest } from '@@/plugin-request/request';
-import { treeselect } from '@/services/ant-design-pro/system/dept';
-import { getUser } from '@/services/ant-design-pro/system/user';
+import { treeselect } from '@/services/system/dept';
+import { getUser } from '@/services/system/user';
 import { useEffect, useState } from 'react';
 import { Form } from 'antd';
-import { configKey } from '@/services/ant-design-pro/system/config';
+import { configKey } from '@/services/system/config';
 import useDict from '@/hooks/useDict';
 
 export type UserModalProps = {

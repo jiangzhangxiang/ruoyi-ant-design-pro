@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { list, addDept, updateDept, delDept } from '@/services/ant-design-pro/system/dept';
+import { list, addDept, updateDept, delDept } from '@/services/system/dept';
 import DeptModal from './components/DeptModal';
 import type { DeptListItem } from './data.d';
 import { BasicTable } from '@/components/Table';

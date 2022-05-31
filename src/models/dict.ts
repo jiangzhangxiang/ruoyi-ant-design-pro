@@ -1,6 +1,6 @@
 import { Reducer } from 'react';
 import { Effect } from '@@/plugin-dva/connect';
-import { getConfig } from '@/services/ant-design-pro/system/config';
+import { getConfig } from '@/services/system/config';
 
 export interface DictModelState {
   dictMap: any;

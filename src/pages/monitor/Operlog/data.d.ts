@@ -2,7 +2,7 @@ export type OperlogListItem = {
   operId?: number;
   status?: '0' | '1' | '2';
   userName?: string;
-  createTime?: string;
+  operTime?: string;
 };
 
 export type OperlogList = {
