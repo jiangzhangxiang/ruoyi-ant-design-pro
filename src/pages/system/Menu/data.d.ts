@@ -1,6 +1,7 @@
 export type RoleListItem = {
   userId?: number;
   createTime?: string;
+  roleId?: number;
 };
 
 export type RoleList = {
