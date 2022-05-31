@@ -239,7 +239,7 @@ const TableList: React.FC = () => {
             修改
           </a>,
           <a
-            key="del"
+            key="delete"
             onClick={() => {
               handleDelModal(record.userId as number);
             }}
@@ -272,7 +272,7 @@ const TableList: React.FC = () => {
         toolBarRender={() => [
           <Button
             type="primary"
-            key="primary"
+            key="add"
             onClick={() => {
               setModalType('add');
               setModalVisible(true);
@@ -284,7 +284,7 @@ const TableList: React.FC = () => {
           <Button
             danger
             disabled={!selectedRowsState.length}
-            key="primary"
+            key="delete"
             onClick={() => {
               handleDelModal(selectedRowsState as number[]);
             }}
@@ -293,7 +293,7 @@ const TableList: React.FC = () => {
           </Button>,
           <Button
             type="primary"
-            key="primary"
+            key="import"
             onClick={() => {
               setUploadVisible(true);
             }}
@@ -302,7 +302,7 @@ const TableList: React.FC = () => {
           </Button>,
           <Button
             type="primary"
-            key="primary"
+            key="export"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
               download('/system/user/export', params, `user_${new Date().getTime()}.xlsx`);

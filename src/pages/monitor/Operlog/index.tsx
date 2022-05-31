@@ -198,7 +198,7 @@ const TableList: React.FC = () => {
           </Button>,
           <Button
             type="primary"
-            key="primary"
+            key="export"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
               download('/monitor/operlog/export', params, `operlog_${new Date().getTime()}.xlsx`);

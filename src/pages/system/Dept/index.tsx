@@ -142,7 +142,7 @@ const TableList: React.FC = () => {
         >
           修改
         </a>,
-        <div key="del">
+        <div key="delete">
           {record.parentId !== 0 && (
             <a
               onClick={() => {
@@ -169,7 +169,7 @@ const TableList: React.FC = () => {
         toolBarRender={() => [
           <Button
             type="primary"
-            key="primary"
+            key="add"
             onClick={() => {
               setModalType('add');
               setModalVisible(true);

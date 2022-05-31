@@ -5,7 +5,6 @@ import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
 import { list, delOperlog, clearLogininfor } from '@/services/monitor/logininfor';
-import LogininforModal from './components/LogininforModal';
 import type { OperlogListItem } from './data';
 import { download } from '@/services/api';
 
@@ -53,20 +52,9 @@ const TableList: React.FC = () => {
   const { sys_common_status } = useDict({
     dictType: ['sys_common_status'],
   });
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<OperlogListItem>({});
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
-  /**
-   * 取消
-   */
-  const handleCancel = () => {
-    setModalVisible(false);
-    setModalType('');
-    setModalCurrent({});
-  };
 
   /**
    * 刷新页面
@@ -74,7 +62,6 @@ const TableList: React.FC = () => {
   const handleRefresh = (success: boolean) => {
     if (success && actionRef.current) {
       setSelectedRows([]);
-      handleCancel();
       actionRef.current.reload();
     }
   };
@@ -180,7 +167,7 @@ const TableList: React.FC = () => {
           </Button>,
           <Button
             type="primary"
-            key="primary"
+            key="export"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
               download(
@@ -202,12 +189,6 @@ const TableList: React.FC = () => {
           preserveSelectedRowKeys: true,
           selectedRowKeys: selectedRowsState,
         }}
-      />
-      <LogininforModal
-        visible={modalVisible}
-        current={modalCurrent}
-        onCancel={handleCancel}
-        type={modalType}
       />
     </PageContainer>
   );

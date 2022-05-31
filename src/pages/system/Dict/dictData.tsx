@@ -186,7 +186,7 @@ const TableList: React.FC = (props: any) => {
           修改
         </a>,
         <a
-          key="del"
+          key="delete"
           onClick={() => {
             handleDelModal(record.dictCode as number);
           }}
@@ -222,7 +222,7 @@ const TableList: React.FC = (props: any) => {
           <Button
             danger
             disabled={!selectedRowsState.length}
-            key="del"
+            key="delete"
             onClick={() => {
               handleDelModal(selectedRowsState as number[]);
             }}
