@@ -6,7 +6,7 @@ import { Form } from 'antd';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import useDict from '@/hooks/useDict';
 
-export type OperlogModalProps = {
+export type LogininforModalProps = {
   visible: boolean;
   current: Partial<OperlogListItem> | undefined;
   onSubmit?: (values: OperlogListItem) => void;
@@ -18,7 +18,7 @@ const titleMap = {
   details: '操作日志详细',
 };
 
-const LogininforModal: FC<OperlogModalProps> = (props) => {
+const LogininforModal: FC<LogininforModalProps> = (props) => {
   const { visible, current, onCancel, type } = props;
   const { sys_common_status, sys_oper_type } = useDict({
     dictType: ['sys_common_status', 'sys_oper_type'],

@@ -38,7 +38,7 @@ const handleRemove = async (userId: number | number[]) => {
  */
 
 const handleClear = async () => {
-  const hide = message.loading('清空删除');
+  const hide = message.loading('正在清空');
   try {
     await clearOperlog();
     hide();
@@ -201,7 +201,7 @@ const TableList: React.FC = () => {
             key="primary"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
-              download('/system/operlog/export', params, `operlog_${new Date().getTime()}.xlsx`);
+              download('/monitor/operlog/export', params, `operlog_${new Date().getTime()}.xlsx`);
             }}
           >
             <DownloadOutlined /> 导出

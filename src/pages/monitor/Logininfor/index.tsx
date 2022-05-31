@@ -4,8 +4,8 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { list, delOperlog, clearOperlog } from '@/services/monitor/operlog';
-import LogininforModal from './components/OperlogModal';
+import { list, delOperlog, clearLogininfor } from '@/services/monitor/logininfor';
+import LogininforModal from './components/LogininforModal';
 import type { OperlogListItem } from './data';
 import { download } from '@/services/api';
 
@@ -38,9 +38,9 @@ const handleRemove = async (userId: number | number[]) => {
  */
 
 const handleClear = async () => {
-  const hide = message.loading('清空删除');
+  const hide = message.loading('正在清空');
   try {
-    await clearOperlog();
+    await clearLogininfor();
     hide();
     message.success('清空成功');
     return true;
@@ -50,8 +50,8 @@ const handleClear = async () => {
   }
 };
 const TableList: React.FC = () => {
-  const { sys_common_status, sys_oper_type } = useDict({
-    dictType: ['sys_common_status', 'sys_oper_type'],
+  const { sys_common_status } = useDict({
+    dictType: ['sys_common_status'],
   });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
@@ -101,69 +101,51 @@ const TableList: React.FC = () => {
   };
   const columns: ProColumns<OperlogListItem>[] = [
     {
-      title: '日志编号',
-      dataIndex: 'operId',
+      title: '访问编号',
+      dataIndex: 'infoId',
       hideInSearch: true,
     },
     {
-      title: '系统模块',
-      dataIndex: 'title',
+      title: '用户名称',
+      dataIndex: 'userName',
     },
     {
-      title: '操作类型',
-      dataIndex: 'operatorType',
-      valueEnum: sys_oper_type?.valueEnum,
+      title: '登录地址',
+      dataIndex: 'ipaddr',
     },
     {
-      title: '请求方式',
-      dataIndex: 'requestMethod',
+      title: '登录地点',
+      dataIndex: 'loginLocation',
       hideInSearch: true,
     },
     {
-      title: '操作人员',
-      dataIndex: 'operName',
-    },
-    {
-      title: '操作地址',
-      dataIndex: 'operIp',
+      title: '浏览器',
+      dataIndex: 'browser',
       hideInSearch: true,
     },
     {
-      title: '操作地点',
-      dataIndex: 'operLocation',
+      title: '操作系统',
+      dataIndex: 'os',
       hideInSearch: true,
     },
     {
-      title: '操作状态',
+      title: '登录状态',
       dataIndex: 'status',
       valueEnum: sys_common_status?.valueEnum,
     },
     {
+      title: '操作信息',
+      dataIndex: 'msg',
+      hideInSearch: true,
+    },
+    {
       title: '操作时间',
-      dataIndex: 'operTime',
+      dataIndex: 'loginTime',
       valueType: 'dateRange',
-      render: (_, record) => record.operTime,
+      render: (_, record) => record.loginTime,
       search: {
         transform: (value: any) => addDateRange(value),
       },
-    },
-    {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      width: 80,
-      render: (_, record) => [
-        <a
-          key="edit"
-          onClick={() => {
-            setModalVisible(true);
-            setModalCurrent(record);
-            setModalType('details');
-          }}
-        >
-          详细
-        </a>,
-      ],
     },
   ];
 
@@ -172,7 +154,7 @@ const TableList: React.FC = () => {
       <BasicTable<OperlogListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
-        rowKey="operId"
+        rowKey="infoId"
         search={{
           labelWidth: 120,
         }}
@@ -201,7 +183,11 @@ const TableList: React.FC = () => {
             key="primary"
             onClick={() => {
               const params = formRef.current?.getFieldsValue();
-              download('/system/operlog/export', params, `operlog_${new Date().getTime()}.xlsx`);
+              download(
+                '/monitor/logininfor/export',
+                params,
+                `operlog_${new Date().getTime()}.xlsx`,
+              );
             }}
           >
             <DownloadOutlined /> 导出
@@ -211,7 +197,7 @@ const TableList: React.FC = () => {
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows.map((m) => m.operId) as number[]);
+            setSelectedRows(selectedRows.map((m) => m.infoId) as number[]);
           },
           preserveSelectedRowKeys: true,
           selectedRowKeys: selectedRowsState,

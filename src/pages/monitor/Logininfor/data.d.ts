@@ -1,8 +1,8 @@
 export type OperlogListItem = {
-  operId?: number;
+  infoId?: number;
   status?: '0' | '1' | '2';
   userName?: string;
-  operTime?: string;
+  loginTime?: string;
 };
 
 export type OperlogList = {
