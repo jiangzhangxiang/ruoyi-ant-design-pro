@@ -218,7 +218,6 @@ const TableList: React.FC = () => {
         }}
       />
       <OperlogModal
-        columns={columns}
         visible={modalVisible}
         current={modalCurrent}
         onCancel={handleCancel}

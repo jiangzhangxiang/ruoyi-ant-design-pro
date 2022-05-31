@@ -3,8 +3,8 @@ import { ModalForm } from '@ant-design/pro-form';
 import type { OperlogListItem } from '../data';
 import { useEffect } from 'react';
 import { Form } from 'antd';
-import { ProColumns } from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
+import useDict from '@/hooks/useDict';
 
 export type OperlogModalProps = {
   visible: boolean;
@@ -12,7 +12,6 @@ export type OperlogModalProps = {
   onSubmit?: (values: OperlogListItem) => void;
   onCancel?: () => void;
   type: string;
-  columns: ProColumns<OperlogListItem>[];
 };
 
 const titleMap = {
@@ -20,7 +19,56 @@ const titleMap = {
 };
 
 const OperlogModal: FC<OperlogModalProps> = (props) => {
-  const { visible, current, onCancel, type, columns } = props;
+  const { visible, current, onCancel, type } = props;
+  const { sys_common_status, sys_oper_type } = useDict({
+    dictType: ['sys_common_status', 'sys_oper_type'],
+  });
+
+  const columns = [
+    {
+      title: '日志编号',
+      dataIndex: 'operId',
+      hideInSearch: true,
+    },
+    {
+      title: '系统模块',
+      dataIndex: 'title',
+    },
+    {
+      title: '操作类型',
+      dataIndex: 'operatorType',
+      valueEnum: sys_oper_type?.valueEnum,
+    },
+    {
+      title: '请求方式',
+      dataIndex: 'requestMethod',
+      hideInSearch: true,
+    },
+    {
+      title: '操作人员',
+      dataIndex: 'operName',
+    },
+    {
+      title: '操作地址',
+      dataIndex: 'operIp',
+      hideInSearch: true,
+    },
+    {
+      title: '操作地点',
+      dataIndex: 'operLocation',
+      hideInSearch: true,
+    },
+    {
+      title: '操作状态',
+      dataIndex: 'status',
+      valueEnum: sys_common_status?.valueEnum,
+    },
+    {
+      title: '操作时间',
+      dataIndex: 'operTime',
+      valueType: 'dataTime',
+    },
+  ];
   const [form] = Form.useForm();
 
   /**
@@ -43,7 +91,7 @@ const OperlogModal: FC<OperlogModalProps> = (props) => {
       form={form}
       visible={visible}
       title={titleMap[type]}
-      width={540}
+      width={710}
       trigger={<></>}
       modalProps={{
         onCancel: onCancel,
@@ -52,7 +100,7 @@ const OperlogModal: FC<OperlogModalProps> = (props) => {
         cancelText: false,
       }}
     >
-      <ProDescriptions dataSource={current} columns={columns}></ProDescriptions>
+      <ProDescriptions dataSource={current} columns={columns} />
     </ModalForm>
   );
 };
