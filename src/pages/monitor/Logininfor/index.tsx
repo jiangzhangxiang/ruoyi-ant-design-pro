@@ -7,7 +7,6 @@ import type { FormInstance } from 'antd';
 import { list, delOperlog, clearLogininfor } from '@/services/monitor/logininfor';
 import type { OperlogListItem } from './data';
 import { download } from '@/services/api';
-
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
@@ -173,7 +172,7 @@ const TableList: React.FC = () => {
               download(
                 '/monitor/logininfor/export',
                 params,
-                `operlog_${new Date().getTime()}.xlsx`,
+                `logininfor_${new Date().getTime()}.xlsx`,
               );
             }}
           >
