@@ -111,7 +111,7 @@ const TableList: React.FC = () => {
     },
     {
       title: '操作类型',
-      dataIndex: 'operatorType',
+      dataIndex: 'businessType',
       valueEnum: sys_oper_type?.valueEnum,
     },
     {
