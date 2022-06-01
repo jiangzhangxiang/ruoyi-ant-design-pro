@@ -31,7 +31,7 @@ const handleUserAdd = async (fields: RoleListItem) => {
 };
 
 /**
- * 修改用户
+ * 修改角色
  * @param fields
  */
 const handleUpdate = async (fields: any) => {
@@ -50,7 +50,7 @@ const handleUpdate = async (fields: any) => {
 };
 
 /**
- * 删除用户
+ * 删除角色
  * @param roleId
  */
 
@@ -101,7 +101,7 @@ const TableList: React.FC = () => {
   const handleDelModal = (userIds: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
-      content: `是否确认删除用户编号为"${userIds}"的数据项？`,
+      content: `是否确认删除角色编号为"${userIds}"的数据项？`,
       onOk: async () => {
         const success = await handleRemove(userIds);
         handleRefresh(success);
@@ -147,27 +147,28 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       width: 240,
-      render: (_, record) => [
-        <a
-          key="edit"
-          onClick={() => {
-            setModalVisible(true);
-            setModalCurrent(record);
-            setModalType('edit');
-          }}
-        >
-          修改
-        </a>,
-        <a
-          key="delete"
-          onClick={() => {
-            handleDelModal(record.roleId as number);
-          }}
-        >
-          删除
-        </a>,
-        <a key="role">分配角色</a>,
-      ],
+      render: (_, record) =>
+        record.roleId !== 1 && [
+          <a
+            key="edit"
+            onClick={() => {
+              setModalVisible(true);
+              setModalCurrent(record);
+              setModalType('edit');
+            }}
+          >
+            修改
+          </a>,
+          <a
+            key="delete"
+            onClick={() => {
+              handleDelModal(record.roleId as number);
+            }}
+          >
+            删除
+          </a>,
+          <a key="role">分配角色</a>,
+        ],
     },
   ];
 
