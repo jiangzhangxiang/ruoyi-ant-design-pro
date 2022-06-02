@@ -166,7 +166,8 @@ const TableList: React.FC = () => {
           >
             删除
           </a>,
-          <a key="role">分配角色</a>,
+          <a key="date">数据权限</a>,
+          <a key="user">分配用户</a>,
         ],
     },
   ];

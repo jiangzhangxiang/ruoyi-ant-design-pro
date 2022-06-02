@@ -1,5 +1,7 @@
 import { request } from 'umi';
 import type { RoleList, RoleListItem } from '@/pages/system/Role/data';
+import { parseStrEmpty } from '@/utils';
+import { RoleInfo } from '@/pages/system/Role/data';
 
 /** 获取角色管理列表 GET /system/role/list */
 export async function list(
@@ -41,5 +43,13 @@ export async function addRole(data: RoleListItem, options?: Record<string, any>)
 export async function delRole(userId?: number[] | number) {
   return request<Record<string, any>>('/system/role/' + userId, {
     method: 'DELETE',
+  });
+}
+
+/** 查询角色详细 PUT /system/role/${roleId} */
+export async function getRole(roleId: number | undefined, options?: { [key: string]: any }) {
+  return request<RoleInfo>('/system/role/' + parseStrEmpty(roleId), {
+    method: 'GET',
+    ...(options || {}),
   });
 }

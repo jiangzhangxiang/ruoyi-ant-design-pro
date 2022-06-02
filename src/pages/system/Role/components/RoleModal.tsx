@@ -11,6 +11,8 @@ import type { RoleListItem } from '../data.d';
 import { useEffect } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
+import { getRole } from '@/services/system/role';
+import { roleMenuTreeselect } from '@/services/system/menu';
 
 export type UserModalProps = {
   visible: boolean;
@@ -31,13 +33,15 @@ const RoleModal: FC<UserModalProps> = (props) => {
   const { sys_normal_disable } = useDict({
     dictType: ['sys_normal_disable'],
   });
-
   /**
    * 初始化表单数据
    */
   const initFormData = async () => {
     if (visible) {
-      form.setFieldsValue({ ...current });
+      const { data } = await getRole(current?.roleId);
+      const roleMenu = await roleMenuTreeselect(current?.roleId);
+      console.log(roleMenu);
+      form.setFieldsValue({ ...data });
     }
     if (!visible) {
       form.resetFields();

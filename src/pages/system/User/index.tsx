@@ -292,7 +292,6 @@ const TableList: React.FC = () => {
             <DeleteOutlined /> 删除
           </Button>,
           <Button
-            type="primary"
             key="import"
             onClick={() => {
               setUploadVisible(true);

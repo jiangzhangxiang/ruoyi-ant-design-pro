@@ -1,6 +1,7 @@
 import { request } from 'umi';
 import { UserInfo, UserList, UserListItem } from '@/pages/system/User/data';
 import { parseStrEmpty } from '@/utils';
+import { RoleInfo } from '@/pages/system/Role/data';
 
 /** 获取客户管理列表 GET /system/user/list */
 export async function list(
@@ -69,6 +70,17 @@ export async function importData(data: any, options?: { [key: string]: any }) {
     method: 'POST',
     data: data.formData,
     errorMessageMode: 'modal',
+    ...(options || {}),
+  });
+}
+
+/** 查询角色详细 PUT /system/menu/roleMenuTreeselect/${roleId} */
+export async function roleMenuTreeselect(
+  roleId: number | undefined,
+  options?: { [key: string]: any },
+) {
+  return request<RoleInfo>('/system/menu/roleMenuTreeselect/' + parseStrEmpty(roleId), {
+    method: 'GET',
     ...(options || {}),
   });
 }

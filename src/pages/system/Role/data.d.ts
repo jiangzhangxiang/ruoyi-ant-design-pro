@@ -10,9 +10,5 @@ export type RoleList = {
 };
 
 export type RoleInfo = {
-  code: number;
-  posts: any[];
-  roles: any[];
-  postIds: any[];
-  roleIds: any[];
+  data?: {};
 };
