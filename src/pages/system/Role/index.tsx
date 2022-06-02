@@ -97,12 +97,12 @@ const TableList: React.FC = () => {
     }
   };
 
-  const handleDelModal = (userIds: number | number[]) => {
+  const handleDelModal = (roleIds: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
-      content: `是否确认删除角色编号为"${userIds}"的数据项？`,
+      content: `是否确认删除角色编号为"${roleIds}"的数据项？`,
       onOk: async () => {
-        const success = await handleRemove(userIds);
+        const success = await handleRemove(roleIds);
         handleRefresh(success);
       },
     });

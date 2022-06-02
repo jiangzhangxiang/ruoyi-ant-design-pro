@@ -14,7 +14,7 @@ import useDict from '@/hooks/useDict';
 import { getRole } from '@/services/system/role';
 import { roleMenuTreeselect, treeselect } from '@/services/system/menu';
 
-export type UserModalProps = {
+export type RoleModalProps = {
   visible: boolean;
   current: Partial<RoleListItem> | undefined;
   onSubmit: (values: RoleListItem) => void;
@@ -27,7 +27,7 @@ const titleMap = {
   add: '新增角色',
 };
 
-const RoleModal: FC<UserModalProps> = (props) => {
+const RoleModal: FC<RoleModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
