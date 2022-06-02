@@ -16,7 +16,7 @@ import { handleTree } from '@/utils';
  * 添加部门
  * @param fields
  */
-const handleUserAdd = async (fields: DeptListItem) => {
+const handleAdd = async (fields: DeptListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addDept({ ...fields });
@@ -191,7 +191,7 @@ const TableList: React.FC = () => {
         onSubmit={async (fields) => {
           const success = await (modalCurrent?.deptId
             ? handleUpdate({ ...modalCurrent, ...fields })
-            : handleUserAdd({ ...modalCurrent, ...fields }));
+            : handleAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}

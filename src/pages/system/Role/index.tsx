@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { addUser, updateUser, delUser, list } from '@/services/system/role';
+import { addRole, updateRole, delRole, list } from '@/services/system/role';
 import RoleModal from './components/RoleModal';
 import type { RoleListItem } from './data.d';
 import { download } from '@/services/api';
@@ -17,10 +17,10 @@ import { addDateRange } from '@/utils';
  * 添加角色
  * @param fields
  */
-const handleUserAdd = async (fields: RoleListItem) => {
+const handleAdd = async (fields: RoleListItem) => {
   const hide = message.loading('正在新增');
   try {
-    await addUser({ ...fields });
+    await addRole({ ...fields });
     hide();
     message.success('新增成功');
     return true;
@@ -37,7 +37,7 @@ const handleUserAdd = async (fields: RoleListItem) => {
 const handleUpdate = async (fields: any) => {
   const hide = message.loading('正在修改');
   try {
-    await updateUser({
+    await updateRole({
       ...fields,
     });
     hide();
@@ -53,12 +53,11 @@ const handleUpdate = async (fields: any) => {
  * 删除角色
  * @param roleId
  */
-
 const handleRemove = async (roleId: number | number[]) => {
   const hide = message.loading('正在删除');
   if (!roleId) return true;
   try {
-    await delUser(roleId);
+    await delRole(roleId);
     hide();
     message.success('删除成功');
     return true;
@@ -230,7 +229,7 @@ const TableList: React.FC = () => {
         onSubmit={async (fields) => {
           const success = await (modalCurrent?.roleId
             ? handleUpdate({ ...modalCurrent, ...fields })
-            : handleUserAdd({ ...modalCurrent, ...fields }));
+            : handleAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}

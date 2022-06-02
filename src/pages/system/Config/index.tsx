@@ -17,7 +17,7 @@ import { addDateRange } from '@/utils';
  * 添加用户
  * @param fields
  */
-const handleUserAdd = async (fields: ConfigListItem) => {
+const handleAdd = async (fields: ConfigListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addConfig({ ...fields });
@@ -247,7 +247,7 @@ const TableList: React.FC = () => {
         onSubmit={async (fields) => {
           const success = await (modalCurrent?.configId
             ? handleUpdate({ ...modalCurrent, ...fields })
-            : handleUserAdd({ ...modalCurrent, ...fields }));
+            : handleAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}

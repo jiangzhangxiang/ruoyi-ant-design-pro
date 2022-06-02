@@ -17,7 +17,7 @@ import useDict from '@/hooks/useDict';
  * 添加用户
  * @param fields
  */
-const handleUserAdd = async (fields: PostListItem) => {
+const handleAdd = async (fields: PostListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addpost({ ...fields });
@@ -225,7 +225,7 @@ const TableList: React.FC = () => {
         onSubmit={async (fields) => {
           const success = await (modalCurrent?.postId
             ? handleUpdate({ ...modalCurrent, ...fields })
-            : handleUserAdd({ ...modalCurrent, ...fields }));
+            : handleAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}

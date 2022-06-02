@@ -24,7 +24,7 @@ import { dictTransform } from '@/hooks/useDict';
  * 添加字典数据
  * @param fields
  */
-const handleUserAdd = async (fields: DictDataListItem) => {
+const handleAdd = async (fields: DictDataListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addDictData({ ...fields });
@@ -265,7 +265,7 @@ const TableList: React.FC = (props: any) => {
         onSubmit={async (fields) => {
           const success = await (modalCurrent?.dictCode
             ? handleUpdate({ ...modalCurrent, ...fields })
-            : handleUserAdd({ ...modalCurrent, ...fields }));
+            : handleAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}

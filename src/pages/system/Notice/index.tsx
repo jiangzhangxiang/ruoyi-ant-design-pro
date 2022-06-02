@@ -15,7 +15,7 @@ import useDict from '@/hooks/useDict';
  * 添加公告
  * @param fields
  */
-const handleUserAdd = async (fields: NoticeListItem) => {
+const handleAdd = async (fields: NoticeListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addNotice({ ...fields });
@@ -215,7 +215,7 @@ const TableList: React.FC = () => {
         onSubmit={async (fields) => {
           const success = await (modalCurrent?.noticeId
             ? handleUpdate({ ...modalCurrent, ...fields })
-            : handleUserAdd({ ...modalCurrent, ...fields }));
+            : handleAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}

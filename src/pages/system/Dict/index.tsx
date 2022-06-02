@@ -18,7 +18,7 @@ import { history } from '@@/core/history';
  * 添加字典
  * @param fields
  */
-const handleUserAdd = async (fields: DictListItem) => {
+const handleAdd = async (fields: DictListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addDict({ ...fields });
@@ -256,7 +256,7 @@ const TableList: React.FC = () => {
         onSubmit={async (fields) => {
           const success = await (modalCurrent?.dictId
             ? handleUpdate({ ...modalCurrent, ...fields })
-            : handleUserAdd({ ...modalCurrent, ...fields }));
+            : handleAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}

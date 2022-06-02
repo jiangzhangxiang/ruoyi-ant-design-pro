@@ -29,7 +29,7 @@ import UploadModal from '@/pages/system/User/components/UploadModal';
  * 添加用户
  * @param fields
  */
-const handleUserAdd = async (fields: UserListItem) => {
+const handleAdd = async (fields: UserListItem) => {
   const hide = message.loading('正在新增');
   try {
     await addUser({ ...fields });
@@ -327,7 +327,7 @@ const TableList: React.FC = () => {
         onSubmit={async (fields) => {
           const success = await (modalCurrent?.userId
             ? handleUpdate({ ...modalCurrent, ...fields })
-            : handleUserAdd({ ...modalCurrent, ...fields }));
+            : handleAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);
         }}
         onCancel={handleCancel}

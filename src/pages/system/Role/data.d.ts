@@ -1,6 +1,7 @@
 export type RoleListItem = {
   roleId?: number;
   createTime?: string;
+  menuIds?: number[];
 };
 
 export type RoleList = {
