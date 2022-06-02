@@ -84,3 +84,11 @@ export async function roleMenuTreeselect(
     ...(options || {}),
   });
 }
+
+/** 查询菜单下拉树结构  PUT /system/menu/treeselect */
+export async function treeselect(options?: { [key: string]: any }) {
+  return request<RoleInfo>('/system/menu/treeselect', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}

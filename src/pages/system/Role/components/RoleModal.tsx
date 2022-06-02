@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
 import { getRole } from '@/services/system/role';
-import { roleMenuTreeselect } from '@/services/system/menu';
+import { roleMenuTreeselect, treeselect } from '@/services/system/menu';
 
 export type UserModalProps = {
   visible: boolean;
@@ -38,10 +38,14 @@ const RoleModal: FC<UserModalProps> = (props) => {
    */
   const initFormData = async () => {
     if (visible) {
-      const { data } = await getRole(current?.roleId);
-      const roleMenu = await roleMenuTreeselect(current?.roleId);
+      if (current?.roleId) {
+        const { data } = await getRole(current?.roleId);
+        form.setFieldsValue({ ...data });
+      }
+      const roleMenu = current?.roleId
+        ? await roleMenuTreeselect(current?.roleId)
+        : await treeselect();
       console.log(roleMenu);
-      form.setFieldsValue({ ...data });
     }
     if (!visible) {
       form.resetFields();
