@@ -39,7 +39,7 @@ const DictModal: FC<UserModalProps> = (props) => {
     if (visible) {
       form?.setFieldsValue({ ...current, dictType });
     }
-    if (!visible && form) {
+    if (!visible && current) {
       form.resetFields();
     }
   };

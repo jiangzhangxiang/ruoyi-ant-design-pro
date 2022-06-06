@@ -78,7 +78,7 @@ const handleRemove = async (id: number | number[]) => {
 const TableList: React.FC = (props: any) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<DictDataListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<DictDataListItem>();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);

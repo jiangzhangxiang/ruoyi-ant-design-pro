@@ -34,7 +34,7 @@ const DictModal: FC<UserModalProps> = (props) => {
       const { data } = await getDict(current?.dictId);
       form?.setFieldsValue({ ...data });
     }
-    if (!visible && form) {
+    if (!visible && current) {
       form.resetFields();
     }
   };
