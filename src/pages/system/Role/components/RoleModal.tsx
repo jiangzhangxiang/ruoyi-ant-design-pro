@@ -47,7 +47,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
         : await treeselect();
       console.log(roleMenu);
     }
-    if (!visible) {
+    if (!visible && current) {
       form.resetFields();
     }
   };
