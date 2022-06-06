@@ -35,7 +35,7 @@ const ConfigModal: FC<UserModalProps> = (props) => {
       const { data } = await getConfig(current?.configId);
       form.setFieldsValue({ ...data });
     }
-    if (!visible && form) {
+    if (!visible && current) {
       form.resetFields();
     }
   };

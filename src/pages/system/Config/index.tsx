@@ -71,7 +71,7 @@ const handleRemove = async (configId: number | number[]) => {
 const TableList: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<ConfigListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<ConfigListItem>();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
