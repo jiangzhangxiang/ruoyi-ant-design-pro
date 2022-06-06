@@ -36,7 +36,7 @@ const NoticeModal: FC<UserModalProps> = (props) => {
       setInfoData(data.noticeContent);
       form.setFieldsValue({ ...data });
     }
-    if (!visible && form) {
+    if (!visible && current) {
       form.resetFields();
     }
   };
