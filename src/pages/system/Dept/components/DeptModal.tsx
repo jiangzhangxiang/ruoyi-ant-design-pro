@@ -61,7 +61,7 @@ const DeptModal: FC<DeptModalProps> = (props) => {
         form.setFieldsValue({ ...data });
       }
     }
-    if (!visible) {
+    if (!visible && current) {
       form?.resetFields();
     }
   };
