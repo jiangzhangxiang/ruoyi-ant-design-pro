@@ -55,7 +55,7 @@ const TableList: React.FC = () => {
   });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<OperlogListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<OperlogListItem>();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);

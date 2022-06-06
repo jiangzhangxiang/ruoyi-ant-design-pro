@@ -78,7 +78,7 @@ const OperlogModal: FC<OperlogModalProps> = (props) => {
     if (visible) {
       form.setFieldsValue({ ...current });
     }
-    if (!visible && form) {
+    if (!visible && current) {
       form.resetFields();
     }
   };
