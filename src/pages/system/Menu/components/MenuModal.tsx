@@ -33,7 +33,7 @@ const titleMap = {
   add: '新增用户',
 };
 
-const RoleModal: FC<UserModalProps> = (props) => {
+const MenuModal: FC<UserModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
   const { data: deptIdTreeData }: any = useRequest(treeselect);
   const [userData, setUserData] = useState<{ posts: any[]; roles: any[] } | any>();
@@ -176,4 +176,4 @@ const RoleModal: FC<UserModalProps> = (props) => {
   );
 };
 
-export default RoleModal;
+export default MenuModal;

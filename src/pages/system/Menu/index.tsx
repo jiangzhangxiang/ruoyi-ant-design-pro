@@ -1,26 +1,25 @@
-import { PlusOutlined, DeleteOutlined, DownloadOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
-import { addUser, updateUser, delUser, list } from '@/services/system/menu';
-import RoleModal from './components/RoleModal';
-import type { RoleListItem } from './data.d';
-import { download } from '@/services/api';
+import { list, addMenu, updateMenu, delMenu } from '@/services/system/menu';
+import MenuModal from './components/MenuModal';
+import type { MenuListItem } from './data.d';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
-import { addDateRange } from '@/utils';
+import { handleTree } from '@/utils';
 
 /**
- * 添加角色
+ * 添加菜单
  * @param fields
  */
-const handleAdd = async (fields: RoleListItem) => {
+const handleAdd = async (fields: MenuListItem) => {
   const hide = message.loading('正在新增');
   try {
-    await addUser({ ...fields });
+    await addMenu({ ...fields });
     hide();
     message.success('新增成功');
     return true;
@@ -31,13 +30,13 @@ const handleAdd = async (fields: RoleListItem) => {
 };
 
 /**
- * 修改用户
+ * 修改菜单
  * @param fields
  */
 const handleUpdate = async (fields: any) => {
   const hide = message.loading('正在修改');
   try {
-    await updateUser({
+    await updateMenu({
       ...fields,
     });
     hide();
@@ -50,15 +49,15 @@ const handleUpdate = async (fields: any) => {
 };
 
 /**
- * 删除用户
- * @param roleId
+ * 删除菜单
+ * @param menuId
  */
 
-const handleRemove = async (roleId: number | number[]) => {
+const handleRemove = async (id: number | number[]) => {
   const hide = message.loading('正在删除');
-  if (!roleId) return true;
+  if (!id) return true;
   try {
-    await delUser(roleId);
+    await delMenu(id);
     hide();
     message.success('删除成功');
     return true;
@@ -74,10 +73,9 @@ const TableList: React.FC = () => {
   });
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<RoleListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<MenuListItem>({});
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
-  const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
   /**
    * 取消
    */
@@ -92,40 +90,40 @@ const TableList: React.FC = () => {
    */
   const handleRefresh = (success: boolean) => {
     if (success && actionRef.current) {
-      setSelectedRows([]);
       handleCancel();
       actionRef.current.reload();
     }
   };
 
-  const handleDelModal = (userIds: number | number[]) => {
+  const handleDelModal = (ids: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
-      content: `是否确认删除用户编号为"${userIds}"的数据项？`,
+      content: `是否确认删除菜单编号为"${ids}"的数据项？`,
       onOk: async () => {
-        const success = await handleRemove(userIds);
+        const success = await handleRemove(ids);
         handleRefresh(success);
       },
     });
   };
 
-  const columns: ProColumns<RoleListItem>[] = [
+  const columns: ProColumns<MenuListItem>[] = [
     {
-      title: '角色编号',
-      dataIndex: 'roleId',
+      title: '菜单名称',
+      dataIndex: 'menuName',
+    },
+    {
+      title: '排序',
+      dataIndex: 'orderNum',
       hideInSearch: true,
     },
     {
-      title: '角色名称',
-      dataIndex: 'roleName',
+      title: '权限标识',
+      dataIndex: 'perms',
+      hideInSearch: true,
     },
     {
-      title: '权限字符',
-      dataIndex: 'roleKey',
-    },
-    {
-      title: '显示排序',
-      dataIndex: 'roleSort',
+      title: '组件路径',
+      dataIndex: 'component',
       hideInSearch: true,
     },
     {
@@ -136,11 +134,7 @@ const TableList: React.FC = () => {
     {
       title: '创建时间',
       dataIndex: 'createTime',
-      valueType: 'dateRange',
-      render: (_, record) => record.createTime,
-      search: {
-        transform: (value: any) => addDateRange(value),
-      },
+      hideInSearch: true,
     },
     {
       title: '操作',
@@ -158,25 +152,25 @@ const TableList: React.FC = () => {
         >
           修改
         </a>,
-        <a
-          key="delete"
-          onClick={() => {
-            handleDelModal(record.roleId as number);
-          }}
-        >
-          删除
-        </a>,
-        <a key="role">分配角色</a>,
+        <div key="delete">
+          <a
+            onClick={() => {
+              handleDelModal(record.menuId as number);
+            }}
+          >
+            删除
+          </a>
+        </div>,
       ],
     },
   ];
 
   return (
     <PageContainer>
-      <BasicTable<RoleListItem, API.PageParams>
+      <BasicTable<MenuListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
-        rowKey="roleId"
+        rowKey="menuId"
         search={{
           labelWidth: 120,
         }}
@@ -192,42 +186,18 @@ const TableList: React.FC = () => {
           >
             <PlusOutlined /> 新增
           </Button>,
-          <Button
-            danger
-            disabled={!selectedRowsState.length}
-            key="delete"
-            onClick={() => {
-              handleDelModal(selectedRowsState as number[]);
-            }}
-          >
-            <DeleteOutlined /> 删除
-          </Button>,
-          <Button
-            type="primary"
-            key="export"
-            onClick={() => {
-              const params = formRef.current?.getFieldsValue();
-              download('/system/role/export', params, `role_${new Date().getTime()}.xlsx`);
-            }}
-          >
-            <DownloadOutlined /> 导出
-          </Button>,
         ]}
-        request={list}
+        request={async (params: any) =>
+          list(params).then((res: any) => ({ data: handleTree(res.data, 'menuId') }))
+        }
         columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows.map((m) => m.roleId) as number[]);
-          },
-          preserveSelectedRowKeys: true,
-          selectedRowKeys: selectedRowsState,
-        }}
+        expandable={{ defaultExpandAllRows: true }}
       />
-      <RoleModal
+      <MenuModal
         visible={modalVisible}
         current={modalCurrent}
         onSubmit={async (fields) => {
-          const success = await (modalCurrent?.roleId
+          const success = await (modalCurrent?.menuId
             ? handleUpdate({ ...modalCurrent, ...fields })
             : handleAdd({ ...modalCurrent, ...fields }));
           handleRefresh(success);

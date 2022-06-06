@@ -1,9 +1,9 @@
 import { request } from 'umi';
-import { UserInfo, UserList, UserListItem } from '@/pages/system/User/data';
+import { MenuInfo, MenuList, MenuListItem } from '@/pages/system/Menu/data';
 import { parseStrEmpty } from '@/utils';
 import { RoleInfo } from '@/pages/system/Role/data';
 
-/** 获取客户管理列表 GET /system/user/list */
+/** 获取客户管理列表 GET /system/menu/list */
 export async function list(
   params: {
     // query
@@ -14,62 +14,42 @@ export async function list(
   },
   options?: { [key: string]: any },
 ) {
-  return request<UserList>('/system/user/list', {
+  return request<MenuList>('/system/menu/list', {
     method: 'GET',
     params: params,
     ...(options || {}),
   });
 }
 
-/** 修改用户 PUT /system/user */
-export async function updateUser(data: UserListItem, options?: { [key: string]: any }) {
-  return request<UserListItem>('/system/user', {
+/** 修改菜单 PUT /system/menu */
+export async function updateMenu(data: MenuListItem, options?: { [key: string]: any }) {
+  return request<MenuListItem>('/system/menu', {
     method: 'PUT',
     data,
     ...(options || {}),
   });
 }
 
-/** 新建用户 POST /system/user */
-export async function addUser(data: UserListItem, options?: { [key: string]: any }) {
-  return request<UserListItem>('/system/user', {
+/** 新建菜单 POST /system/menu */
+export async function addMenu(data: MenuListItem, options?: { [key: string]: any }) {
+  return request<MenuListItem>('/system/menu', {
     method: 'POST',
     data,
     ...(options || {}),
   });
 }
 
-/** 删除用户 DELETE /system/user/ */
-export async function delUser(userId?: number[] | number) {
-  return request<Record<string, any>>('/system/user/' + userId, {
+/** 删除菜单 DELETE /system/menu/ */
+export async function delMenu(menuId?: number[] | number) {
+  return request<Record<string, any>>('/system/menu/' + menuId, {
     method: 'DELETE',
   });
 }
 
-/** 重置密码 POST /system/resetUserPwd */
-export async function resetUserPwd(data: UserListItem, options?: { [key: string]: any }) {
-  return request<UserListItem>('/system/user/resetPwd', {
-    method: 'PUT',
-    data,
-    ...(options || {}),
-  });
-}
-
-/** 查询用户详细 PUT /system/user/${userId} */
-export async function getUser(userId: number | undefined, options?: { [key: string]: any }) {
-  return request<UserInfo>('/system/user/' + parseStrEmpty(userId), {
+/** 查询菜单详细 PUT /system/menu/${menuId} */
+export async function getMenu(menuId: number | undefined, options?: { [key: string]: any }) {
+  return request<MenuInfo>('/system/menu/' + parseStrEmpty(menuId), {
     method: 'GET',
-    ...(options || {}),
-  });
-}
-
-/** 导入用户 POST /system/user/importData */
-export async function importData(data: any, options?: { [key: string]: any }) {
-  const url = '/system/user/importData' + '?updateSupport=' + data.updateSupport;
-  return request<UserInfo>(url, {
-    method: 'POST',
-    data: data.formData,
-    errorMessageMode: 'modal',
     ...(options || {}),
   });
 }

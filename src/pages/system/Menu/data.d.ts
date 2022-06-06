@@ -1,18 +1,14 @@
-export type RoleListItem = {
-  userId?: number;
+export type MenuListItem = {
+  menuId?: number;
   createTime?: string;
-  roleId?: number;
 };
 
-export type RoleList = {
-  rows?: RoleListItem[];
+export type MenuList = {
+  rows?: MenuListItem[];
   total?: number;
 };
 
-export type RoleInfo = {
+export type MenuInfo = {
   code: number;
-  posts: any[];
-  roles: any[];
-  postIds: any[];
-  roleIds: any[];
+  data?: any[];
 };
