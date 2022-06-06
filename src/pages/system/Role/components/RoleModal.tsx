@@ -36,7 +36,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   /**
    * 初始化表单数据
    */
-  const initFormData = async () => {
+  const initData = async () => {
     if (visible) {
       if (current?.roleId) {
         const { data } = await getRole(current?.roleId);
@@ -53,7 +53,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   };
 
   useEffect(() => {
-    initFormData();
+    initData();
   }, [visible]);
   return (
     <ModalForm<RoleListItem>

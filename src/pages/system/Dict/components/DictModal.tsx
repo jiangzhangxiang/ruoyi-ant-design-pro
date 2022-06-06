@@ -29,7 +29,7 @@ const DictModal: FC<UserModalProps> = (props) => {
   /**
    * 初始化表单数据
    */
-  const initFormData = async () => {
+  const initData = async () => {
     if (visible && type === 'edit') {
       const { data } = await getDict(current?.dictId);
       form?.setFieldsValue({ ...data });
@@ -40,7 +40,7 @@ const DictModal: FC<UserModalProps> = (props) => {
   };
 
   useEffect(() => {
-    initFormData();
+    initData();
   }, [visible]);
   return (
     <ModalForm<DictListItem>

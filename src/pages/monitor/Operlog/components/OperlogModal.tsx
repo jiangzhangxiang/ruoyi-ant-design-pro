@@ -74,7 +74,7 @@ const OperlogModal: FC<OperlogModalProps> = (props) => {
   /**
    * 初始化表单数据
    */
-  const initFormData = async () => {
+  const initData = async () => {
     if (visible) {
       form.setFieldsValue({ ...current });
     }
@@ -84,7 +84,7 @@ const OperlogModal: FC<OperlogModalProps> = (props) => {
   };
 
   useEffect(() => {
-    initFormData();
+    initData();
   }, [visible]);
   return (
     <ModalForm<OperlogListItem>

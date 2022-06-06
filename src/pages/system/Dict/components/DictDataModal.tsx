@@ -35,7 +35,7 @@ const DictModal: FC<UserModalProps> = (props) => {
   /**
    * 初始化表单数据
    */
-  const initFormData = async () => {
+  const initData = async () => {
     if (visible) {
       form?.setFieldsValue({ ...current, dictType });
     }
@@ -45,7 +45,7 @@ const DictModal: FC<UserModalProps> = (props) => {
   };
 
   useEffect(() => {
-    initFormData();
+    initData();
   }, [visible]);
   return (
     <ModalForm<DictDataListItem>

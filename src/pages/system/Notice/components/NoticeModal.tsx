@@ -30,7 +30,7 @@ const NoticeModal: FC<UserModalProps> = (props) => {
   /**
    * 初始化表单数据
    */
-  const initFormData = async () => {
+  const initData = async () => {
     if (visible && type === 'edit') {
       const { data } = await getNotice(current?.noticeId);
       setInfoData(data.noticeContent);
@@ -42,7 +42,7 @@ const NoticeModal: FC<UserModalProps> = (props) => {
   };
 
   useEffect(() => {
-    initFormData();
+    initData();
   }, [visible]);
   return (
     <ModalForm<NoticeListItem>

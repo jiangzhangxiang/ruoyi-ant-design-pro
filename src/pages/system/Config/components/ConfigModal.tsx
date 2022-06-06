@@ -30,7 +30,7 @@ const ConfigModal: FC<UserModalProps> = (props) => {
   /**
    * 初始化表单数据
    */
-  const initFormData = async () => {
+  const initData = async () => {
     if (visible && type === 'edit') {
       const { data } = await getConfig(current?.configId);
       form.setFieldsValue({ ...data });
@@ -41,7 +41,7 @@ const ConfigModal: FC<UserModalProps> = (props) => {
   };
 
   useEffect(() => {
-    initFormData();
+    initData();
   }, [visible]);
   return (
     <ModalForm<ConfigListItem>

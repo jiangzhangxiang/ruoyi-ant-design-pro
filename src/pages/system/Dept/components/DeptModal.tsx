@@ -53,7 +53,7 @@ const DeptModal: FC<DeptModalProps> = (props) => {
   /**
    * 初始化表单数据
    */
-  const initFormData = async () => {
+  const initData = async () => {
     if (visible) {
       if (type === 'edit') {
         const { data } = await getDept(current?.deptId);
@@ -66,7 +66,7 @@ const DeptModal: FC<DeptModalProps> = (props) => {
     }
   };
   useEffect(() => {
-    initFormData();
+    initData();
   }, [visible]);
   return (
     <ModalForm<DeptListItem>

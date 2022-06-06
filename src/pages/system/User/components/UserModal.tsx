@@ -53,7 +53,7 @@ const UserModal: FC<UserModalProps> = (props) => {
   /**
    * 初始化表单数据
    */
-  const initFormData = async () => {
+  const initData = async () => {
     if (visible) {
       const userInfo = await getUser(current?.userId);
       userInfo.posts = userInfo.posts.map((p: any) => ({ value: p.postId, label: p.postName }));
@@ -70,7 +70,7 @@ const UserModal: FC<UserModalProps> = (props) => {
   };
 
   useEffect(() => {
-    initFormData();
+    initData();
   }, [visible]);
   return (
     <ModalForm<UserListItem>

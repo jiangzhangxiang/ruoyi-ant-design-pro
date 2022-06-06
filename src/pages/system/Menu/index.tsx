@@ -152,6 +152,16 @@ const TableList: React.FC = () => {
         >
           修改
         </a>,
+        <a
+          key="add"
+          onClick={() => {
+            setModalVisible(true);
+            setModalCurrent(record);
+            setModalType('add');
+          }}
+        >
+          新增
+        </a>,
         <div key="delete">
           <a
             onClick={() => {
