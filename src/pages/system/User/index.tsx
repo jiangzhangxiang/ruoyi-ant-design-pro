@@ -130,7 +130,7 @@ const TableList: React.FC = () => {
   const [uploadVisible, setUploadVisible] = useState<boolean>(false);
   const [resetPwdVisible, setResetPwdVisible] = useState<boolean>(false);
   const [modalType, setModalType] = useState<string>('');
-  const [modalCurrent, setModalCurrent] = useState<UserListItem>({});
+  const [modalCurrent, setModalCurrent] = useState<UserListItem>();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);

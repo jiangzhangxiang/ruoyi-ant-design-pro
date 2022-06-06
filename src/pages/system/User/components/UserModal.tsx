@@ -64,7 +64,7 @@ const UserModal: FC<UserModalProps> = (props) => {
     if (type === 'add' && form) {
       form.setFieldsValue({ password: initPassword });
     }
-    if (!visible && form) {
+    if (!visible && form && current) {
       form.resetFields();
     }
   };

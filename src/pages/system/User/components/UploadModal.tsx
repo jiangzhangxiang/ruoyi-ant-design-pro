@@ -22,7 +22,7 @@ const UploadModal: FC<UploadModalProps> = (props) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if (!visible && form) {
+    if (visible) {
       form?.resetFields();
     }
   }, [visible]);
