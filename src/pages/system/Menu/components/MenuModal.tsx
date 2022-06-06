@@ -41,7 +41,7 @@ const MenuModal: FC<MenuModalProps> = (props) => {
     if (visible) {
       form.setFieldsValue({ ...current });
     }
-    if (!visible) {
+    if (!visible && current) {
       form.resetFields();
     }
   };
