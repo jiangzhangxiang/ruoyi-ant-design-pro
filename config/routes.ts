@@ -84,6 +84,22 @@
       },
     ],
   },
+  {
+    path: '/monitor',
+    name: '系统监控',
+    icon: 'table',
+    routes: [
+      {
+        path: '/monitor/online',
+        name: '在线用户',
+        component: './system/User',
+      },
+      {
+        component: '404',
+      },
+    ],
+  },
+
   { path: '/', redirect: '/welcome' },
   { component: './404' },
 ];
