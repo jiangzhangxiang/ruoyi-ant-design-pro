@@ -1,6 +1,6 @@
 ## 简介
 
-ruoyi-ant-design-pro 完全免费，且可商用。前端基于 ant-design-pro，后端直接对接访问 ruoyi 的服务。
+ruoyi-ant-design-pro 完全免费，且可商用。前端基于 ant-design-pro，后端直接对接访问 ruoyi 的服务
 
 ## 特性
 
