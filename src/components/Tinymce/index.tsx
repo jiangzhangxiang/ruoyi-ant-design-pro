@@ -28,6 +28,7 @@ const Tinymce: FC<UploadProps> = (params) => {
     content_style: 'img {max-width:100% !important }',
     paste_data_images: true,
     tabfocus_elements: ':prev,:next',
+    // 上传方法
     images_upload_handler: (blobInfo: any, success: any) => {
       const reader = new FileReader();
       reader.readAsDataURL(blobInfo.blob());
