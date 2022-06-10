@@ -20,7 +20,7 @@ export const judgeMap = (mapList: any[], params: Record<string, any>) => {
 };
 
 /**
- * 本地存数据
+ * 本地localStorage存数据 方法
  */
 
 export const ls = {
@@ -50,7 +50,7 @@ export const ls = {
 };
 
 /**
- * 参数处理
+ * get请求映射params参数
  * @param {*} params  参数
  */
 export function tansParams(params: Record<string, any>) {
