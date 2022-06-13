@@ -95,6 +95,11 @@
         component: './system/User',
       },
       {
+        path: '/monitor/job',
+        name: '定时任务',
+        component: './system/User',
+      },
+      {
         component: '404',
       },
     ],
