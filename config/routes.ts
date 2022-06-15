@@ -105,6 +105,11 @@
         component: './system/User',
       },
       {
+        path: '/monitor/server',
+        name: '服务监控',
+        component: './system/User',
+      },
+      {
         component: '404',
       },
     ],
