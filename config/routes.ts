@@ -100,6 +100,11 @@
         component: './system/User',
       },
       {
+        path: '/monitor/druid',
+        name: '数据监控',
+        component: './system/User',
+      },
+      {
         component: '404',
       },
     ],
