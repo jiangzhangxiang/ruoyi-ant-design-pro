@@ -110,6 +110,11 @@
         component: './system/User',
       },
       {
+        path: '/monitor/cache',
+        name: '缓存监控',
+        component: './system/User',
+      },
+      {
         component: '404',
       },
     ],
