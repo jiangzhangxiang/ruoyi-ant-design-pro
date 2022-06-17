@@ -119,6 +119,11 @@
       },
     ],
   },
+  {
+    path: '/comp',
+    name: '组件示例',
+    icon: 'table',
+  },
 
   { path: '/', redirect: '/welcome' },
   { component: './404' },
