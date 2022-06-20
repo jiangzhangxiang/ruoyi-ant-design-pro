@@ -54,7 +54,6 @@ const DictModal: FC<DictModalProps> = (props) => {
       }}
       modalProps={{
         onCancel: onCancel,
-        destroyOnClose: true,
       }}
     >
       <>

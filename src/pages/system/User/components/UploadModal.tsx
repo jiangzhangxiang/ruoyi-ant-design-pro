@@ -39,7 +39,6 @@ const UploadModal: FC<UploadModalProps> = (props) => {
       }}
       modalProps={{
         onCancel: onCancel,
-        destroyOnClose: true,
       }}
     >
       <>

@@ -80,7 +80,6 @@ const DeptModal: FC<DeptModalProps> = (props) => {
       }}
       modalProps={{
         onCancel: onCancel,
-        destroyOnClose: true,
       }}
     >
       <>

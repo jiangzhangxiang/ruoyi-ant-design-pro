@@ -61,7 +61,6 @@ const MenuModal: FC<MenuModalProps> = (props) => {
       }}
       modalProps={{
         onCancel: onCancel,
-        destroyOnClose: true,
       }}
     >
       <>

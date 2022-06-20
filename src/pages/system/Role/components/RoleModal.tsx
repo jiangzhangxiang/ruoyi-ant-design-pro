@@ -67,7 +67,6 @@ const RoleModal: FC<RoleModalProps> = (props) => {
       }}
       modalProps={{
         onCancel: onCancel,
-        destroyOnClose: true,
       }}
     >
       <>

@@ -23,7 +23,6 @@ const ResetPwdModal: FC<UserModalProps> = (props) => {
       }}
       modalProps={{
         onCancel: onCancel,
-        destroyOnClose: true,
       }}
     >
       <>

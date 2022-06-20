@@ -58,7 +58,6 @@ const PostModal: FC<UserModalProps> = (props) => {
       }}
       modalProps={{
         onCancel: onCancel,
-        destroyOnClose: true,
       }}
     >
       <>

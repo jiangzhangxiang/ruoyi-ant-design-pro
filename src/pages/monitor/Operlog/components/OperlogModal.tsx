@@ -95,7 +95,6 @@ const OperlogModal: FC<OperlogModalProps> = (props) => {
       trigger={<></>}
       modalProps={{
         onCancel: onCancel,
-        destroyOnClose: true,
         okText: false,
         cancelText: false,
       }}
