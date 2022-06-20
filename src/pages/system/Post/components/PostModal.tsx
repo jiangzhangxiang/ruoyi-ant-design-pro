@@ -25,7 +25,7 @@ const titleMap = {
 };
 
 const PostModal: FC<UserModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, type } = props;
+  const { visible, current, onSubmit, onCancel, type } = props;
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
     dictType: ['sys_normal_disable'],
@@ -52,7 +52,6 @@ const PostModal: FC<UserModalProps> = (props) => {
       visible={visible}
       title={titleMap[type]}
       width={540}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit(values);
       }}

@@ -21,7 +21,7 @@ const titleMap = {
 };
 
 const ConfigModal: FC<UserModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, type } = props;
+  const { visible, current, onSubmit, onCancel, type } = props;
   const [form] = Form.useForm();
   const { sys_yes_no } = useDict({
     dictType: ['sys_yes_no'],
@@ -49,7 +49,6 @@ const ConfigModal: FC<UserModalProps> = (props) => {
       visible={visible}
       title={titleMap[type]}
       width={540}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit(values);
       }}

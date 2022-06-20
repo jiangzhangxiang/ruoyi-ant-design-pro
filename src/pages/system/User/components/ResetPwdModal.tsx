@@ -10,14 +10,13 @@ type UserModalProps = {
 };
 
 const ResetPwdModal: FC<UserModalProps> = (props) => {
-  const { visible, onSubmit, children, onCancel, current } = props;
+  const { visible, onSubmit, onCancel, current } = props;
   const msg = `请输入的${current?.userName}新密码`;
   return (
     <ModalForm<UserListItem>
       visible={visible}
-      title={'提示'}
+      title="提示"
       width={416}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit(values);
       }}

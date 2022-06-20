@@ -26,7 +26,7 @@ const titleMap = {
 };
 
 const DictModal: FC<DictDataModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, type, dictType } = props;
+  const { visible, current, onSubmit, onCancel, type, dictType } = props;
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
     dictType: ['sys_normal_disable'],
@@ -53,7 +53,6 @@ const DictModal: FC<DictDataModalProps> = (props) => {
       visible={visible}
       title={titleMap[type]}
       width={540}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit(values);
       }}

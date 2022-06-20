@@ -18,7 +18,7 @@ const importTemplate = () => {
 };
 
 const UploadModal: FC<UploadModalProps> = (props) => {
-  const { visible, onSubmit, children, onCancel } = props;
+  const { visible, onSubmit, onCancel } = props;
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -33,7 +33,6 @@ const UploadModal: FC<UploadModalProps> = (props) => {
       title="用户导入"
       width={540}
       layout={'vertical'}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit(values);
       }}

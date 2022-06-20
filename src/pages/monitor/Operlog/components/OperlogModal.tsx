@@ -92,7 +92,6 @@ const OperlogModal: FC<OperlogModalProps> = (props) => {
       visible={visible}
       title={titleMap[type]}
       width={710}
-      trigger={<></>}
       modalProps={{
         onCancel: onCancel,
         okText: false,

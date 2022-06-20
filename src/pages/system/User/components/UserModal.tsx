@@ -34,7 +34,7 @@ const titleMap = {
 };
 
 const UserModal: FC<UserModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, type } = props;
+  const { visible, current, onSubmit, onCancel, type } = props;
   const { data: deptIdTreeData }: any = useRequest(treeselect);
   const [userData, setUserData] = useState<{ posts: any[]; roles: any[] } | any>();
   const [form] = Form.useForm();
@@ -78,7 +78,6 @@ const UserModal: FC<UserModalProps> = (props) => {
       visible={visible}
       title={titleMap[type]}
       width={540}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit(values);
       }}

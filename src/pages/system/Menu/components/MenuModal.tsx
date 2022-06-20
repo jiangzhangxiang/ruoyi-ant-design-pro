@@ -28,7 +28,7 @@ const titleMap = {
 };
 
 const MenuModal: FC<MenuModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, type } = props;
+  const { visible, current, onSubmit, onCancel, type } = props;
   const [form] = Form.useForm();
   const { sys_Menu_sex, sys_normal_disable } = useDict({
     dictType: ['sys_Menu_sex', 'sys_normal_disable'],
@@ -55,7 +55,6 @@ const MenuModal: FC<MenuModalProps> = (props) => {
       visible={visible}
       title={titleMap[type]}
       width={540}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit(values);
       }}

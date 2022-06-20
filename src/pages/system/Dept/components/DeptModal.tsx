@@ -29,7 +29,7 @@ const titleMap = {
 };
 
 const DeptModal: FC<DeptModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, type } = props;
+  const { visible, current, onSubmit, onCancel, type } = props;
   const [formData, setFormData] = useState<DeptListItem>({
     parentId: undefined,
   });
@@ -74,7 +74,6 @@ const DeptModal: FC<DeptModalProps> = (props) => {
       visible={visible}
       title={titleMap[type]}
       width={540}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit(values);
       }}

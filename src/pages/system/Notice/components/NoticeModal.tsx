@@ -21,7 +21,7 @@ const titleMap = {
 };
 
 const NoticeModal: FC<UserModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, type } = props;
+  const { visible, current, onSubmit, onCancel, type } = props;
   const [infoData, setInfoData] = useState<any>('');
   const [form] = Form.useForm();
   const { sys_normal_disable, sys_notice_type } = useDict({
@@ -50,7 +50,6 @@ const NoticeModal: FC<UserModalProps> = (props) => {
       visible={visible}
       title={titleMap[type]}
       width={700}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit({ ...values, noticeContent: infoData });
       }}

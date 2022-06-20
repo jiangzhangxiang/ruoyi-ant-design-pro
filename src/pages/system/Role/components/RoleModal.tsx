@@ -28,7 +28,7 @@ const titleMap = {
 };
 
 const RoleModal: FC<RoleModalProps> = (props) => {
-  const { visible, current, onSubmit, children, onCancel, type } = props;
+  const { visible, current, onSubmit, onCancel, type } = props;
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
     dictType: ['sys_normal_disable'],
@@ -61,7 +61,6 @@ const RoleModal: FC<RoleModalProps> = (props) => {
       visible={visible}
       title={titleMap[type]}
       width={540}
-      trigger={<>{children}</>}
       onFinish={async (values) => {
         onSubmit({ menuIds: [], ...values });
       }}
