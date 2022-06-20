@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { Form } from 'antd';
 import useDict from '@/hooks/useDict';
 
-export type UserModalProps = {
+export type DictModalProps = {
   visible: boolean;
   current: Partial<DictListItem> | undefined;
   onSubmit: (values: DictListItem) => void;
@@ -19,7 +19,7 @@ const titleMap = {
   add: '新增字典类型',
 };
 
-const DictModal: FC<UserModalProps> = (props) => {
+const DictModal: FC<DictModalProps> = (props) => {
   const { visible, current, onSubmit, children, onCancel, type } = props;
   const [form] = Form.useForm();
   const { sys_normal_disable } = useDict({
