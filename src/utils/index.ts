@@ -89,7 +89,7 @@ export async function blobValidate(data: any) {
  * 转换字符串，undefined,null等转化为""
  * @param str
  */
-export function parseStrEmpty(str: any) {
+export function parseStrEmpty(str: string) {
   if (!str || str == 'undefined' || str == 'null') {
     return '';
   }
