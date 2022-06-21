@@ -156,7 +156,7 @@ const TableList: React.FC = () => {
       valueType: 'dateRange',
       render: (_, record) => record.createTime,
       search: {
-        transform: (value: any) => addDateRange(value),
+        transform: (value) => addDateRange(value),
       },
     },
     {
