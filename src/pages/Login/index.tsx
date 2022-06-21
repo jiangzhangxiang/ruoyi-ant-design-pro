@@ -31,14 +31,16 @@ const Login: React.FC = () => {
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
-
     if (userInfo) {
       await setInitialState((s) => ({ ...s, currentUser: userInfo }));
     }
   };
+
+  /**
+   * 获取验证码
+   */
   const initCaptchaImage = async () => {
     try {
-      // 登录
       const result = await captchaImage();
       setCodeUrl('data:image/gif;base64,' + result.img);
       setCaptchaOnOff(result.captchaOnOff);
@@ -51,9 +53,12 @@ const Login: React.FC = () => {
     }
   };
 
+  /**
+   * 登录
+   * @param values
+   */
   const handleSubmit = async (values: API.LoginParams) => {
     try {
-      // 登录
       const msg = await login({ ...values, uuid });
       if (msg.code === 200) {
         ls.setItem('token', msg.token);
@@ -61,7 +66,6 @@ const Login: React.FC = () => {
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
-
         if (!history) return;
         const { query } = history.location;
         const { redirect } = query as {
@@ -70,13 +74,9 @@ const Login: React.FC = () => {
         history.push(redirect || '/');
         return;
       }
-
-      console.log(msg); // 如果失败去设置用户错误信息
       setUserLoginState(msg);
       await initCaptchaImage();
     } catch (error) {
-      // const defaultLoginFailureMessage = '登录失败，请重试！';
-      // message.error(defaultLoginFailureMessage);
       await initCaptchaImage();
     }
   };
