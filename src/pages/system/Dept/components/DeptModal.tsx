@@ -8,7 +8,6 @@ import {
   ProFormText,
   ProFormTreeSelect,
 } from '@ant-design/pro-form';
-
 import type { DeptListItem } from '../data.d';
 import { getDept, list, listDeptExcludeChild } from '@/services/system/dept';
 import { Form } from 'antd';

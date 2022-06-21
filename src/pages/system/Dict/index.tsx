@@ -55,11 +55,11 @@ const handleUpdate = async (fields: any) => {
  * @param dictId
  */
 
-const handleRemove = async (id: number | number[]) => {
+const handleRemove = async (dictId: number | number[]) => {
   const hide = message.loading('正在删除');
-  if (!id) return true;
+  if (!dictId) return true;
   try {
-    await delDict(id);
+    await delDict(dictId);
     hide();
     message.success('删除成功');
     return true;
@@ -99,12 +99,12 @@ const TableList: React.FC = () => {
     }
   };
 
-  const handleDelModal = (userIds: number | number[]) => {
+  const handleDelModal = (dictId: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
-      content: `是否确认删除字典编号为"${userIds}"的数据项？`,
+      content: `是否确认删除字典编号为"${dictId}"的数据项？`,
       onOk: async () => {
-        const success = await handleRemove(userIds);
+        const success = await handleRemove(dictId);
         handleRefresh(success);
       },
     });

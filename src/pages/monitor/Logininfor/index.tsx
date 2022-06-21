@@ -16,7 +16,6 @@ import { addDateRange } from '@/utils';
  * 删除登录日志
  * @param userId
  */
-
 const handleRemove = async (userId: number | number[]) => {
   const hide = message.loading('正在删除');
   if (!userId) return true;
@@ -34,7 +33,6 @@ const handleRemove = async (userId: number | number[]) => {
 /**
  * 清空登录日志
  */
-
 const handleClear = async () => {
   const hide = message.loading('正在清空');
   try {
@@ -65,6 +63,9 @@ const TableList: React.FC = () => {
     }
   };
 
+  /**
+   * 删除
+   */
   const handleDelModal = (ids: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
@@ -75,6 +76,10 @@ const TableList: React.FC = () => {
       },
     });
   };
+
+  /**
+   * 清空
+   */
   const handleClearModal = () => {
     Modal.confirm({
       title: '系统提示',
