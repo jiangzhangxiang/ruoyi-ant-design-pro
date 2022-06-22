@@ -11,7 +11,7 @@ type UseDictPropsType = {
   isRequest?: boolean;
 };
 
-type DictType = { options: any[]; valueEnum: any[] } | any;
+type UseDictType = { options: any[]; valueEnum: any[] } | any;
 /**
  * 默认的字典处理方法 - 遍历处理每一项
  * @param arr
@@ -49,9 +49,9 @@ export default function useDict({ dictType, transform }: UseDictPropsType) {
     });
     return o;
   };
-  const [dataSource, setDataSource] = useState<DictType>(initDataSource(dictType));
+  const [dataSource, setDataSource] = useState<UseDictType>(initDataSource(dictType));
   const initSelect = async () => {
-    const data: DictType = {};
+    const data: UseDictType = {};
     const res = await Promise.all(dictType.map((m: string) => getDicts(m)));
     dictType.forEach((k, i) => {
       data[k] = transform ? transform(res[i].data) : dictTransform(res[i].data);
