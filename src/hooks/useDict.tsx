@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { getDicts } from '@/services/system/dict/data';
 
-type useDictType = {
+type DictConfigType = {
+  value?: string;
+  label?: string;
+};
+type UseDictType = {
   dictType: string[];
-  transform?: (arr: any[]) => void;
+  transform?: (arr: DictConfigType[]) => void;
   isRequest?: boolean;
 };
 
@@ -13,7 +17,7 @@ type useDictType = {
  * @param value
  * @param label
  */
-export const dictTransform = (arr: any[], value?: string, label?: string) => {
+export const dictTransform = (arr: DictConfigType[], value?: string, label?: string) => {
   const config = {
     value: value || 'dictValue',
     label: label || 'dictLabel',
@@ -32,7 +36,7 @@ export const dictTransform = (arr: any[], value?: string, label?: string) => {
 /**
  * 获取字典的hook
  */
-export default function useDict({ dictType, transform }: useDictType) {
+export default function useDict({ dictType, transform }: UseDictType) {
   /**
    * 初始化 返回数据格式
    * @param t
@@ -44,7 +48,7 @@ export default function useDict({ dictType, transform }: useDictType) {
     });
     return o;
   };
-  const [dataSource, setDataSource] = useState<any>(initDataSource(dictType));
+  const [dataSource, setDataSource] = useState(initDataSource(dictType));
   const initSelect = async () => {
     const data = {};
     const res = await Promise.all(dictType.map((m: string) => getDicts(m)));
