@@ -1,23 +1,24 @@
 import { useState, useEffect } from 'react';
 import { getDicts } from '@/services/system/dict/data';
 
-type DictConfigType = {
+type ConfigType = {
   value?: string;
   label?: string;
 };
-type UseDictType = {
+type UseDictPropsType = {
   dictType: string[];
-  transform?: (arr: DictConfigType[]) => void;
+  transform?: (arr: ConfigType[]) => void;
   isRequest?: boolean;
 };
 
+type DictType = { options: any[]; valueEnum: any[] } | any;
 /**
  * 默认的字典处理方法 - 遍历处理每一项
  * @param arr
  * @param value
  * @param label
  */
-export const dictTransform = (arr: DictConfigType[], value?: string, label?: string) => {
+export const dictTransform = (arr: ConfigType[], value?: string, label?: string) => {
   const config = {
     value: value || 'dictValue',
     label: label || 'dictLabel',
@@ -36,7 +37,7 @@ export const dictTransform = (arr: DictConfigType[], value?: string, label?: str
 /**
  * 获取字典的hook
  */
-export default function useDict({ dictType, transform }: UseDictType) {
+export default function useDict({ dictType, transform }: UseDictPropsType) {
   /**
    * 初始化 返回数据格式
    * @param t
@@ -48,9 +49,9 @@ export default function useDict({ dictType, transform }: UseDictType) {
     });
     return o;
   };
-  const [dataSource, setDataSource] = useState(initDataSource(dictType));
+  const [dataSource, setDataSource] = useState<DictType>(initDataSource(dictType));
   const initSelect = async () => {
-    const data = {};
+    const data: DictType = {};
     const res = await Promise.all(dictType.map((m: string) => getDicts(m)));
     dictType.forEach((k, i) => {
       data[k] = transform ? transform(res[i].data) : dictTransform(res[i].data);
