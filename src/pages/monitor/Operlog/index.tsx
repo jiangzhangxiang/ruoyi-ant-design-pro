@@ -8,7 +8,6 @@ import { list, delOperlog, clearOperlog } from '@/services/monitor/operlog';
 import OperlogModal from './components/OperlogModal';
 import type { OperlogListItem } from './data';
 import { download } from '@/services/api';
-
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
@@ -18,7 +17,6 @@ import { addDateRange } from '@/utils';
  * 删除操作日志
  * @param userId
  */
-
 const handleRemove = async (userId: number | number[]) => {
   const hide = message.loading('正在删除');
   if (!userId) return true;
@@ -36,7 +34,6 @@ const handleRemove = async (userId: number | number[]) => {
 /**
  * 清空操作日志
  */
-
 const handleClear = async () => {
   const hide = message.loading('正在清空');
   try {
@@ -49,6 +46,7 @@ const handleClear = async () => {
     return false;
   }
 };
+
 const TableList: React.FC = () => {
   const { sys_common_status, sys_oper_type } = useDict({
     dictType: ['sys_common_status', 'sys_oper_type'],
@@ -69,7 +67,7 @@ const TableList: React.FC = () => {
   };
 
   /**
-   * 刷新页面
+   * 刷新
    */
   const handleRefresh = (success: boolean) => {
     if (success && actionRef.current) {
@@ -79,6 +77,9 @@ const TableList: React.FC = () => {
     }
   };
 
+  /**
+   * 删除
+   */
   const handleDelModal = (ids: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
@@ -89,6 +90,10 @@ const TableList: React.FC = () => {
       },
     });
   };
+
+  /**
+   * 清空
+   */
   const handleClearModal = () => {
     Modal.confirm({
       title: '系统提示',

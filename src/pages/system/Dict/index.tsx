@@ -54,7 +54,6 @@ const handleUpdate = async (fields: any) => {
  * 删除字典
  * @param dictId
  */
-
 const handleRemove = async (dictId: number | number[]) => {
   const hide = message.loading('正在删除');
   if (!dictId) return true;
@@ -79,6 +78,7 @@ const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
+
   /**
    * 取消
    */
@@ -89,7 +89,7 @@ const TableList: React.FC = () => {
   };
 
   /**
-   * 刷新页面
+   * 刷新
    */
   const handleRefresh = (success: boolean) => {
     if (success && actionRef.current) {
@@ -99,6 +99,9 @@ const TableList: React.FC = () => {
     }
   };
 
+  /**
+   * 删除
+   */
   const handleDelModal = (dictId: number | number[]) => {
     Modal.confirm({
       title: '系统提示',

@@ -49,14 +49,13 @@ const handleUpdate = async (fields: any) => {
 
 /**
  * 删除公告
- * @param NoticeId
+ * @param noticeId
  */
-
-const handleRemove = async (NoticeId: number | number[]) => {
+const handleRemove = async (noticeId: number | number[]) => {
   const hide = message.loading('正在删除');
-  if (!NoticeId) return true;
+  if (!noticeId) return true;
   try {
-    await delNotice(NoticeId);
+    await delNotice(noticeId);
     hide();
     message.success('删除成功');
     return true;

@@ -52,12 +52,11 @@ const handleUpdate = async (fields: any) => {
  * 删除部门
  * @param deptId
  */
-
-const handleRemove = async (id: number | number[]) => {
+const handleRemove = async (deptId: number | number[]) => {
   const hide = message.loading('正在删除');
-  if (!id) return true;
+  if (!deptId) return true;
   try {
-    await delDept(id);
+    await delDept(deptId);
     hide();
     message.success('删除成功');
     return true;
@@ -76,6 +75,7 @@ const TableList: React.FC = () => {
   const [modalCurrent, setModalCurrent] = useState<DeptListItem>();
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
+
   /**
    * 取消
    */
@@ -86,7 +86,7 @@ const TableList: React.FC = () => {
   };
 
   /**
-   * 刷新页面
+   * 刷新
    */
   const handleRefresh = (success: boolean) => {
     if (success && actionRef.current) {
@@ -95,6 +95,9 @@ const TableList: React.FC = () => {
     }
   };
 
+  /**
+   * 删除
+   */
   const handleDelModal = (ids: number | number[]) => {
     Modal.confirm({
       title: '系统提示',

@@ -50,15 +50,14 @@ const handleUpdate = async (fields: any) => {
 };
 
 /**
- * 删除用户
- * @param userId
+ * 删除岗位
+ * @param postId
  */
-
-const handleRemove = async (userId: number | number[]) => {
+const handleRemove = async (postId: number | number[]) => {
   const hide = message.loading('正在删除');
-  if (!userId) return true;
+  if (!postId) return true;
   try {
-    await delPost(userId);
+    await delPost(postId);
     hide();
     message.success('删除成功');
     return true;

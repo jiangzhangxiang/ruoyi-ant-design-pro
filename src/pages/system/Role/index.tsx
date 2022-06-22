@@ -87,7 +87,7 @@ const TableList: React.FC = () => {
   };
 
   /**
-   * 刷新页面
+   * 刷新
    */
   const handleRefresh = (success: boolean) => {
     if (success && actionRef.current) {
@@ -97,6 +97,9 @@ const TableList: React.FC = () => {
     }
   };
 
+  /**
+   * 删除
+   */
   const handleDelModal = (roleIds: number | number[]) => {
     Modal.confirm({
       title: '系统提示',

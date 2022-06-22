@@ -33,6 +33,7 @@ const RoleModal: FC<RoleModalProps> = (props) => {
   const { sys_normal_disable } = useDict({
     dictType: ['sys_normal_disable'],
   });
+
   /**
    * 初始化表单数据
    */

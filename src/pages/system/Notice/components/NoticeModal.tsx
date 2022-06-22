@@ -27,6 +27,7 @@ const NoticeModal: FC<UserModalProps> = (props) => {
   const { sys_normal_disable, sys_notice_type } = useDict({
     dictType: ['sys_normal_disable', 'sys_notice_type'],
   });
+
   /**
    * 初始化表单数据
    */

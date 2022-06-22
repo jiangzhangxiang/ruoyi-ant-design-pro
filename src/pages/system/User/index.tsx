@@ -41,6 +41,7 @@ const handleAdd = async (fields: UserListItem) => {
     return false;
   }
 };
+
 /**
  * 重置密码
  * @param fields
@@ -57,6 +58,7 @@ const handleResetUserPwd = async (fields: UserListItem) => {
     return false;
   }
 };
+
 /**
  * 修改用户
  * @param fields
@@ -75,6 +77,7 @@ const handleUpdate = async (fields: any) => {
     return false;
   }
 };
+
 /**
  * 上传用户
  * @param fields
@@ -103,11 +106,11 @@ const handleUpload = async (fields: any) => {
     return false;
   }
 };
+
 /**
  * 删除用户
  * @param userId
  */
-
 const handleRemove = async (userId: number | number[]) => {
   const hide = message.loading('正在删除');
   if (!userId) return true;
@@ -135,6 +138,7 @@ const TableList: React.FC = () => {
   const formRef = useRef<FormInstance>();
   const [selectedRowsState, setSelectedRows] = useState<number[]>([]);
   const { data: deptIdTreeData } = useRequest(treeselect);
+
   /**
    * 取消
    */
@@ -147,7 +151,7 @@ const TableList: React.FC = () => {
   };
 
   /**
-   * 刷新页面
+   * 刷新
    */
   const handleRefresh = (success: boolean) => {
     if (success && actionRef.current) {
@@ -157,6 +161,9 @@ const TableList: React.FC = () => {
     }
   };
 
+  /**
+   * 删除
+   */
   const handleDelModal = (userIds: number | number[]) => {
     Modal.confirm({
       title: '系统提示',

@@ -50,10 +50,9 @@ const handleUpdate = async (fields: any) => {
 };
 
 /**
- * 删除用户
+ * 删除参数
  * @param configId
  */
-
 const handleRemove = async (configId: number | number[]) => {
   const hide = message.loading('正在删除');
   if (!configId) return true;
@@ -78,6 +77,7 @@ const TableList: React.FC = () => {
   const { sys_yes_no } = useDict({
     dictType: ['sys_yes_no'],
   });
+
   /**
    * 取消
    */
@@ -88,7 +88,7 @@ const TableList: React.FC = () => {
   };
 
   /**
-   * 刷新页面
+   * 刷新
    */
   const handleRefresh = (success: boolean) => {
     if (success && actionRef.current) {
@@ -98,6 +98,9 @@ const TableList: React.FC = () => {
     }
   };
 
+  /**
+   * 删除
+   */
   const handleDelModal = (configIds: number | number[]) => {
     Modal.confirm({
       title: '系统提示',
