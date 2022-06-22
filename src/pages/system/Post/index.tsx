@@ -8,7 +8,6 @@ import { list, addpost, updatePost, delPost } from '@/services/system/post';
 import PostModal from './components/PostModal';
 import type { PostListItem } from './data.d';
 import { download } from '@/services/api';
-
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
