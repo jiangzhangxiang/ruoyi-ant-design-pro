@@ -92,26 +92,31 @@
     icon: 'table',
     routes: [
       {
+        hideInMenu: true,
         path: '/monitor/online',
         name: '在线用户',
         component: './system/User',
       },
       {
+        hideInMenu: true,
         path: '/monitor/job',
         name: '定时任务',
         component: './system/User',
       },
       {
+        hideInMenu: true,
         path: '/monitor/druid',
         name: '数据监控',
         component: './system/User',
       },
       {
+        hideInMenu: true,
         path: '/monitor/server',
         name: '服务监控',
         component: './system/User',
       },
       {
+        hideInMenu: true,
         path: '/monitor/cache',
         name: '缓存监控',
         component: './system/User',

@@ -8,7 +8,7 @@ git pull
 git push origin master
 
 ## 发布到阿里云
-npm build:prod
+yarn build:prod
 ssh root@121.43.63.77 -C "rm -rf /home/web/ruoyi/dist"
 scp -r dist root@121.43.63.77:/home/web/ruoyi/dist
 echo "发布成功"
