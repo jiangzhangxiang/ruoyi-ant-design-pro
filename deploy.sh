@@ -12,16 +12,16 @@ else
 fi
 
 git add .
-#echo "请输入提交注释? [Enter] 'feat(deploy): fabu'"
-#
-#read commit_name
-#  if [ -z "$commit_name" ]
-#  then
-#  commit_name="feat(deploy): fabu"
-#  fi
-#echo "git提交注释:$commit_name"
+echo "请输入提交注释? [Enter] 'feat(deploy): 脚本自动升级'"
 
-git commit -m "feat(deploy): fabu"
+read commit_name
+  if [ -z "$commit_name" ]
+  then
+  commit_name="feat(deploy): 脚本自动升级"
+  fi
+echo "git提交注释:$commit_name"
+
+git commit -m "$commit_name"
 git pull
 git push
 
