@@ -44,8 +44,8 @@ fi
 echo 'branch['$branch']env['$input"]正在升级..."
 
 npm run build:$input
-ssh root@yx -C "rm -rf /home/web/ruoyi/dist"
-scp -r dist root@yx:/home/web/ruoyi/dist
+ssh root@jzx -C "rm -rf /home/web/ruoyi/dist"
+scp -r dist root@jzx:/home/web/ruoyi/dist
 
 echo " 升级完成✅ "
 
