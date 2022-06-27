@@ -12,16 +12,16 @@ else
 fi
 
 git add .
-echo "请输入提交注释? [Enter] 'feat(deploy): 脚本自动升级'"
+#echo "请输入提交注释? [Enter] 'feat(deploy): fabu'"
+#
+#read commit_name
+#  if [ -z "$commit_name" ]
+#  then
+#  commit_name="feat(deploy): fabu"
+#  fi
+#echo "git提交注释:$commit_name"
 
-read commit_name
-  if [ -z "$commit_name" ]
-  then
-  commit_name="feat(deploy): 脚本自动升级"
-  fi
-echo "git提交注释:$commit_name"
-
-git commit -m $commit_name
+git commit -m "feat(deploy): fabu"
 git pull
 git push
 
@@ -35,19 +35,19 @@ case $input in
     *)
 	;;
 esac
-#
-#if [ -z "$input" ]
-#then
-#input="prod"
-#fi
-#
-#echo 'branch['$branch']env['$input"]正在升级..."
-#
-#npm run build:$input
-#ssh root@yx -C "rm -rf /home/web/ruoyi/dist"
-#scp -r dist root@yx:/home/web/ruoyi/dist
-#
-#echo " 升级完成✅ "
+
+if [ -z "$input" ]
+then
+input="prod"
+fi
+
+echo 'branch['$branch']env['$input"]正在升级..."
+
+npm run build:$input
+ssh root@yx -C "rm -rf /home/web/ruoyi/dist"
+scp -r dist root@yx:/home/web/ruoyi/dist
+
+echo " 升级完成✅ "
 
 
 #ssh yx -tt << EOF
