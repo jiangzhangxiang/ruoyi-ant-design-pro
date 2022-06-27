@@ -31,11 +31,13 @@
       },
       {
         path: '/system/role',
+        hideInMenu: true,
         name: '角色管理',
         component: './system/Role',
       },
       {
         path: '/system/menu',
+        hideInMenu: true,
         name: '菜单管理',
         component: './system/Menu',
       },
