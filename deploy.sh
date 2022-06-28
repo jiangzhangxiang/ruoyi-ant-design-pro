@@ -48,11 +48,3 @@ ssh root@jzx -C "rm -rf /home/web/ruoyi/dist"
 scp -r dist root@jzx:/home/web/ruoyi/dist
 
 echo " 升级完成✅ "
-
-
-#ssh yx -tt << EOF
-#cd /home/git/architecture-api
-#git pull
-#npm run build:$input
-#exit
-#EOF
