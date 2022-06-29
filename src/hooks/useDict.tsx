@@ -17,7 +17,7 @@ type UseDictPropsType = {
  * @param value
  * @param label
  */
-export const dictTransform = (arr: ConfigType[], value?: string, label?: string) => {
+export const dictTransform = (arr: any[], value?: string, label?: string) => {
   const config = {
     value: value || 'dictValue',
     label: label || 'dictLabel',
