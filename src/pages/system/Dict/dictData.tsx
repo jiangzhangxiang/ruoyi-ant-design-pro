@@ -11,7 +11,6 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
 import { listData, addDictData, updateDictData, delDictData } from '@/services/system/dict/data';
 import { list as listType } from '@/services/system/dict/type';
-
 import DictDataModal from './components/DictDataModal';
 import type { DictDataListItem } from './data.d';
 import { download } from '@/services/api';
@@ -41,7 +40,7 @@ const handleAdd = async (fields: DictDataListItem) => {
  * 修改字典数据
  * @param fields
  */
-const handleUpdate = async (fields: any) => {
+const handleUpdate = async (fields: DictDataListItem) => {
   const hide = message.loading('正在修改');
   try {
     await updateDictData({
