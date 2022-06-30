@@ -63,7 +63,7 @@ const handleResetUserPwd = async (fields: UserListItem) => {
  * 修改用户
  * @param fields
  */
-const handleUpdate = async (fields: any) => {
+const handleUpdate = async (fields: UserListItem) => {
   const hide = message.loading('正在修改');
   try {
     await updateUser({
