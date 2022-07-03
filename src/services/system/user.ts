@@ -45,7 +45,7 @@ export async function delUser(userId?: number[] | number) {
   });
 }
 
-/** 重置密码 POST /system/resetUserPwd */
+/** 重置密码 PUT /system/resetUserPwd */
 export async function resetUserPwd(data: UserListItem, options?: { [key: string]: any }) {
   return request<UserListItem>('/system/user/resetPwd', {
     method: 'PUT',
@@ -54,7 +54,7 @@ export async function resetUserPwd(data: UserListItem, options?: { [key: string]
   });
 }
 
-/** 查询用户详细 PUT /system/user/${userId} */
+/** 查询用户详细 GET /system/user/${userId} */
 export async function getUser(userId: number | undefined, options?: { [key: string]: any }) {
   return request<UserInfo>('/system/user/' + parseStrEmpty(userId), {
     method: 'GET',
