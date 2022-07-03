@@ -46,7 +46,7 @@ export async function delConfig(userId?: number[] | number) {
   });
 }
 
-/** 查询参数详细 PUT /system/config/${userId} */
+/** 查询参数详细 GET /system/config/${userId} */
 export async function getConfig(userId?: number | string, options?: Record<string, any>) {
   return request<ConfigInfo>('/system/config/' + parseStrEmpty(userId), {
     method: 'GET',

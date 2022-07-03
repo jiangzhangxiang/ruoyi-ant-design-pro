@@ -43,7 +43,7 @@ export async function delDict(dictId?: number[] | number) {
   });
 }
 
-/** 查询字典类型详细 PUT /system/dict/${dictId} */
+/** 查询字典类型详细 GET /system/dict/${dictId} */
 export async function getDict(dictId: number | undefined, options?: { [key: string]: any }) {
   return request<DictInfo>('/system/dict/type/' + dictId, {
     method: 'GET',
