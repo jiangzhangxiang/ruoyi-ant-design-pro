@@ -45,7 +45,7 @@ export async function delNotice(noticeId?: number[] | number) {
   });
 }
 
-/** 查询通知公告详细 PUT /system/notice/${noticeId} */
+/** 查询通知公告详细 GET /system/notice/${noticeId} */
 export async function getNotice(noticeId?: number | string, options?: Record<string, any>) {
   return request<NoticeInfo>('/system/notice/' + parseStrEmpty(noticeId), {
     method: 'GET',

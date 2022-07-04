@@ -46,7 +46,7 @@ export async function delRole(userId?: number[] | number) {
   });
 }
 
-/** 查询角色详细 PUT /system/role/${roleId} */
+/** 查询角色详细 GET /system/role/${roleId} */
 export async function getRole(roleId: number | undefined, options?: { [key: string]: any }) {
   return request<RoleInfo>('/system/role/' + parseStrEmpty(roleId), {
     method: 'GET',

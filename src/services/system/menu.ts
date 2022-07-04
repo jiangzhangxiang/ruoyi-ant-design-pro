@@ -46,7 +46,7 @@ export async function delMenu(menuId?: number[] | number) {
   });
 }
 
-/** 查询菜单详细 PUT /system/menu/${menuId} */
+/** 查询菜单详细 GET /system/menu/${menuId} */
 export async function getMenu(menuId: number | undefined, options?: { [key: string]: any }) {
   return request<MenuInfo>('/system/menu/' + parseStrEmpty(menuId), {
     method: 'GET',
@@ -54,7 +54,7 @@ export async function getMenu(menuId: number | undefined, options?: { [key: stri
   });
 }
 
-/** 查询角色详细 PUT /system/menu/roleMenuTreeselect/${roleId} */
+/** 查询角色详细 GET /system/menu/roleMenuTreeselect/${roleId} */
 export async function roleMenuTreeselect(
   roleId: number | undefined,
   options?: { [key: string]: any },
@@ -65,7 +65,7 @@ export async function roleMenuTreeselect(
   });
 }
 
-/** 查询菜单下拉树结构  PUT /system/menu/treeselect */
+/** 查询菜单下拉树结构  GET /system/menu/treeselect */
 export async function treeselect(options?: { [key: string]: any }) {
   return request<RoleInfo>('/system/menu/treeselect', {
     method: 'GET',
