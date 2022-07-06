@@ -22,7 +22,6 @@ export const judgeMap = (mapList: any[], params: Record<string, any>) => {
 /**
  * 本地localStorage存数据 方法
  */
-
 export const ls = {
   // days 有效时间（天）
   setItem(key: string, value: any, days: number = 7) {
