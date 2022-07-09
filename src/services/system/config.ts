@@ -3,7 +3,7 @@ import type { ConfigInfo, ConfigList, ConfigListItem } from '@/pages/system/Conf
 import { parseStrEmpty } from '@/utils';
 import type { DictInfo } from '@/pages/system/Dict/data';
 
-/** 获取参数管理列表 GET /system/config/list */
+/** 获取参数管理列表 **/
 export async function list(
   params: {
     // query
@@ -21,7 +21,7 @@ export async function list(
   });
 }
 
-/** 修改参数 PUT /system/config */
+/** 修改参数 **/
 export async function updateConfig(data: ConfigListItem, options?: Record<string, any>) {
   return request<ConfigListItem>('/system/config', {
     method: 'PUT',
@@ -30,7 +30,7 @@ export async function updateConfig(data: ConfigListItem, options?: Record<string
   });
 }
 
-/** 新建参数 POST /system/config */
+/** 新建参数 **/
 export async function addConfig(data: ConfigListItem, options?: Record<string, any>) {
   return request<ConfigListItem>('/system/config', {
     method: 'POST',
@@ -39,14 +39,14 @@ export async function addConfig(data: ConfigListItem, options?: Record<string, a
   });
 }
 
-/** 删除参数 DELETE /system/config/ */
+/** 删除参数 **/
 export async function delConfig(userId?: number[] | number) {
   return request<Record<string, any>>('/system/config/' + userId, {
     method: 'DELETE',
   });
 }
 
-/** 查询参数详细 GET /system/config/${userId} */
+/** 查询参数详细 **/
 export async function getConfig(userId?: number | string, options?: Record<string, any>) {
   return request<ConfigInfo>('/system/config/' + parseStrEmpty(userId), {
     method: 'GET',
@@ -54,14 +54,14 @@ export async function getConfig(userId?: number | string, options?: Record<strin
   });
 }
 
-/** 根据参数键名查询参数值 GET system/config/configKey */
+/** 根据参数键名查询参数值 **/
 export async function configKey(key?: string) {
   return request<any>('/system/config/configKey/' + key, {
     method: 'GET',
   });
 }
 
-/** 刷新缓存 DELETE /system/config/refreshCache */
+/** 刷新缓存 **/
 export async function refreshCache() {
   return request<DictInfo>('/system/config/refreshCache', {
     method: 'DELETE',

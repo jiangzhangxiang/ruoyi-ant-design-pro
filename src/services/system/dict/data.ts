@@ -1,7 +1,7 @@
 import { request } from 'umi';
 import { DictDataList, DictDataListItem } from '@/pages/system/Dict/data';
 
-/** 获取字典数据管理列表 GET /system/dict/data/list */
+/** 获取字典数据管理列表 **/
 export async function listData(
   params?: {
     // query
@@ -18,7 +18,7 @@ export async function listData(
     ...(options || {}),
   });
 }
-/** 修改字典数据 PUT /system/dict/data */
+/** 修改字典数据 **/
 export async function updateDictData(data: DictDataListItem, options?: { [key: string]: any }) {
   return request<DictDataListItem>('/system/dict/data', {
     method: 'PUT',
@@ -27,7 +27,7 @@ export async function updateDictData(data: DictDataListItem, options?: { [key: s
   });
 }
 
-/** 新建字典数据 POST /system/dict/data */
+/** 新建字典数据 **/
 export async function addDictData(
   data: { dictCode?: string | number },
   options?: { [p: string]: any },
@@ -39,14 +39,14 @@ export async function addDictData(
   });
 }
 
-/** 删除字典数据 DELETE /system/dict/data/${id} */
+/** 删除字典数据**/
 export async function delDictData(id?: number[] | number) {
   return request<Record<string, any>>('/system/dict/data/' + id, {
     method: 'DELETE',
   });
 }
 
-/** 查询字典数据 GET system/dict/data/type  */
+/** 查询字典数据 **/
 export async function getDicts(dictType?: string) {
   return request<any>('/system/dict/data/type/' + dictType, {
     method: 'GET',
