@@ -4,7 +4,7 @@ import { message } from 'antd';
 import errorCode from '@/utils/errorCode';
 // @ts-ignore
 import { saveAs } from 'file-saver';
-/** 获取图形验证码 */
+/** 获取图形验证码 **/
 export async function captchaImage(options?: { [key: string]: any }) {
   return request<API.FakeCaptcha>('/captchaImage', {
     method: 'GET',
@@ -13,7 +13,7 @@ export async function captchaImage(options?: { [key: string]: any }) {
   });
 }
 
-/** 获取当前的用户 GET /currentUser */
+/** 获取当前的用户 **/
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     user: API.CurrentUser;
@@ -23,7 +23,7 @@ export async function currentUser(options?: { [key: string]: any }) {
   });
 }
 
-/** 退出登录接口 POST /login/outLogin */
+/** 退出登录接口 **/
 export async function outLogin(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/logout', {
     method: 'POST',
@@ -31,7 +31,7 @@ export async function outLogin(options?: { [key: string]: any }) {
   });
 }
 
-/** 登录接口 POST /login/account */
+/** 登录接口 **/
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
   return request<API.LoginResult>('/login', {
     method: 'POST',
@@ -44,7 +44,7 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
-/** 此处后端没有提供注释 GET /notices */
+/** 此处后端没有提供注释 **/
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/notices', {
     method: 'GET',
@@ -52,7 +52,7 @@ export async function getNotices(options?: { [key: string]: any }) {
   });
 }
 
-/** 上传图片 POST /common/upload */
+/** 上传图片 **/
 export async function upload(data: any, options?: { [key: string]: any }) {
   const url = '/common/upload';
   return request<API.FileType>(url, {
