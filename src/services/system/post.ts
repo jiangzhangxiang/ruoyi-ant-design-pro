@@ -4,7 +4,6 @@ import { PostList, PostListItem } from '@/pages/system/Post/data';
 /** 获取岗位管理列表 GET /system/post/list */
 export async function list(
   params: {
-    // query
     /** 当前的页码 */
     current?: number;
     /** 页面的容量 */

@@ -6,7 +6,6 @@ import { RoleInfo } from '@/pages/system/Role/data';
 /** 获取客户管理列表 GET /system/menu/list */
 export async function list(
   params: {
-    // query
     /** 当前的页码 */
     current?: number;
     /** 页面的容量 */

@@ -4,7 +4,6 @@ import { DeptList, DeptListItem, DeptInfo } from '@/pages/system/Dept/data';
 /** 获取部门管理列表 GET /system/dept/list */
 export async function list(
   params?: {
-    // query
     /** 当前的页码 */
     current?: number;
     /** 页面的容量 */

@@ -4,7 +4,6 @@ import { DictDataList, DictDataListItem } from '@/pages/system/Dict/data';
 /** 获取字典数据管理列表 **/
 export async function listData(
   params?: {
-    // query
     /** 当前的页码 */
     current?: number;
     /** 页面的容量 */

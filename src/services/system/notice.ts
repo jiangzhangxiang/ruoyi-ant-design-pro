@@ -5,7 +5,6 @@ import { parseStrEmpty } from '@/utils';
 /** 获取通知公告列表 GET /system/notice/list */
 export async function list(
   params: {
-    // query
     /** 当前的页码 */
     current?: number;
     /** 页面的容量 */

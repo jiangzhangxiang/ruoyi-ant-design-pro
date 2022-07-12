@@ -6,7 +6,6 @@ import type { DictInfo } from '@/pages/system/Dict/data';
 /** 获取参数管理列表 **/
 export async function list(
   params: {
-    // query
     /** 当前的页码 */
     current?: number;
     /** 页面的容量 */
