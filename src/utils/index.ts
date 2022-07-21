@@ -23,7 +23,7 @@ export const judgeMap = (mapList: any[], params: Record<string, any>) => {
  * 本地localStorage存数据 方法
  */
 export const ls = {
-  // days 有效时间（天）
+  // key 存储的标识 days 有效时间（天） value 存储的值
   setItem(key: string, value: any, days: number = 7) {
     const Days = days || 7; // 有效时间默认7天
     const exp = new Date();
