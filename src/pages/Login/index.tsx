@@ -91,7 +91,7 @@ const Login: React.FC = () => {
         <LoginForm
           logo={<img alt="logo" src="/logo.svg" />}
           title="Ant Design"
-          subTitle={'Ant Design 是西湖区最具影响力的 Web 设计规范 ddd'}
+          subTitle={'Ant Design 是西湖区最具影响力的 Web 设计规范'}
           initialValues={{
             autoLogin: true,
           }}
