@@ -4,6 +4,7 @@ import { message } from 'antd';
 import errorCode from '@/utils/errorCode';
 // @ts-ignore
 import { saveAs } from 'file-saver';
+
 /** 获取图形验证码 **/
 export async function captchaImage(options?: { [key: string]: any }) {
   return request<API.FakeCaptcha>('/captchaImage', {
