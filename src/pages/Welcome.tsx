@@ -26,7 +26,7 @@ const Welcome: React.FC = () => {
           }}
         />
         <Typography.Text strong>
-          高级表格{' '}
+          高级表格
           <a
             href="https://procomponents.ant.design/components/table"
             rel="noopener noreferrer"
