@@ -1,0 +1,29 @@
+.table {
+  :global {
+    .react-resizable {
+      position: relative;
+      background-clip: padding-box;
+    }
+
+    .react-resizable-handle {
+      position: absolute;
+      right: -5px;
+      bottom: 0;
+      z-index: 1;
+      width: 10px;
+      height: 100%;
+      cursor: col-resize;
+    }
+
+    /** 这里是偏移的时候显示的竖线，只有表头有竖线;
+    如果需要联通表格请自行修改高度，1000倍表头高度，然后超出表格隐藏什么的（自行研究） */
+    .react-resizable-handle.active::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      border-left: solid 1px rgba(0, 0, 0, 0.4);
+      content: '';
+    }
+  }
+}

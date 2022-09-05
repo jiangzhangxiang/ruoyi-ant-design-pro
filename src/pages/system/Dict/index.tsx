@@ -8,7 +8,7 @@ import { list, addDict, updateDict, delDict, refreshCache } from '@/services/sys
 import DictModal from './components/DictModal';
 import type { DictListItem } from './data.d';
 import { download } from '@/services/api';
-import { BasicTable } from '@/components/Table';
+import { ResizeTable } from '@/components/Table';
 import { connect } from 'umi';
 import useDict from '@/hooks/useDict';
 import { addDateRange } from '@/utils';
@@ -192,7 +192,7 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <BasicTable<DictListItem, API.PageParams>
+      <ResizeTable<DictListItem, API.PageParams>
         actionRef={actionRef}
         formRef={formRef}
         rowKey="dictId"
