@@ -49,16 +49,21 @@ export default function useDict({ dictType, transform }: UseDictPropsType) {
     return o;
   };
   const [dataSource, setDataSource] = useState<any>(initDataSource(dictType));
+  const data = {};
   const initSelect = async () => {
-    const data = {};
     const res = await Promise.all(dictType.map((m: string) => getDicts(m)));
     dictType.forEach((k, i) => {
       data[k] = transform ? transform(res[i].data) : dictTransform(res[i].data);
     });
     setDataSource(data);
   };
+
   useEffect(() => {
     initSelect().then();
+    return () => {
+      // 默认重置 状态解决内存警告
+      setDataSource(initDataSource(dictType));
+    };
   }, []);
   return dataSource;
 }
