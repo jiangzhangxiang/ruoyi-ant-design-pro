@@ -1,11 +1,9 @@
-import { DownloadOutlined } from '@ant-design/icons';
-import { Button, message, Modal } from 'antd';
+import { message, Modal } from 'antd';
 import React, { useRef } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FormInstance } from 'antd';
 import type { OnlineListItem } from './data.d';
-import { download } from '@/services/api';
 import { BasicTable } from '@/components/Table';
 import { connect } from 'umi';
 import { delOnline, list } from '@/services/monitor/online';
@@ -124,18 +122,6 @@ const TableList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="export"
-            onClick={() => {
-              const params = formRef.current?.getFieldsValue();
-              download('/monitor/operlog/export', params, `operlog_${new Date().getTime()}.xlsx`);
-            }}
-          >
-            <DownloadOutlined /> 导出
-          </Button>,
-        ]}
         request={list}
         columns={columns}
       />
