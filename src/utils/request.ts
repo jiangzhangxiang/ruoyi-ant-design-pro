@@ -6,6 +6,7 @@ import { loginOut } from '@/components/RightContent/AvatarDropdown';
 import getErrorModeContent from './errorModal';
 import type { ResponseError } from 'umi-request';
 import type { RequestConfig } from '@@/plugin-request/request';
+import { APP_BASE_API } from '@/utils/evn';
 
 // 是否限制 重新登陆弹窗
 export const isRelogin = { show: false };
@@ -46,12 +47,8 @@ const transform: any = {
  * 请求拦截封装
  */
 
-const prefixMap = {
-  dev: '/api',
-  prod: '/prod-api',
-};
 const requestInterceptors = (url: string, options: optionsType) => {
-  const prefix = prefixMap[REACT_APP_ENV] || '';
+  const prefix = APP_BASE_API[REACT_APP_ENV] || '';
   // isToken 不是 false 的请求头添加 token
   let Authorization = '';
   if (ls.getItem('token') && options?.isToken !== false) {

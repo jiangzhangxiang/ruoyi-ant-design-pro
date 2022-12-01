@@ -103,10 +103,9 @@
         component: './system/User',
       },
       {
-        hideInMenu: true,
         path: '/monitor/druid',
         name: '数据监控',
-        component: './system/User',
+        component: './monitor/druid',
       },
       {
         hideInMenu: true,

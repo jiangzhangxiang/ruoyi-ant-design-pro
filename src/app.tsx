@@ -4,7 +4,6 @@ import { PageLoading } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
 import RightContent from '@/components/RightContent';
-import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/api';
 import defaultSettings from '../config/defaultSettings';
 import { request as server } from '@/utils/request';
@@ -59,7 +58,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     waterMarkProps: {
       content: initialState?.currentUser?.userName,
     },
-    footerRender: () => <Footer />,
+    footerRender: () => null,
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
