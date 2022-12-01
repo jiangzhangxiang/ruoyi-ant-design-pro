@@ -92,10 +92,9 @@
     icon: 'table',
     routes: [
       {
-        hideInMenu: true,
         path: '/monitor/online',
         name: '在线用户',
-        component: './system/User',
+        component: './monitor/online',
       },
       {
         hideInMenu: true,
