@@ -4,7 +4,10 @@ import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
-const { REACT_APP_ENV } = process.env;
+const { REACT_APP_ENV, NODE_ENV } = process.env;
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const prodGzipList = ['js', 'css'];
+
 export default defineConfig({
   hash: true,
   antd: {},
@@ -63,4 +66,18 @@ export default defineConfig({
   mfsu: {},
   webpack5: {},
   exportStatic: {},
+  chainWebpack(config: any) {
+    // gzip 压缩配置
+    if (NODE_ENV === 'production') {
+      config.plugin('compression-webpack-plugin').use(
+        new CompressionWebpackPlugin({
+          // filename: 文件名称
+          algorithm: 'gzip', // 指定生成gzip格式
+          test: new RegExp('\\.(' + prodGzipList.join('|') + ')$'), // 匹配哪些格式文件需要压缩
+          threshold: 10240, // 对超过10k的数据进行压缩
+          minRatio: 0.6, // 压缩比例，值为0 ~ 1
+        }),
+      );
+    }
+  },
 });
